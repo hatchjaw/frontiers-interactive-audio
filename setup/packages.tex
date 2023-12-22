@@ -1,6 +1,8 @@
-\usepackage{url,hyperref,lineno,microtype,subcaption}
+\usepackage{url,lineno,microtype,subcaption}
 \usepackage[onehalfspacing]{setspace}
 
+% Hyperref
+\usepackage{hyperref}
 \hypersetup{
     pdfpagelabels=true,
     plainpages=false,
@@ -16,8 +18,9 @@
     pdfstartview=FitH
 }
 
+% SI Units
 \usepackage[binary-units]{siunitx}
+\sisetup{detect-all}
 
-\def\keyFont{\fontsize{8}{11}\helveticabold }
-
+% Show line numbers
 \linenumbers
