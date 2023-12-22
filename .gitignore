@@ -303,3 +303,6 @@ TSWLatexianTemp*
 
 /out
 /PDF examples
+
+# IDE
+.idea
