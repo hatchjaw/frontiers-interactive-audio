@@ -1,26 +1,61 @@
-\usepackage{url,lineno,microtype,subcaption}
+\usepackage{url,hyperref,lineno,microtype,subcaption}
 \usepackage[onehalfspacing]{setspace}
 
 % Hyperref
-\usepackage{hyperref}
 \hypersetup{
     pdfpagelabels=true,
     plainpages=false,
-    pdfauthor={Author(s)},
+%    pdfauthor={Author(s)},
     pdftitle={Title},
     pdfsubject={Subject},
     bookmarksnumbered=true,
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black,
+%    colorlinks,
+%    citecolor=black,
+%    filecolor=black,
+%    linkcolor=black,
+%    urlcolor=black,
     pdfstartview=FitH
 }
 
-% SI Units
-\usepackage[binary-units]{siunitx}
-\sisetup{detect-all}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Code listings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{inconsolata}
 
-% Show line numbers
-\linenumbers
+% Code listings with package minted. Requires python
+%   pyenv virtualenv 3.x.x myenv
+%   pyenv activate myenv
+%   pip install pygments
+% Then add compilation flag -shell-escape
+\usepackage[outputdir=out,newfloat]{minted}
+%\usepackage[outputdir=out]{minted}
+
+\usepackage[skins, breakable]{tcolorbox}
+\tcbuselibrary{minted}
+
+\newtcblisting[auto counter]{codelisting}[1]{%
+    enhanced,
+%    breakable,
+%    colback=backcolour,
+%    colframe=captioncolor,
+    fonttitle=\bfseries\normalsize,
+    listing only,
+    sharp corners,
+    bottomrule=1pt,
+    toprule=2pt,
+    leftrule=0pt,
+    rightrule=0pt,
+    title=Listing \thetcbcounter: #1,
+    minted style=xcode,
+    minted options={
+%        fontsize=\footnotesize,
+        autogobble
+    }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SI Units
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[binary-units]{siunitx}
+\usepackage{siunitx}
+\sisetup{detect-all}

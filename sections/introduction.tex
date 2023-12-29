@@ -2,15 +2,16 @@
 
 Spatial and immersive audio techniques have been the beneficiaries of
 significant research interest over the past few decades.
-Recent explosions in virtual and augmented reality technologies and
+Recent developments in virtual and augmented reality technologies and
 \textit{object-based} audio have led to an acceleration in interest in the
 creation of virtual sound fields via approaches such as Wave Field Synthesis
-(WFS) and Higher Order Ambisonics (HOA)\cite{}.
+(WFS) and Higher Order Ambisonics (HOA)\cite{berkhout_acoustic_1993,
+ahrens_theory_2008,daniel_further_2003,frank_producing_2015}.
 These techniques call for the deployment of large numbers of loudspeakers, and
 centralised, \textit{in situ} installations of dedicated hardware and software.
 The costs associated with such installations have seen them largely restricted
 to the preserve of concert venues, cinemas, and institutions with the means to
-purchase and operate monolithic systems of this sort.
+purchase and operate large-scale systems of this sort.
 
 Advancements in embedded computing mean that there now exist an assortment of
 small, low-cost devices with support for audio digital signal processing (DSP).
@@ -68,16 +69,62 @@ aspects of digital audio systems must be dealt with directly.
 
 \subsection{Numerical Representation}\label{subsec:numerical-representation}
 
-Digital audio samples are ultimately described as binary numbers.
+Digital audio samples are ultimately described as streams of binary numbers.
 Broadly speaking, the more binary digits (\textit{bits}) available for each
 sample, the greater the resolution in terms of distinct amplitudes that can be
 represented, with ramifications for dynamic range and signal-to-noise ratio, as
 well as for storage and throughput.
-Integer sample formats, such as commonly-encountered 16 and 24 bit, offer
+Integer sample formats, such as commonly-encountered 16 and 24-bit, offer
 comparatively poor resolution at low amplitudes due to the incongruity between
 the linear distribution of their values versus the logarithmic nature of sound
 intensity.
 Floating point formats, by contrast, feature a logarithmic distribution of
-available values; the IEEE standard for single-precision (i.e.\ 32 bit) floating
-point numbers\cite{} dictates that precision is greatest close to zero,
-with around half the available numbers lying in the interval $[-1, 1]$.
+available values; the IEEE standard for single-precision (i.e.\ 32-bit) floating
+point numbers~\citep{ieee_ieee_1985} dictates that precision is greatest close
+to zero, with around half the available values lying in the interval $[-1, 1]$.
+To give a brief example, consider the 16-bit case, and a single 16-bit integer
+audio sample:
+\begin{codelisting}{
+        {A 16-bit audio sample, binary representation},
+    minted language=text,
+    label=listing:binsample
+}
+    11010101 01101010
+\end{codelisting}
+
+\noindent
+Separating the bits into two groups of eight is reflective of the fact that the
+eight-bit \textit{byte} is typically the unit of transmission in computer
+systems.
+Grouping the bits in this way points to their expression in hexadecimal format,
+transforming the bytes into more easily-digestible morsels of two digits apiece:
+\begin{codelisting}{
+        {A 16-bit audio sample, hexadecimal representation},
+    minted style=bw,
+    label=listing:hexsample
+}
+    d5 6a
+\end{codelisting}
+
+\noindent
+A number of this kind may also be seen represented (in C and C++ code for
+example) as \texttt{0xd56a}, with `\texttt{0x}' indicating that the number to
+follow is in base sixteen.
+Sixteen bits grant access to $2^{16}=~$65,536 distinct amplitude values for each
+sample; what listing~\ref{listing:hexsample} tells us is that, in decimal terms,
+this sample should take the 54,634\textsuperscript{th} amplitude
+value\footnote{
+    For convenience and explicitness elsewhere in the text, decimal equivalents
+    to hexadecimal numbers will be indicated with subscript 10, e.g.
+    54634\textsubscript{10}.
+}.
+
+\subsection{Storage and Transmission}\label{subsec:storage-and-transmission}
+
+Listings~\ref{listing:binsample} and~\ref{listing:hexsample} hint at the
+property of \textit{endianness}, i.e.\ the order in which a number's component
+bits and bytes appear\cite{cohen_holy_1981}.
+The above representations mirror the left-to-right nature of western written
+language and numbers, being \textit{big endian} at the levels of both bit and
+byte, with the \textit{most significant bit} (and \textit{most significant
+byte}, both abbreviated \textit{MSB}) appearing first.
