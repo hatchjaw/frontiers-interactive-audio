@@ -6,7 +6,7 @@ Recent developments in virtual and augmented reality technologies and
 \textit{object-based} audio have led to an acceleration in interest in the
 creation of virtual sound fields via approaches such as Wave Field Synthesis
 (WFS) and Higher Order Ambisonics (HOA)\cite{berkhout_acoustic_1993,
-ahrens_theory_2008,daniel_further_2003,frank_producing_2015}.
+    ahrens_theory_2008,daniel_further_2003,frank_producing_2015}.
 These techniques call for the deployment of large numbers of loudspeakers, and
 centralised, \textit{in situ} installations of dedicated hardware and software.
 The costs associated with such installations have seen them largely restricted
@@ -123,8 +123,78 @@ value\footnote{
 
 Listings~\ref{listing:binsample} and~\ref{listing:hexsample} hint at the
 property of \textit{endianness}, i.e.\ the order in which a number's component
-bits and bytes appear\cite{cohen_holy_1981}.
+bits and bytes appear~\citep{cohen_holy_1981}.
 The above representations mirror the left-to-right nature of western written
 language and numbers, being \textit{big endian} at the levels of both bit and
 byte, with the \textit{most significant bit} (and \textit{most significant
 byte}, both abbreviated \textit{MSB}) appearing first.
+
+To paraphrase Cohen~\citep{cohen_holy_1981}, if the unit of digital audio
+transmission was \textit{an audio signal}, then endianness would not be a
+matter of concern.
+Practically speaking, however, to be handled by software or hardware, or
+transmitted over a network, audio signals must be decomposed into a hierarchy
+of temporally-distributed blocks, those blocks into samples, samples into bytes,
+and bytes into bits;
+correct endianness must be observed with respect to differing computer
+architectures, file formats, and transmission protocols.
+
+The PCM WAV file format, for example, dictates that the least significant byte
+of each sample is stored first \textemdash{} little endian \textemdash{} but
+that bit order should be big endian~\citep{noauthor_multimedia_1991};
+thus the audio sample in listing~\ref{listing:hexsample} should be stored in a
+\texttt{.wav} file as \texttt{6ad5}.
+The ethernet standard for communication over local area computer
+networks~\citep{noauthor_ieee_2018}, by contrast, calls for something akin to
+the opposite:
+the most significant byte is transmitted first, with each byte sent
+little-endian;
+returning to the binary representation:
+\begin{equation*}
+    \texttt{11010101 01101010} \quad\rightarrow\quad \texttt{10101011 01010110}
+\end{equation*}
+Note, however, that network packet capture software such as
+Wireshark\footnote{\url{https://www.wireshark.org/}} reports the bytes of
+intercepted packets most significant bit first.
+
+
+\section{Networked Audio}\label{sec:networked-audio}
+\todo[inline]{Less detail on telephony?}
+The transmission of audio data has been a topic of research interest since the
+earliest days of computer networking as it is recognised today, i.e.\ over
+packet-switched networks, whereby data to be transmitted is grouped into packets,
+each consisting of a header and a payload.
+Voice transmission over ARPANET was being conducted as early as
+1974~\citep{schulzrinne_voice_1992} and the first standard for voice
+communication over packet-switched networks \textemdash{} the Network Voice
+Protocol (NVP) \textemdash{} was released in
+1977~\citep{cohen_specifications_1977}.
+
+With its references to `calling' and `ringing', it is clear that the NVP
+standard was intended for digital telephony.
+Indeed, research on networked audio was primarily concerned with telephony well
+into the 1990s, focusing on real-time voice communication over wide area
+networks (WAN) with efforts centring on \textit{quality of service} (QoS),
+particularly with regard to the perennial issues of latency, packet loss, and
+network jitter \textemdash{} inconsistencies in the rate of packet
+transmission~\citep{hardman_reliable_1995,hardman_successful_1998}.
+Work at this time dealt with streams of compressed audio data, and speech
+coding algorithms to overcome the deleterious effects of dropped packets over
+unreliable network paths and low-bandwidth connections.
+
+Whereas the priority for digital telephony, and later voice over IP (VoIP)
+systems, is intelligibility, for musical purposes fidelity, and the use of
+uncompressed audio signals, is of greater concern.
+With the increasing availability of high-speed internet connections in the late
+1990s came research into transmitting uncompressed audio data over the
+internet~\citep{chafe_simplified_2000,xu_real-time_2000}.
+Work of this sort was spearheaded by the \textit{SoundWIRE} project, developed
+by researchers at McGill University and the Centre for Computer Research in
+Music and Acoustics (CCRMA) at Stanford University, and took the form of
+a wide variety of experiments with high quality audio over both WAN and local
+area networks (LAN).
+These experiments included LAN-based real-time musical
+performances~\citep{chafe_simplified_2000}, concert streaming over
+WAN~\citep{xu_real-time_2000,chafe_simplified_2000}, and sonification of QoS via
+a distributed digital waveguide dubbed the
+\textit{Network Harp}~\citep{chafe_simplified_2000,chafe_physical_2002}
