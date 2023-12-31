@@ -132,8 +132,8 @@ architectures, file formats, and transmission protocols.
 The PCM WAV file format, for example, dictates that the least significant byte
 of each sample is stored first \textemdash{} little endian \textemdash{} but
 that bit order should be big endian~\citep{noauthor_multimedia_1991};
-thus the audio sample in listing~\ref{listing:hexsample} should be stored in a
-\texttt{.wav} file as \texttt{6ad5}.
+thus the hexadecimal number above should be stored in a \texttt{.wav} file as
+\texttt{6ad5}.
 The ethernet standard for communication over local area computer
 networks~\citep{noauthor_ieee_2018}, by contrast, calls for something akin to
 the opposite:
@@ -145,7 +145,7 @@ returning to the binary representation:
 \end{equation*}
 Note, however, that network packet capture software such as
 Wireshark\footnote{\url{https://www.wireshark.org/}} reports the bytes of
-intercepted packets most significant bit first.
+intercepted packets with most significant bit first.
 
 
 \section{Networked Audio}\label{sec:networked-audio}
@@ -248,3 +248,59 @@ plus more recent entrants such as the closed-source, but ultimately UDP-based
 Elk OS~\citep{turchet_elk_2021}.
 UDP even plays a fundamental role in proprietary systems such as Dante (Digital
 Audio Network Through Ethernet)~\citep{noauthor_what_nodate}.
+
+\subsubsection{AoE in the Audio Industry}
+
+In parallel with the work being carried out by researchers such as those
+developing SoundWIRE, JackTrip and NetJACK, audio industry bodies were taking
+an interest in networked audio.
+Prominent amongst these bodies were the IEEE (Institute of Electrical and
+Electronics Engineers) and AES (Audio Engineering Society) standards groups,
+and companies like Audinate, the creators of the Dante system.
+Traditional large-scale audio systems such as those used in broadcast, concert
+venues and recording studios rely on the installation of unwieldy systems of
+analogue hardware and cabling, with many potential points of failure.
+Seeking literally to lighten the load posed by ``hundreds of
+kilograms''~\citep{bakker_introduction_2014} of analogue cabling in analogue
+audio installations, in the 2000s industry entities were looking to high speed
+ethernet as a means to simplify the provision of high-quality, multichannel
+audio in industry settings.
+
+Dante, with its promise of low-latency, highly-multichannel audio over ethernet,
+and device synchronisation via Precision Time Protocol (PTP), has become the de
+facto standard in this area~\citep{bakker_introduction_2014}.
+In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1) standard,
+and AES67 followed in 2013; these open technical standards describe operation
+at layers below TCP and UDP in the OSI (Open Systems Interconnection)
+model~\citep{}\todo[inline]{Add source for OSI}, and provide frameworks for
+interoperability between AoE and AoIP systems, including mechanisms for device
+discovery and synchronisation, again via PTP\@.
+Being standards, and not implementations in themselves, it is then up to
+manufacturers to implement the appropriate recommendations in their products.
+(AES67, for example, has in fact been implemented in Dante.)
+
+Bakker et al.\ refer to Dante as an ``open'' system.
+This is perhaps true in the sense that companies can incorporate the Dante
+system into their own products under licence from Audinate, but, from the
+perspective of the academic community, Dante is very much a closed-source
+initiative and not a suitable platform for research.
+Open implementations of AVB and AES67 could be of interest, however their
+reliance on PTP, support for which is not offered by ubiquitous, low-cost
+networking equipment, raises the barrier to entry to systems based on these
+standards.
+Ultimately, if an accessible solution is sought, attention must be turned back
+to the transport layer, and UDP\@.
+
+\subsection{Anatomy of a Datagram}\label{subsec:anatomy-of-a-datagram}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.5\textwidth]{figures/udp}
+    \caption{Structure of an ethernet frame containing a UDP packet.}
+    \label{fig:udp-frame}
+\end{figure}
+
+A UDP packet consists of data encoded in 8-bit integer format.
+Being a transport layer protocol, a UDP packet is in fact preceded in an
+ethernet frame by information relating to lower layers in the OSI hierarchy: the
+network layer and the data link layer.
