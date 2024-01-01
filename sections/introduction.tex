@@ -106,7 +106,7 @@ each sample; what the above tells us is that, in decimal terms, this sample
 should take the \num{54634}\textsuperscript{th} amplitude value\footnote{
     For convenience and explicitness elsewhere in the text, decimal equivalents
     to hexadecimal numbers will be indicated with subscript 10, e.g.
-    \num{54634}\textsubscript{10}.
+    \numDec{54634}.
 }.
 
 \subsection{Storage and Transmission}\label{subsec:storage-and-transmission}
@@ -304,3 +304,104 @@ A UDP packet consists of data encoded in 8-bit integer format.
 Being a transport layer protocol, a UDP packet is in fact preceded in an
 ethernet frame by information relating to lower layers in the OSI hierarchy: the
 network layer and the data link layer.
+The structure of a UDP packet (within an ethernet frame) is show in
+\figref{fig:udp-frame}.
+
+\begin{codelisting}{Network capture: ethernet frame containing a UDP packet,
+    minted language=text,
+    label=listing:packet-hello-world,
+    float=h}
+           00 01 02 03 04 05 06 07  08 09 0a 0b 0c 0d 0e 0f
+
+    0000   00 00 0c 9f f5 16 d8 80  83 80 8c b7 08 00 45 00   ..............E.
+    0010   00 2a 83 ba 40 00 40 11  0a 09 ac 1e fe df 7f 00   .*..@.@.........
+    0020   00 01 ed 3f 22 b8 00 16  01 74 48 65 6c 6c 6f 2c   ...?"....tHello,
+    0030   20 77 6f 72 6c 64 21 0a                             world!.
+
+\end{codelisting}
+\noindent
+The ethernet frame in listing~\ref{listing:packet-hello-world} was generated
+using the Netcat (\texttt{nc}) command line utility\footnote{
+    \url{https://nc110.sourceforge.io/}
+}, and captured with Wireshark network traffic analysis software.
+Four-digit numbers to the left indicate the hexadecimal index of the byte
+at the beginning of the corresponding line.
+The central block of two-digit hexadecimal numbers are a representation of the
+bytes in the ethernet frame, labelled above by byte position.
+The block of characters to the right are the same data encoded as ASCII
+characters.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}[h]{c c c c}
+        Start           & End             & Purpose                 & Value                                        \\
+        \midrule[1pt]
+        \texttt{0x0000} & \texttt{0x000d} & Ethernet header         &                                              \\
+        \midrule
+        \texttt{0x0000} & \texttt{0x0005} & Destination MAC address &                                              \\
+        \texttt{0x0006} & \texttt{0x000b} & Source MAC address      &                                              \\
+        \texttt{0x000c} & \texttt{0x000d} & Ethernet frame type     & \texttt{0x0800}: IPv4                        \\
+        \midrule[1pt]
+        \texttt{0x000e} & \texttt{0x0021} & IPv4 header             &                                              \\
+        \midrule
+        \texttt{0x0017} & \texttt{0x0017} & Protocol                & \texttt{0x11}: UDP                           \\
+        \texttt{0x001a} & \texttt{0x001d} & Source IP address       & \texttt{0xac1efedf}: \texttt{172.30.254.223} \\
+        \texttt{0x001e} & \texttt{0x0021} & Destination IP address  & \texttt{0x7f000001}: \texttt{127.0.0.1}      \\
+        \midrule[1pt]
+        \texttt{0x0022} & \texttt{0x0029} & UDP header              &                                              \\
+        \midrule
+        \texttt{0x0022} & \texttt{0x0023} & Source port number      & \texttt{0xed3f}: \numDec{60735}              \\
+        \texttt{0x0024} & \texttt{0x0025} & Destination port number & \texttt{0x22b8}: \numDec{8888}               \\
+        \texttt{0x0026} & \texttt{0x0027} & Length                  & \texttt{0x0016}: \numDec{22}                 \\
+        \midrule[1pt]
+        \texttt{0x002a} & \texttt{0x0037} & UDP Payload             &                                              \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:packet-structure}
+    \caption{Description of selected fields in the UDP packet depicted in
+    listing~\ref{listing:packet-hello-world}.}
+\end{table}
+
+Bytes \texttt{0x0000} to \texttt{0x000d} make up the ethernet header,
+consisting of the media access control (MAC) addresses of the destination and
+source; the final two bytes of the ethernet header, \texttt{0x0800}, indicate
+that this is an \textit{internet protocol version 4} frame.
+Bytes \texttt{0x000e} to \texttt{0x0021} are the IPv4 header; this contains
+information about the internet protocol part of the packet, such as its length
+in bytes \textemdash{} \texttt{0x002a} (\numDec{42}) \textemdash{} and
+the source and destination IP addresses, encoded as groups of four-bytes.
+The source IP address, for example, is \texttt{0xac1efedf}, a 32-bit encoding
+of the more familiar-looking \texttt{172.30.254.223}.
+
+Beginning at byte \texttt{0x0022} is the UPD header.
+This contains the source port (\texttt{0xed3f}, \numDec{60735}), destination
+port (\texttt{0x22b8}, \numDec{8888}), the length of the UDP part of the frame
+(\texttt{0x0016}, \numDec{22} bytes) and ends with a checksum, which
+can be used to verify the integrity of the packet\footnote{
+    In the remainder of this work it is assumed that transmission over LAN is
+    unlikely to result in packet corruption; the UDP checksum is not used.
+}.
+The packet payload begins at byte \texttt{0x002a}, and consists of bytes
+corresponding with the ASCII characters \texttt{Hello, world!}, plus
+\texttt{0x0a}, the line feed (LF) character, captured and sent by Netcat when
+the user hit the return key.
+
+Netcat takes data supplied to a computer's standard input stream, in this
+case characters supplied to a terminal emulator, and uses this data as the
+payload for the packet to be transmitted.
+The payload of a UDP packet can of course consist of any data which can be
+appropriately byte-encoded, such as a stream of audio samples, or audio control
+data such as MIDI or OSC messages.
+
+Ethernet frames, and UDP datagrams by extension, are subject to size
+limitations.
+The maximum transmissible unit (MTU) of a transport medium is the limit on the
+size of a packet that can be sent without fragmentation, i.e.\ without being
+split into multiple subpackets.
+Two bytes are allocated to the `Total Length' field of the IPv4 header, which
+suggests an MTU of \num{65535} bytes; in practice, however, the data link layer
+imposes a basic limit of \num{1500} bytes on the payload of an ethernet
+frame~\citep{schiavoni_alternatives_2013,noauthor_ieee_2018}.
+
+
+\subsection{Hardware Platforms}\label{subsec:hardware-platforms}
