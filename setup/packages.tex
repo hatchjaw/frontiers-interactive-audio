@@ -1,4 +1,4 @@
-\usepackage{url,hyperref,lineno,microtype,subcaption,booktabs}
+\usepackage{url,hyperref,lineno,microtype,subcaption,booktabs,paralist}
 \usepackage[onehalfspacing]{setspace}
 
 % Hyperref
@@ -16,6 +16,14 @@
 %    urlcolor=black,
     pdfstartview=FitH
 }
+
+% Bibliography
+%\AtEveryBibitem{
+%    \clearfield{note}
+%    \clearlist{language}
+%    \clearfield{isbn}
+%%    \clearfield{doi}
+%}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Code listings
@@ -51,6 +59,29 @@
 %        fontsize=\footnotesize,
         autogobble
     }
+}
+
+\newtcbinputlisting[use counter from=codelisting]{\codeinputlisting}[5][]{
+    minted language=#2,
+    listing file={#3},
+    title=Listing \thetcbcounter: #4,
+    label=listing:#5,
+    enhanced,
+%    breakable,
+%    colback=backcolour,
+%    colframe=captioncolor,
+    fonttitle=\bfseries\normalsize,
+    listing only,
+    sharp corners,
+    bottomrule=1pt,
+    toprule=2pt,
+    leftrule=0pt,
+    rightrule=0pt,
+    minted style=xcode,
+    minted options={
+%        fontsize=\footnotesize,
+        autogobble
+    },#1
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

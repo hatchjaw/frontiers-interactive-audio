@@ -1,0 +1,189 @@
+\section{Distributed Computing}\label{sec:distributed-computing}
+
+In the broadest terms, a distributed system is \textit{``a collection of
+independent entities that cooperate to solve a problem that cannot be
+individually solved''}~\citep{kshemkalyani_distributed_2011}.
+In turn, the term \textit{distributed computing} simply describes a system of
+computation that is distributed in
+space~\citep{lamport_distributed_1990}.\footnote{
+    There is a certain linguistic symmetry here with respect to spatial audio,
+    but that is as far as the parallel goes.
+}
+At a low enough level, this effectively describes \textit{any} computer
+system, such systems being composed of individual entities \textemdash{}
+processors, memory, input and output devices, et cetera \textemdash{} all
+acting in cooperation.
+
+At a higher level \textemdash{} that of a computer network, for example
+\textemdash{} why take a distributed approach to computation?
+As Kshemkalyani and Singhal describe~\citep{kshemkalyani_distributed_2011},
+a variety of rationales exist for taking such an approach;
+adapting these to the notion of distributing an audio spatialisation algorithm
+across a computer network, most relevant are:
+
+\textbf{Scalability}
+Particularly so if taking advantage of a network protocol that supports
+multicast or broadcast transmission.
+Under a unicast model, such as that employed by JackTrip, streams of audio data
+are duplicated on a per-client basis;
+under such a model, at some point all available network bandwidth will be
+exhausted.
+An ideal multicast networked audio system entails there being just one stream
+of audio data, plus perhaps a stream of control data, for all clients to
+consume.
+Dependent on the application, the server in such a system may not need to be
+aware of how many clients are connected; by a similar token, clients exist in
+isolation, and fulfil their task with no dependency on their peers on the
+network.
+
+\textbf{Modularity}
+Closely related to scalability, modularity entails \textit{extensibility}.
+This is something that centralised audio spatialisation systems either lack
+entirely, or possess only at great cost in terms of hardware, and even then only
+if the hardware supports extension via daisy-chaining, for example.
+%The matter of expense anticipates:\textemdash{}
+
+\textbf{Improved cost/performance ratio}
+A modular, scalable system can be constructed to meet the proportion that
+circumstances require, with the minimum amount of redundancy.
+If it becomes desirable to scale the system up, this can be achieved by small
+increments rather than by expensive leaps.\\
+
+Kshemkalyani and Singhal also vaunt \textit{enhanced reliability} as motivation
+for distributed computing.
+This may indeed hold true for systems where the failure of a single node can be
+compensated for by increased work on the part of the remaining nodes until such
+time as the failed node can resume operation or be replaced;
+it does not for the sort of system under consideration here.
+Indeed, this points toward two significant drawbacks of distributed systems in
+general: increased complexity and a proliferation of potential points of
+failure.
+Nodes in a distributed computational system must be served at the very least
+with power and access (e.g.\ over a network) to the data that they require in
+order to operate.
+This entails the provision of cables, perhaps batteries, and physical
+connections that may be subject to wear-and-tear or misuse.
+Additional concerns surround the programmability of such a system, which is the
+other side to the coin of modularity;
+integrity, in terms of all nodes possessing up-to-date instructions for
+operation, may be difficult to ensure.
+
+\subsection{Distributed Audio Systems}\label{subsec:distributed-audio-systems}
+
+The notion of taking a distributed approach to audio processing is by no means
+unprecedented;
+a selection of prior work in distributed DSP and audio spatialisation, plus
+systems incorporating microcontrollers and single-board computers is detailed
+below.
+
+\subsubsection{State of the Art}
+
+Applications of SoundWIRE to what its creators termed \textit{Internet
+Acoustics}~\citep{chafe_physical_2002} obviously represent a case of distributed
+audio processing.
+These include implementations such as a network
+reverberator~\citep{chafe_i_2018}, or
+\textit{``transcontinental echo chamber''}~\citep{chafe_simplified_2000},
+plus the aforementioned \textit{Network Harp}.
+Experiments of this sort were intended initially as sonifications of QoS
+\textemdash{} a characteristic of network systems that is difficult to represent
+in graphical or textual form due to the ephemeral nature of phenomena such as
+jitter and packet loss \textemdash{} but stand as fascinating applications in
+their own right of digital audio in the age of computer networking.
+Subsequent work on JackTrip has focused on optimising networked audio less
+for sound processing or as a creative tool in itself, and more in service of
+the social and communal aspects of music participation and appreciation in a
+networked world;
+these are topics that came to the fore in computer music research during the
+COVID 19 pandemic~\citep{bosi_experiencing_2021,sacchetto_jacktrip-webrtc_2021}.
+
+Lago~\citep{lago_distributed_2004} proposed a UDP-based system for real-time
+distributed audio processing taking the form of a network of general purpose
+computers.
+A server sent packets of audio data to be processed by a collection of
+clients, which would then return processed audio to the server to be combined
+and used for output.
+Since clients were not to be used directly for output, synchronisation was not
+important, but Lago identifies the timing or hardware based interrupts for
+audio and network processing as being of great importance to a distributed
+real-time implementation.
+Though an interesting exploration of approaching certain difficulties of
+distributed computing, DSP in particular, and ambitious for its time (2004),
+arguably the need for such a system has been obviated by advances in computer
+processing power over the succeeding two decades.
+
+A digital music production system of networked Beagleboard single-board
+computers was demonstrated by Gabrielli et al.~\citep{gabrielli_networked_2012}
+Another ambitious project, particularly since it relied on wireless
+communication, the authors describe an interesting way of measuring
+transmission round-trip times.\todo[inline]{See section about test signals?}
+
+Exploring the possibilities of burgeoning network technology in the early 2010s,
+Lopez-Lezcano set out to build a UDP-based `network sound card' to support
+a networked WFS system~\citep{lopez-lezcano_jack_2012}.
+The aim was to replace otherwise expensive high channel-count conventional
+audio interfaces, which receive audio over the MADI (Multichannel Audio Digital
+Interface) protocol, with something more cost-effective.
+Ultimately the devised system was not used for audio spatialisation, but
+facilitated networked musical performance, and it stands as an example of the
+results that can be achieved by using `raw' UDP data for audio transmission,
+rather than an established protocol or system.
+
+In addition to Gabrielli et al., implementations on IoT-like devices include
+Chafe and Oshiro's port of JackTrip to the Raspberry Pi single-board computer
+for further internet acoustics, plus distributed spatialisation systems such as
+those described by Devonport and Foss~\citep{devonport_distribution_2019} and
+Belloch et al.~\citep{belloch_performance_2021}
+The latter two address aims closely aligned with the work described here, but
+are based on costly computing platforms.
+Devonport and Foss achieved high synchronicity via AVB; Belloch et al. used a
+GPU-based hardware platform, which is perhaps unsuited to its task, and report
+client synchronisation to the millisecond range \textemdash{} likely not
+sufficient for timing-critical audio spatialisation effects.
+
+Also of interest is the OTTOsonics~\citep{mitterhuber_ottosonics_nodate}
+project;
+its emphasis on a fully-costed, do-it-yourself alternative to conventional
+spatial audio systems is pertinent to this work, though it diverges in its use
+of AVB, and associated hardware for audio transmission.
+
+\subsection{Challenges}\label{subsec:challenges}
+
+Time, especially when dealing with the fine margins posed by real-time audio
+processing, represents the principal source of difficulty in a distributed
+audio setting.
+
+\textit{Jitter} refers to fluctuations in the rate of transmission or
+processing.
+In a networked audio setting, jitter gives rise to a situation whereby the
+arrival of audio data does not correspond with the moments at which it is
+needed.
+In a naive implementation, this may result in a recipient either halting
+processing until it receives the expected data, or simply continuing without
+any data.
+In either case, the result is likely to be disruption of the integrity of the
+audio signal in the form of audible discontinuities.
+
+\textit{Clock drift} arises as an inevitable consequence of no source of time
+in a system of computation being perfectly uniform, and no two sources of time
+being identical.
+The timing of a computer system is typically governed by a crystal oscillator,
+the accuracy of which is affected by factors such as ambient temperature, and
+potentially computational load on the system it
+governs~\citep{marouani_internal_2008}.
+Relative drift (sometimes, within the diagnostic parts of JackTrip for example,
+referred to as \textit{skew}), is the difference in clock rates between two or
+more systems.
+Whereas jitter is a short-term phenomenon, clock drift typically takes effect
+over a longer timescale.
+As two distinct systems of time move in and out of phase with each other over
+the longer term, drift may indeed give rise to jitter.
+
+In studio and professional audio settings, devices may be synchronised via an
+authoritative clock source such as word clock, or, in a networked setting,
+via PTP or lower-resolution network time protocol.
+In the absence of such an authoritative source, e.g. over a wide area network,
+or if using hardware that does not support such measures, buffering strategies
+are typically employed, coupled with delay-locked
+loops~\citep{adriaensen_using_2005} and
+resampling~\citep{adriaensen_controlling_2012}.
