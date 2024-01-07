@@ -70,7 +70,7 @@ UDP by comparison is a \textit{connectionless} protocol, providing no guarantees
 regarding the integrity of the stream of network data, but equally none of the
 computational, or indeed temporal, overhead that such guarantees introduce.
 A network entity can send UDP packets to a network address irrespective of
-the presence or otherwise of another entity with that address.
+the presence or otherwise of an entity at that address.
 Further, \textit{many-to-many} (multicast) and \textit{one-to-many} (broadcast)
 modes of transmission are possible via address spaces reserved as part of the
 internet protocol standard~\citep{meyer_iana_2010}.
@@ -81,7 +81,7 @@ From the SoundWIRE project emerged
 \textit{JackTrip}~\citep{caceres_jacktrip_2010,caceras_jacktripsoundwire_2010},
 a hybrid system that couples a TCP handshake with audio transmission over UDP,
 thus sidestepping the overhead of TCP packet flow control.
-Rather than rely on TCP's built-in mechanisms for stream integrity, JackTrip
+Rather than relying on TCP's built-in mechanisms for stream integrity, JackTrip
 supplements UDP with a number of optional buffering strategies that aim to
 tailor its use to operation over local versus wide area networks.
 In this sense it is more flexible than TCP, but in effect JackTrip moulds UDP
@@ -89,7 +89,7 @@ transmission into something akin to the connection-oriented model of TCP, and,
 in its `hub server' mode, into a kind of \textit{multiple one-to-one} design
 \textemdash{} multicast transmission is not possible.
 
-UDP has emerged as the protocol of choice of platforms enabling remote musical
+UDP has emerged as the protocol of choice for platforms enabling remote musical
 collaboration, serving as the basis for systems such as
 NetJACK~\citep{carot_netjack_2009}, part of the JACK Audio Connection Kit (a
 cross-platform audio host), Jamulus~\citep{fischer_case_2015},
@@ -241,13 +241,15 @@ limitations.
 The maximum transmissible unit (MTU) of a transport medium is the limit on the
 size of a packet that can be sent without fragmentation, i.e.\ without being
 split into multiple subpackets.
-Two bytes are allocated to the `Total Length' field of the IPv4 header, which
-suggests an MTU of \num{65535} bytes; in practice, however, the data link layer
-imposes a basic limit of \num{1500} bytes on the payload of an ethernet
+Two bytes (sixteen bits) are allocated to the `Total Length' field of the IPv4
+header, which suggests an MTU of $2^{16}-1=~$\num{65535} bytes;
+in practice, however, the data link layer imposes a basic limit of \num{1500}
+bytes on the payload of an ethernet
 frame~\citep{schiavoni_alternatives_2013,noauthor_ieee_2018}.
 
 \subsection{Hardware Platforms}\label{subsec:hardware-platforms}
 
+\todo[inline]{Move hardware elsewhere}
 \dots
 
 Recent years have seen the emergence of a number of small, low-cost, open-source

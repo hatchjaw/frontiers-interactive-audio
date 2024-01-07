@@ -1,5 +1,7 @@
 \section{Method}\label{sec:method}
 
+\todo[inline]{General introduction to the development of the system.}
+
 \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
 
 TCP is, as described in section~\ref{subsec:protocols-and-systems}, a
@@ -18,7 +20,7 @@ described in section~\ref{sec:distributed-computing}.
 With a view to exploiting the UDP multicast capabilities of NetJACK, initial
 efforts centred on an attempt to create a NetJACK client for the Teensy
 platform.
-\dots
+\todo[inline]{Either describe why NetJACK wasn't pursued or remove this part.}
 \begin{inparaenum}[1)]
     \item NetJACK was created as a general-purpose system, with functionality
     beyond the requirements of the proposed implementation;
@@ -231,12 +233,12 @@ to the intermediate buffer:
 \noindent
 The client also performs a periodic check for the presence of the server (and
 potentially other clients),
-and, as described in section \ref{ss:client-sync}, makes adjustments to its
+and, as described in section~\ref{subsec:client-sync}, makes adjustments to its
 audio clock.
 
 On the audio interrupt, the client reads from the intermediate buffer to
 produce samples for audio output.
-It also takes samples reaching its audio inputs (e.g. arriving from other
+It also takes samples reaching its audio inputs (e.g.\ arriving from other
 Teensy audio library classes), and adds those to a packet to be sent to the
 multicast group at the earliest possible subsequent call to
 \texttt{NetJUCEClient::loop}:
@@ -245,7 +247,7 @@ multicast group at the earliest possible subsequent call to
     minted style=xcode,
     minted language=cpp,
     label=ls:njc-update,
-    float=h
+    float=h!
 }
     void NetJUCEClient::update(void) {
         doAudioOutput();
@@ -254,7 +256,7 @@ multicast group at the earliest possible subsequent call to
     }
 \end{codelisting}
 
-\subsection{Synchronicity with the Server}\label{ss:client-sync}
+\subsection{Synchronicity with the Server}\label{subsec:client-sync}
 
 Due to the influence of clock drift and transmission jitter, and since the
 clients constitute a distributed system, with no direct knowledge of each other
@@ -266,7 +268,7 @@ inter-client timing discrepancies:
 
 \paragraph{Jitter Compensation}
 Similar to the approach taken in prior
-work\cite{rushton_microcontroller-based_2023}, clients monitored the difference
+work~\citep{rushton_microcontroller-based_2023}, clients monitored the difference
 between the write and read positions to their intermediate audio buffer,
 using a delay-locked loop to keep this difference within an interval of one
 audio buffer.
@@ -426,7 +428,7 @@ As capable a platform as Teensy 4.1 is, as described in
 section~\ref{subsec:hardware-platforms}, it is limited in terms of memory.
 This in turn places limits on the lengths of delay lines that it can compute,
 a matter exacerbated if there are many such delays to consider, such as in the
-case of a WFS implementation with multiple virtual sound sources.
+case of a WFS implementation with numerous virtual sound sources.
 Each hardware module must compute two delay lines for each virtual source, one
 for each of its output channels, the maximum length of which (depending on
 the position of a given module in the speaker array) corresponds, after removal
@@ -434,7 +436,7 @@ of the longitudinal component, of the width of the speaker array.
 It was observed that, for eight virtual sources and eight hardware modules,
 the maximum speaker spacing permissible lay around \qty{.4}{\m},
 corresponding with a speaker array of maximum width 15 $\times$ 0.4 =
-\qty{6}{\m}, equating to a maximum delay of \textasciitilde\qty{17}{\ms} or
+\qty{6}{\m}, equating to a maximum delay of $\sim$\qty{17}{\ms} or
 approximately 795 samples at a sampling rate of \qty{44.1}{\kHz}.
 The matter has not been rigorously tested, but nonetheless the presumption is
 that this places significant limits on the modularity of the system.
@@ -456,12 +458,12 @@ to consume.
 {Network capture: ethernet frame containing a UDP control data packet}
 {control-data-packet}
 
-Listing \ref{listing:control-data-packet} demonstrates an example control data
+Listing~\ref{listing:control-data-packet} demonstrates an example control data
 packet, an OSC bundle containing one message.
 This message has address \texttt{/source/0/x}, indicating that it refers to the
 $x$-coordinate of the zeroth sound source, providing a value in the form of a
 32-bit floating point number, \texttt{0x3d1b5fa2}, approximately
-\numDec{0.038}.
+\numDec{0.038}.\todo[inline]{Check control data endianness}
 
 \subsection{System Overview}\label{subsec:system-overview}
 
@@ -502,16 +504,14 @@ speakers.
         representing the locations of sound sources in a virtual sound field.
         Dropdown menus at the bottom of the interface correspond with hardware
         module positions in the loudspeaker array.
-        The settings window facilitates setting the speaker spacing, and shows
-        a list of connected network peers.
+        The settings window facilitates specifying the speaker spacing, and
+        shows a list of connected network peers.
     }
     \label{fig:plugin-interface}
 \end{figure}
 
 Server-side, the software system consists of a VST plugin running in Reaper
-digital audio workstation software\footnote{
-    https://www.reaper.fm/
-}.
+digital audio workstation software\footnote{\url{https://reaper.fm/}}.
 The plugin comprises the networked audio server, receiving monophonic audio
 sources in the form of audio or instrument tracks in the DAW, plus a control
 data server, commanded either by parameter automation via the DAW, or manually
@@ -531,11 +531,9 @@ data to the multicast group, to be consumed by the server.
 
 Code for the server and client software components can be found at
 \url{https://github.com/hatchjaw/netjuce} and
-\url{https://github.com/hatchjaw/netjuce-teensy} respectively\footnote{
-    At the time of writing both codebases are undocumented, but the key
-    details of implementation lie in each repository's \texttt{src/}
-    directory.
-}.
+\url{https://github.com/hatchjaw/netjuce-teensy} respectively.\todo[inline]{
+    Document code repos.
+}
 
 % \begin{figure}[ht]
 %     \centering

@@ -1,11 +1,12 @@
 \section{Audio Spatialisation}\label{sec:audio-spatialisation}
 
-Audio spatialisation is the practice of distributing sound in space.
-In terms of the reproduction of primary sound sources, i.e.\ sound captured by
-microphones, recorded as digital audio files, or synthesised in real-time,
-spatialisation can be achieved simply by delivering those primary sources to
-secondary sound sources, i.e.\ loudspeakers, placed at arbitrary positions
-relative to a listener.
+Audio spatialisation is, plainly enough, the practice of distributing sound in
+space.
+In terms of the reproduction of \textit{primary sound sources}, i.e.\ sound
+captured by microphones, recorded as digital audio files, or synthesised in
+real-time, spatialisation can be achieved simply by delivering those primary
+sources to \textit{secondary sound sources}, i.e.\ loudspeakers, placed at
+arbitrary positions relative to a listener.
 Such an approach is, of course, inflexible;
 loudspeakers being stationary entities by-and-large, the idea of moving a sound
 source is physically impractical, and, that of locating a sound source
@@ -14,16 +15,16 @@ Taking advantage of auditory cues, however, and the nature of the propagation
 of sound, it is possible to suggest the presence of primary sources at
 arbitrary locations, independent of the secondary source distribution.
 The motivation behind audio spatialisation, then, is to create (or indeed
-\textit{re}create) sonic environments for creative and immersive purposes, such
+\textit{recreate}) sonic environments for creative and immersive purposes, such
 as for virtual reality experiences, in cinematic settings, for music production
 or art installations, to give but a handful of examples.
 
 A number of techniques exist for what is termed \textit{sound field
-synthesis}\cite{ahrens_analytic_2012,nicol_sound_2017}, all of which
+synthesis}~\citep{ahrens_analytic_2012,nicol_sound_2017}, all of which
 essentially take the form of applying some manner of \textit{driving function}
 to an input audio signal to generate an appropriate driving signal to be
 delivered to a secondary sound source in the listening
-environment\cite{ahrens_analytic_2012}.
+environment~\citep{ahrens_analytic_2012}.
 For a loudspeaker at position $\mathbf{x} = \begin{bmatrix}
                                                 x & y & z
 \end{bmatrix}^T$, the driving signal $\hat{D}(\mathbf{x}, \omega)$ can be
@@ -33,8 +34,8 @@ $\Sigin(\omega)$ and the driving function $D(\mathbf{x}, \omega)$:
     \label{eq:driving-signal-freq}
     \hat{D}(\mathbf{x},\omega) = \Sigin(\omega) \cdot D(\mathbf{x},\omega),
 \end{equation}
-where $f$ is time frequency and $\omega$ denotes radian frequency,
-$\omega = 2\pi f$.
+where $\omega$ denotes radian frequency, $\omega = 2\pi f$, and $f$, in turn,
+is time frequency.
 Moving to the time domain, the multiplication of the input signal and driving
 function changes to a convolution, and equation~\eqref{eq:driving-signal-freq}
 becomes:
@@ -45,7 +46,7 @@ becomes:
 where $t$ denotes time.
 
 An early sound field synthesis approach, referred to as an `acoustic
-curtain'\cite{ziemer_wave_2020} entailed placing microphones in one space,
+curtain'~\citep{ziemer_wave_2020} entailed placing microphones in one space,
 such as a concert auditorium, and, in another space, loudspeakers at locations
 corresponding to those of the microphones.
 In this case, there are as many input signals $\hat{S}_k(\omega)$ as there are
@@ -67,7 +68,7 @@ The former, \textit{periphonic}, types are perhaps more familiar to the
 layperson and encompass stereophony and surround-sound systems, consisting of
 secondary sources in a horizontal planar arrangement equidistant to the
 listening position.
-These techniques exploit the interaural level difference (ILD) cue, i.e. the
+These techniques exploit the interaural level difference (ILD) cue, i.e.\ the
 difference in perceived amplitude relative to the listener's
 ears~\citep{pulkki_virtual_1997,verheijen_sound_1998,ziemer_wave_2020}, to
 encourage the listener to localise sound to a position on the circumference of
@@ -80,7 +81,8 @@ for a moving phantom source, a time-varying function that returns a scalar
 value.
 Such periphonic approaches can extend to three dimensions in the case of
 vector base amplitude panning (VBAP)~\citep{pulkki_virtual_1997}, which uses
-trios of speakers to position phantom sources on the surface of a sphere.
+trios of speakers to position phantom sources on the surface of a sphere
+with the listening position at its origin.
 
 Time-based panning effects, by contrast, make use of the interaural time
 difference (ITD) cue to give the impression of a phantom source located toward
@@ -96,7 +98,7 @@ where $\tau$ is the duration of the delay.
 
 The effects of ILD and ITD cues may transfer to headphone-based listening,
 in which case, rather than periphonic, they become a sort of \textit{in-head}
-localisation\cite{ahrens_analytic_2012}.
+localisation~\citep{ahrens_analytic_2012}.
 It is worth mentioning that these cues vary in their effectiveness with
 frequency and, excepting the case of headphone-based listening, intersect with
 cues related to listener's torso~\citep{verheijen_sound_1998} and the
@@ -144,27 +146,27 @@ those cues indirectly by synthesising a sound field as if it had been created
 by `true' acoustic sources, as opposed to loudspeakers.
 In the case of ambisonics, the sound field is decomposed into `spherical
 harmonics', spatial functions described by linear sums of directional
-components of increasing order\cite{nicol_sound_2017}.
+components of increasing order~\citep{nicol_sound_2017}.
 Spherical and plane waves can be reproduced, corresponding with virtual
 point sources and sources at `infinite distance' respectively.
 
 Ambisonics, like periphonic approaches, suffers from a sweet-spot effect which
-exacerbates with attempts to reproduce sounds of higher frequency. The ideal
-listening area can be broadened by implementing ambisonics at higher order,
-increasing the density of the distribution of secondary sources.
+worsens with attempts to reproduce sounds of higher frequency.
+The ideal listening area can be broadened by implementing ambisonics at higher
+order, increasing the density of the distribution of secondary sources.
 Doing so obviously has ramifications for the physical complexity of an
 ambisonics installation, and, since higher-order spherical modes must be
 calculated, in terms of computational demands placed on the system.
 
 \subsubsection{Wave Field Synthesis}
 
-WFS, reminiscent of the acoustic curtain, is based upon Huygens' principle,
+Reminiscent of the acoustic curtain, WFS is based upon Huygens' principle,
 originating in the field of optics, which states that a propagating
 wavefront can be recreated by a distribution of secondary point
-sources\cite{mueller_acoustic_1971,berkhout_acoustic_1993,belloch_performance_2021}
-(see \figref{fig:wfs_1}).
+sources~\citep{mueller_acoustic_1971,berkhout_acoustic_1993,
+    belloch_performance_2021}(see \figref{fig:wfs_1}).
 It is variously termed a form of \textit{acoustic holography} or
-\textit{holophony}\cite{berkhout_holographic_1988,ahrens_analytic_2012}.
+\textit{holophony}~\citep{berkhout_holographic_1988,ahrens_analytic_2012}.
 Effectively, by timing the reproduction of an input signal at an array of
 secondary sources, a wavefront associated with a virtual sound source can be
 synthesised.
@@ -174,32 +176,10 @@ The principle assumes a continuous array of secondary sources but of course in
 practice it is necessary to use a discrete array of loudspeakers, which,
 much as is the case with HOA, has ramifications for spatial resolution;
 to mitigate the issue of spatial aliasing, whereby sounds of higher frequency
-cannot be recreated unambiguously\cite{winter_geometric_2018},
+cannot be recreated unambiguously~\citep{winter_geometric_2018},
 secondary sources should be placed very close together.
 Consequently, to serve a large listening area, many speakers, and thus many
 audio channels, are required.
-
-% Methods include amplitude-based approaches such as vector based amplitude
-% panning (VBAP)\cite{pulkki_virtual_1997} ... these approaches are
-% \textit{periphonic}, creating phantom sound sources that emanate from the
-% circumference of the listening area.
-
-% \textit{Sound field synthesis}
-% methods\cite{ahrens_analytic_2012,ziemer_wave_2020,nicol_sound_2017} are
-% designed, by contrast, with the intent to physically (re)create a sound field.
-
-% \dots In the frequency domain, the driving signal $\hat{D}$ for the secondary
-% sound source at position
-% $\mathbf{x}_0 = \begin{bmatrix} x_0 & y_0 & z_0 \end{bmatrix}^T$ is found as
-% the product of an input signal $\hat{S}_{\text{in}}$ and a
-% \textit{driving function} $D$\cite[s. 1.3]{ahrens_analytic_2012}:
-% \begin{equation}\label{eq:driving-signal-freq}
-%     \hat{D}(\bfx,\omega) = \Sigin(\omega) \cdot D(\bfx,\omega).
-% \end{equation}
-% For an amplitude panning scheme, $D(\bfx,\omega)$ reduces to a scalar
-% constant value, or a time-varying function with scalar output, representing an
-% appropriate weight to be applied to $\Sigin$ with respect
-% to the secondary source at $\bfx$.
 
 Via appropriate timing of the delivery of a primary sound source to the
 secondary source array, it is possible to synthesise virtual sound sources,
