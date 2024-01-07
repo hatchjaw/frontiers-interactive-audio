@@ -1,1 +1,104 @@
 \section{Discussion}\label{sec:discussion}
+
+The temporal clustering and polarisation seen in figures~\ref{fig:rtt-drift-16}
+and~\ref{fig:rtt-drift-32} is indicative of two points for concern with regard
+to technical implementation:
+the read-write difference threshold strategy may be insufficiently forgiving,
+forcing the read position into deleteriously fluctuating increment changes in
+response to periods of jitter.
+And without a master clock to indicate to each client the beginning of each
+output audio block, even with clock rates perfectly aligned, there is nothing
+to guarantee agreement of the timing of audio interrupts at the client side.
+
+To avoid sudden, large or `unrealistic' clock adjustments, clients assess
+the drift ratio as assessed via the ratio of network packet
+transmission to reception and, if it lies beyond an arbitrary threshold,
+simply resets the clock to the default \qty{44.1}{\kHz}.
+Resets of this sort may account for the large steps seen in the drift plots
+in Figures~\ref{fig:rtt-drift-16} and~\ref{fig:rtt-drift-32}.
+It is clear that this strategy could be significantly improved upon.
+
+The phasing effect noted by one participant is a disappointing consequence
+of the approach taken to combating jitter and keeping the clients close,
+temporally, together, and as close to the server as possible.
+It is clear that the current approach is, at best, too aggressive to be viable
+for high-quality audio output.
+Furthermore, an unpitched sound source such as a snare drum, though audibly
+susceptible to the time-varying comb-filter effect described, masks other
+artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
+read position increment, and sudden, comparatively large audio clock
+adjustments.
+
+\subsection{Conclusion}\label{subsec:conclusion}
+
+This article has described an exploration of certain fundamental aspects of
+digital audio, transmission of audio over computer networks, distributed
+computing and audio spatialisation.
+A networked audio system was developed, strategies devised for
+addressing challenges presented by distributed computing,
+and a distributed spatial audio system was developed and deployed.
+Evaluation of the system exposed the extent of the technical challenges
+that confront it in its current form, and shed light on opportunities for
+further development.
+In an informal setting, perceptual testing revealed that it may, with heavy
+provisos, offer performance sufficient to support timing-critical sound field
+synthesis techniques.
+
+It is pertinent at this point to consider the research questions stated in
+section \ref{s:research-questions}, and what exploring those questions has
+revealed.
+
+\paragraph{Research Question 1}
+It has been shown that a system of discrete computational entities can
+communicate effectively over an ethernet network, exchanging audio and control
+data in a scalable fashion via a UDP multicast group.
+Though facing significant technical challenges, an approach to the foundational
+requirements of such a system has been demonstrated, with encouraging results
+with regard to spatial audio applications.
+
+\paragraph{Research Question 2}
+Timing discrepancies between entities in the networked audio system give rise
+to audible artefacts such as time-varying comb-filtering.
+Loss of synchronicity is difficult to measure and compensate for in real-time
+and the extent of the resulting audible disturbances is unpredictable, but,
+depending on the nature of the sound sources being dealt with,
+certainly perceptible.
+The developed strategies for mitigation of asynchronicity are
+\textit{best-effort} in nature, and call for further refinement, or replacement
+with more sophisticated techniques.
+
+\subsection{Future Work}\label{subsec:future-work}
+
+Given its potential to disrupt the present situation with regard to spatial
+audio installations, or complement it with a modular approach that could serve
+more flexible and perhaps creative ends, it is hoped that scope will exist to
+develop this work further.
+A number of technical challenges remain, and questions with regard to the
+fundamental, low-level characteristics of the various components of the devised
+system stand unanswered.
+From the level of audio hardware and driver software, to audio host and audio
+buffer behaviour, to network QoS and the performance of network switches, to
+the behaviour of the Teensy platform, and the processor and audio codec that it
+is built around, plus its software libraries \textemdash{} much that is
+typically taken for granted in the development of embedded systems, and audio
+and networking systems, calls for deeper investigation.
+
+\paragraph{Clock-sharing}
+Each Teensy generates a clock signal to deliver to its audio shield.
+In a locally distributed setting, this is quite redundant.
+It may be possible to generate a single, authoritative clock on one Teensy
+and deliver that to all others in the system.
+If this can be achieved, it would remedy the issue of clock drift, leaving
+only jitter to be addressed.
+
+\paragraph{Further Audio Spatialisation Techniques}
+A basic, linear, distributed wave field synthesis algorithm has been
+demonstrated, implementing primary virtual sources.
+WFS is capable of producing other types of sources, supporting nonlinear
+speaker arrays, three-dimensional arrays, and more faithful models of
+energy loss due to absorption.
+There are many further avenues to pursue, including optimising any DSP
+algorithms to best exploit the capabilities of what is, in the shape of the
+Teensy, a very powerful platform.
+Further, and only given cursory treatment here, higher order ambisonics remains
+as a worthy target for implementation in future work.

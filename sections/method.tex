@@ -58,7 +58,7 @@ networked audio system.
     \label{fig:audio-server}
 \end{figure}
 
-The networked audio servec was written in C++ using utility classes provided by
+The networked audio server was written in C++ using utility classes provided by
 the JUCE framework for the development of audio applications.\footnote{
     JUCE 7.0.5 \url{https://github.com/juce-framework/JUCE}
 }
@@ -122,7 +122,7 @@ it is clear that the data for channel 1 encompasses the 32 bytes from
 \texttt{0x0030} to \texttt{0x004f}, and channel 2 the remaining bytes.
 
 Here, channel 1 is a test signal, a unit amplitude-increment unipolar sawtooth
-wave, i.e. a signal whose amplitude starts at zero, and increments by 1 at each
+wave, i.e.\ a signal whose amplitude starts at zero, and increments by 1 at each
 sample until it reaches the maximum value that a signed 16-bit integer may take
 \textemdash{} \numDec{32767} \textemdash{} at which point it wraps around to
 zero and repeats.
@@ -306,7 +306,7 @@ Jitter does not arise solely during the journey from machine to machine across
 a network.
 It was found that, using the general purpose computer's default audio host
 (ALSA), the timing of iterations of JUCE's audio processing loop, and thus
-signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.
+signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.\
 subject to a high degree of jitter.
 Though the average rate of execution was commensurate with the selected sample
 rate and audio buffer size, individual audio buffer intervals differed, in
@@ -321,10 +321,10 @@ JACK \textit{uses} ALSA as its underlying audio host, this phenomenon was
 difficult to account for.
 A detailed description lies beyond the scope of this report, but
 essentially JACK uses \textit{direct memory access} to map the underlying audio
-device into memory\footnote{
+device into memory,\footnote{
     Credit goes to Stéphane Letz, a prominent contributor to the JACK project,
     for providing this bit of context.
-}, and seemingly does so in a more effective manner than the driver
+} and seemingly does so in a more effective manner than the driver
 for the sound card on the development machine.
 It is not known at the time of writing whether using ALSA with an external audio
 interface (a potential barrier to entry) would have improved the situation.
@@ -362,7 +362,7 @@ operating system), remains one for future research.
     \label{fig:timeline}
 \end{figure}
 
-\subsubsection{A Note on the Client-Server Dichotomy}\label{sss:client-server}
+\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
 
 In principle, there is no meaningful impediment to the so-called
 clients acting as servers in their own right; a change of port number is all
