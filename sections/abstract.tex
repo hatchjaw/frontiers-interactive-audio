@@ -15,38 +15,69 @@
 %    for details according to article type.
 
 
-    Systems for spatial audio typically demand large numbers of loudspeakers
-    and audio hardware capable of serving many output channels.
-    Centralised systems of this sort are inflexible, and, due to their reliance
-    on specialist audio hardware and software, costly, with a high barrier to
-    entry.
-    Recent decades have seen increasing interest in both audio spatialisation
-    and the transmission of audio over computer networks.
-    Advancements in low-cost microcontroller platforms with support for
-    networking and audio processing, may facilitate a decentralised approach to
-    audio spatialisation systems.
-    Based on one such platform, we describe the development of a modular,
-    scalable system of distributed audio processors with applications to
-    spatial audio.
-% Distributing audio processing across a network of such devices potentially
-% represents a modular, scalable alternative.
-% In this article, the development of such a system is described.
+    Audio spatialisation is a topic of considerable research interest, with
+    applications to immersive and extended reality experiences.
+    State-of-the-art spatial audio systems are typically very costly, however,
+    being reliant on specialist audio hardware capable of performing
+    computationally intensive signal processing and delivering output to many
+    tens, if not hundreds, of loudspeakers.
+    Centralised systems of this sort suffer from limited accessibility due to
+    their inflexibility and expense.
+    Building on the research of the past few decades in the transmission of
+    audio data over computer networks, and the emergence in recent years of
+    increasingly capable, low-cost microcontroller-based development platforms
+    with support for both networking and audio functionality, we present a
+    decentralised, modular alternative.
+    Having previously explored the feasibility of running a microcontroller
+    device as a networked audio client, here we describe the development of a
+    client-server system with an emphasis on scalability via multicast data
+    transmission.
+    The system operates on ubiquitous, commonplace computing and networking
+    equipment, with a view to it being a simple, versatile, and
+    highly-accessible platform, capable of granting users the freedom to explore
+    audio spatialisation approaches at much reduced cost and commitment.
     Though faced by significant technical challenges, particularly with regard
     to maintaining synchronicity between distributed audio processors,
-    the system produces perceptually plausible results.
+    the system produces perceptually plausible results, and stands as an
+    important step on the path to producing a system to complement or rival the
+    state of the art.
     Findings are commensurate with a capability, with further development
     and research, to disrupt and democratise the fields of spatial and immersive
     audio.
 
+%%%%%%%%%%%%%%%%%%%
+%    Systems for spatial audio typically demand large numbers of loudspeakers
+%    and audio hardware capable of serving many output channels.
+%    Centralised systems of this sort are inflexible, and, due to their reliance
+%    on specialist audio hardware and software, costly, with a high barrier to
+%    entry.
+%    Recent decades have seen increasing interest in both audio spatialisation
+%    and the transmission of audio over computer networks.
+%    Advancements in low-cost microcontroller platforms with support for
+%    networking and audio processing, may facilitate a decentralised approach to
+%    audio spatialisation systems.
+%    Based on one such platform, we describe the development of a modular,
+%    scalable system of distributed audio processors with applications to
+%    spatial audio.
+%% Distributing audio processing across a network of such devices potentially
+%% represents a modular, scalable alternative.
+%% In this article, the development of such a system is described.
+%    Though faced by significant technical challenges, particularly with regard
+%    to maintaining synchronicity between distributed audio processors,
+%    the system produces perceptually plausible results.
+%    Findings are commensurate with a capability, with further development
+%    and research, to disrupt and democratise the fields of spatial and immersive
+%    audio.
+
     \tiny
-    \keyFont{ \section{Keywords:}\label{sec:keywords:}
+    \keyFont{ \section{Keywords:}\label{sec:keywords}
     Spatial audio,
-        keyword,
-        keyword,
-        keyword,
-        keyword,
-        keyword,
-        keyword,
-        keyword
+        Networked audio,
+        Distributed systems,
+        Wave Field Synthesis,
+        Microcontroller,
+%        keyword,
+%        keyword,
+%        keyword
     } %All article types: you may provide up to 8 keywords; at least 5 are mandatory.
 \end{abstract}
