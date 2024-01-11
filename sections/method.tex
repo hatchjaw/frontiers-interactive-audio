@@ -4,7 +4,7 @@
 
 \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
 
-TCP is, as described in section~\ref{subsubsec:protocols-systems}, a
+TCP is, as described in \secref{subsubsec:protocols-systems}, a
 connection-based, one-to-one protocol, so the JackTrip connection model enforces
 a sort of pseudo-connectionfulness on the otherwise connectionless UDP.\
 The result is a system which permits only unicast UDP transmission, and, for
@@ -15,7 +15,7 @@ connects~\citep{caceres_jacktrip_2010};
 notionally this entails, should enough clients connect, exhaustion of all
 available network bandwidth;
 as such, a unicast system does not meet the requirement of scalability as
-described in section~\ref{subsec:distributed-computing}.
+described in \secref{subsec:distributed-computing}.
 
 With a view to exploiting the UDP multicast capabilities of NetJACK, initial
 efforts centred on an attempt to create a NetJACK client for the Teensy
@@ -87,8 +87,8 @@ packet header created when \texttt{NetAudioServer} is initialised.
 Upon receiving the requested samples, the sender thread writes these to its
 socket, which has been configured to connect to a UDP multicast group.
 
-Listing~\ref{listing:audio-packet} shows an example network capture of an
-outgoing audio packet:
+\lstref{listing:audio-packet} shows an example network capture of an outgoing
+audio packet:
 
 \codeinputlisting[float=h]
 {text}
@@ -103,7 +103,7 @@ UDP multicast address from the second ad-hoc address block as specified in the
 IANA multicast address assignment guidelines~\citep{meyer_iana_2010}.
 The six subsequent bytes are the header inserted into the packet by
 \texttt{NetAudioServer}.
-In listing~\ref{listing:audio-packet} these are:
+In \lstref{listing:audio-packet} these are:
 \begin{itemize}
     \item \texttt{0xdf1c}: a sequence number (little-endian) of \numDec{7391};
     \item \texttt{0x04}: buffer size \numDec{4} corresponding with
@@ -135,10 +135,10 @@ Second, this numerically-predictable signal served as a means to inspect the
 integrity of the audio server algorithm, and to identify the appropriate
 endianness for transmission.
 Inspecting the first sixteen samples of the first audio channel (grouped
-by sample for legibility, see listing~\ref{listing:chan-1-samples}), it is
-evident that the amplitude values increment on a per-sample basis, and, since it
-is the first byte that increases with each sample, that samples are transmitted
-little endian.
+by sample for legibility, see \lstref{listing:chan-1-samples}), it is evident
+that the amplitude values increment on a per-sample basis, and, since it is the
+first byte that increases with each sample, that samples are transmitted little
+endian.
 
 \codeinputlisting[float=h]
 {text}
@@ -233,7 +233,7 @@ to the intermediate buffer:
 \noindent
 The client also performs a periodic check for the presence of the server (and
 potentially other clients),
-and, as described in section~\ref{subsec:client-sync}, makes adjustments to its
+and, as described in \secref{subsec:client-sync}, makes adjustments to its
 audio clock.
 
 On the audio interrupt, the client reads from the intermediate buffer to
@@ -425,7 +425,7 @@ the longitudinal distance component in
 equation~\eqref{eq:simple-driving-function} is essential for the viability of
 the system.
 As capable a platform as Teensy 4.1 is, as described in
-section~\ref{subsec:hardware-platforms}, it is limited in terms of memory.
+\secref{subsec:hardware-platforms}, it is limited in terms of memory.
 This in turn places limits on the lengths of delay lines that it can compute,
 a matter exacerbated if there are many such delays to consider, such as in the
 case of a WFS implementation with numerous virtual sound sources.
@@ -458,7 +458,7 @@ to consume.
 {Network capture: ethernet frame containing a UDP control data packet}
 {control-data-packet}
 
-Listing~\ref{listing:control-data-packet} demonstrates an example control data
+\lstref{listing:control-data-packet} demonstrates an example control data
 packet, an OSC bundle containing one message.
 This message has address \texttt{/source/0/x}, indicating that it refers to the
 $x$-coordinate of the zeroth sound source, providing a value in the form of a

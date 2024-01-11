@@ -14,7 +14,7 @@
 
 Possessing technical underpinnings, but ultimately being designed to
 serve immersive auditory ends, it was important to consider the performance of
-the system described and developed in chapter~\ref{sec:method} in terms of
+the system described and developed in \secref{sec:method} in terms of
 both its technical capabilities and the quality of the perceptual effects it
 was able to support.
 The success of the system as platform for audio spatialisation techniques is
@@ -146,11 +146,11 @@ containing steady-state harmonic content revealed obtrusive audible artefacts.
 A buffer size of 16 samples had been selected in an attempt to minimise the
 duration of the window of inter-client synchronicity, and to maximise the
 number of channels that could be transmitted over the network, subject to
-restrictions posed by the MTU (see section~\ref{subsec:anatomy-of-a-datagram}).
+restrictions posed by the MTU (see \secref{subsubsec:anatomy-of-a-datagram}).
 Recalling, however, that previous work~\citep{rushton_microcontroller-based_2023}
 had employed a 32-sample audio buffer, equivalent measurements were taken for
 the larger buffer size, the results of which are depicted in
-\figref{fig:rtt-drift-32} and \figref{fig:spectrograms}(b).
+\figref{fig:rtt-drift-32} and \figref{fig:spectrograms}(B).
 
 \begin{figure}[ht]
     \centering
@@ -174,7 +174,7 @@ samples ($\sim$\qty{726}{\us}), seemingly often grouped at either
 extreme of the interval of one audio buffer.
 The mean RTT spread, $\sim$\qty{626}{\us}, is comparable with results
 from prior work, but, disappointingly, slightly less favourable.
-Importantly, however, and as demonstrated in \figref{fig:spectrograms}(b), the
+Importantly, however, and as demonstrated in \figref{fig:spectrograms}(B), the
 rate of relative inter-client temporal movement was much improved by the switch
 to a 32-sample buffer.
 Although exhibiting similar visual striations to the spectrogram for the test
@@ -186,8 +186,8 @@ as was the presence of audible artefacts affecting harmonic signals.
 Thus it was the version of the system employing a buffer size of 32 samples
 that was exposed to perceptual evaluation.
 
-Clock drift measurements in Figures~\ref{fig:rtt-drift-16}
-and~\ref{fig:rtt-drift-32} exhibit comparable trends.
+Clock drift measurements in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32} exhibit
+comparable trends.
 Increasing negative drift over time is indicative of the clients running faster
 than the server.
 Visually, there is evidence that client clocks adjust to approximate parity
