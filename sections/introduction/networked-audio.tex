@@ -29,9 +29,8 @@ With the increasing availability of high-speed internet connections in the late
 1990s came research into transmitting uncompressed audio data over the
 internet~\citep{chafe_simplified_2000,xu_real-time_2000}.
 Work of this sort was spearheaded by the \textit{SoundWIRE} project, developed
-by researchers at McGill University and the Centre for Computer Research in
-Music and Acoustics (CCRMA) at Stanford University, and took the form of
-a wide variety of experiments with high quality audio over both WAN and local
+by researchers at McGill University and Stanford University, and took the form
+of a wide variety of experiments with high quality audio over both WAN and local
 area networks (LAN).
 These experiments included LAN-based real-time musical
 performances~\citep{chafe_simplified_2000}, concert streaming over
@@ -96,7 +95,7 @@ Soundjack~\citep{renaud_networked_2012}, and other jamming-focused platforms,
 plus more recent entrants such as the closed-source, but ultimately UDP-based
 Elk OS~\citep{turchet_elk_2021}.
 UDP even plays a fundamental role in proprietary systems such as Dante (Digital
-Audio Network Through Ethernet)~\citep{noauthor_what_nodate}.
+Audio Network Through Ethernet)~\citep{dante_what_2022}.
 
 \subsubsection{AoE in the Audio Industry}
 
@@ -121,9 +120,9 @@ facto standard in this area~\citep{bakker_introduction_2014}.
 In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1) standard,
 and AES67 followed in 2013; these open technical standards describe operation
 at layers below TCP and UDP in the OSI (Open Systems Interconnection)
-model~\citep{}\todo[inline]{Add source for OSI}, and provide frameworks for
-interoperability between AoE and AoIP systems, including mechanisms for device
-discovery and synchronisation, again via PTP\@.
+model~\citep{}\todo[inline]{Add source for OSI\ldots and AVB, AES67}, and
+provide frameworks for interoperability between AoE and AoIP systems, including
+mechanisms for device discovery and synchronisation, again via PTP\@.
 Being standards, and not implementations in themselves, it is then up to
 manufacturers to implement the appropriate recommendations in their products.
 (AES67, for example, has in fact been implemented in Dante.)
@@ -245,4 +244,4 @@ Two bytes (sixteen bits) are allocated to the `Total Length' field of the IPv4
 header, which suggests an MTU of $2^{16}-1=~$\num{65535} bytes;
 in practice, however, the data link layer imposes a basic limit of \num{1500}
 bytes on the payload of an ethernet
-frame~\citep{schiavoni_alternatives_2013,noauthor_ieee_2018}.
+frame~\citep{schiavoni_alternatives_2013,ieee_ieee_2018}.
