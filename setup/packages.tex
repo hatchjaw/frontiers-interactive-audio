@@ -1,4 +1,14 @@
-\usepackage{url,hyperref,lineno,microtype,subcaption,booktabs,paralist}
+\usepackage{
+    url,
+    hyperref,
+    lineno,
+    microtype,
+    subcaption,
+    booktabs,
+    paralist,
+    tablefootnote
+}
+
 \usepackage[onehalfspacing]{setspace}
 
 % Hyperref
@@ -41,6 +51,21 @@
 \usepackage[skins, breakable]{tcolorbox}
 \tcbuselibrary{minted}
 
+% Code listing, e.g.
+%
+%     \begin{codelisting}{
+%         \texttt{update} method of the networked audio client implementation,
+%         minted style=xcode,
+%         minted language=cpp,
+%         label=ls:njc-update,
+%         float=h!
+%     }
+%         void NetJUCEClient::update(void) {
+%             doAudioOutput();
+%
+%             handleAudioInput();
+%         }
+%     \end{codelisting}
 \newtcblisting[auto counter]{codelisting}[1]{%
     enhanced,
 %    breakable,
@@ -61,6 +86,13 @@
     }
 }
 
+% Input code from file, e.g.
+%
+%       \codeinputlisting[float=h]
+%          {text}
+%          {listings/udp-packet.txt}
+%          {Network capture: ethernet frame containing a UDP packet}
+%          {packet-hello-world}
 \newtcbinputlisting[use counter from=codelisting]{\codeinputlisting}[5][]{
     minted language=#2,
     listing file={#3},

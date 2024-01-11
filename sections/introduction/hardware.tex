@@ -1,0 +1,67 @@
+\subsection{Hardware Platforms}\label{subsec:hardware-platforms}
+
+The notion of taking a distributed approach to DSP is reliant on the
+identification of a suitable supporting hardware platform.
+For a distributed audio application, the ideal computing platform should be
+small, inexpensive, plus easily and rapidly programmable; of course, it should
+also provide audio and networking capabilities.
+
+Recent years have seen the emergence of a number of small, low-cost, open-source
+platforms for embedded development, perhaps best known amongst these being
+Arduino\footnote{\url{https://arduino.cc/}}.
+Though support for audio is limited via official Arduino models, a number of
+audio-specific, Arduino-like systems have been produced, such as various
+ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
+family of microcontroller development boards.
+Also worthy of consideration is the Bela platform; though not a true
+microcontroller (being based on the Beaglebone single-board computer, and
+running an operating system) it is a small-footprint audio-focused device
+suitable for embedded applications.
+Platforms of this kind that also possess networking support may also fall
+under the category of \textit{Internet of Things} (IoT) devices.
+
+A comparison of selected devices can be found in
+table~\ref{tab:embedded-comparison}.
+Bela is significantly more powerful than the microcontroller systems, but it is
+commensurately costly.
+Daisy Seed is well-appointed with memory (which is important for DSP algorithms
+featuring long delay-lines, for example), but does not feature ethernet support.
+Teensy4.1, and the selected ESP32 device support networking via their
+respective ethernet add-ons, but the latter's CPU is under-powered.
+Though lacking in memory, Teensy's processor and low price make it the most
+suitable candidate to support a distributed, networked audio implementation.
+
+\begin{table}[t]
+    \centering
+    \begin{tabular}{ c c c r }
+        Platform &
+        Processor &
+        Memory &
+        Price \\
+
+        \midrule
+
+        Teensy 4.1\tablefootnote{\url{https://pjrc.com/store/teensy41.html}} &
+        ARM Cortex-M7 \qty{600}{\MHz} &
+        \qty{1}{\mega\byte} SDRAM &
+        \texteuro{31.50} \\
+
+        Daisy Seed\tablefootnote{\url{https://electro-smith.com/daisy/daisy}} &
+        ARM Cortex-M7 \qty{480}{\MHz} &
+        \qty{64}{\mega\byte} SDRAM &
+        \texteuro{28} \\
+
+        ESP32-LyraTD-MSC\tablefootnote{\url{https://espressif.com/en/products/devkits/esp-audio-devkits}} &
+        Xtensa LS6 \qty{240}{\MHz} &
+        \qty{8}{\mega\byte} PSRAM &
+        \texteuro{49.50} \\
+
+        Bela\tablefootnote{\url{https://shop.bela.io/products/bela-starter-kit}} &
+        ARM Cortex-A8 \qty{1}{\GHz}\tablefootnote{\url{https://beagleboard.org/black}} &
+        \qty{512}{\mega\byte} DDR3 &
+        \texteuro{209}
+    \end{tabular}
+    \caption{Comparison of selected embedded audio development platforms.
+    Prices as of January 2024.}
+    \label{tab:embedded-comparison}
+\end{table}

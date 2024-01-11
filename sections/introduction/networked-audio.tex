@@ -1,6 +1,5 @@
-\section{Networked Audio}\label{sec:networked-audio}
+\subsection{Networked Audio}\label{subsec:networked-audio}
 
-\todo[inline]{Less detail on telephony?}
 The transmission of audio data has been a topic of research interest since the
 earliest days of computer networking as it is recognised today, i.e.\ over
 packet-switched networks, whereby data to be transmitted is grouped into
@@ -40,7 +39,7 @@ WAN~\citep{xu_real-time_2000,chafe_simplified_2000}, and sonification of QoS via
 a distributed digital waveguide dubbed the
 \textit{Network Harp}~\citep{chafe_simplified_2000,chafe_physical_2002}
 
-\subsection{Protocols and Systems}\label{subsec:protocols-and-systems}
+\subsubsection{Protocols and Systems}\label{subsubsec:protocols-systems}
 
 VoIP research in the 1990s focused on matters such as audio codecs and data
 compression~\citep{turletti_inria_1995,hardman_successful_1998}, seeking a
@@ -141,7 +140,8 @@ standards.
 Ultimately, if an accessible solution is sought, attention must be turned back
 to the transport layer, and UDP\@.
 
-\subsection{Anatomy of a Datagram}\label{subsec:anatomy-of-a-datagram}
+
+\subsubsection{Anatomy of a Datagram}\label{subsubsec:anatomy-of-a-datagram}
 
 \begin{figure}[h]
     \centering
@@ -246,17 +246,3 @@ header, which suggests an MTU of $2^{16}-1=~$\num{65535} bytes;
 in practice, however, the data link layer imposes a basic limit of \num{1500}
 bytes on the payload of an ethernet
 frame~\citep{schiavoni_alternatives_2013,noauthor_ieee_2018}.
-
-\subsection{Hardware Platforms}\label{subsec:hardware-platforms}
-
-\todo[inline]{Move hardware elsewhere}
-\dots
-
-Recent years have seen the emergence of a number of small, low-cost, open-source
-platforms for embedded development, perhaps best known amongst these being
-Arduino\footnote{\url{https://arduino.cc/}}.
-Though support for audio is limited via official Arduino models, a number of
-audio-specific, Arduino-like systems have been produced, such as various
-ESP32\footnote{\url{https://espressif.com/en/products/devkits/esp-audio-devkits}}
-and STM32\footnote{\url{}} models, Daisy Seed\footnote{\url{}} (itself an STM32-based board), and the Teensy family of microcontroller
-development boards\footnote{\url{https://pjrc.com/store/teensy41.html}}.

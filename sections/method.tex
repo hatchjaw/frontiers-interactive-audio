@@ -4,7 +4,7 @@
 
 \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
 
-TCP is, as described in section~\ref{subsec:protocols-and-systems}, a
+TCP is, as described in section~\ref{subsubsec:protocols-systems}, a
 connection-based, one-to-one protocol, so the JackTrip connection model enforces
 a sort of pseudo-connectionfulness on the otherwise connectionless UDP.\
 The result is a system which permits only unicast UDP transmission, and, for
@@ -15,7 +15,7 @@ connects~\citep{caceres_jacktrip_2010};
 notionally this entails, should enough clients connect, exhaustion of all
 available network bandwidth;
 as such, a unicast system does not meet the requirement of scalability as
-described in section~\ref{sec:distributed-computing}.
+described in section~\ref{subsec:distributed-computing}.
 
 With a view to exploiting the UDP multicast capabilities of NetJACK, initial
 efforts centred on an attempt to create a NetJACK client for the Teensy
