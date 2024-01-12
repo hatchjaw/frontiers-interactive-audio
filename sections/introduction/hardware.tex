@@ -1,5 +1,39 @@
 \subsection{Hardware Platforms}\label{subsec:hardware-platforms}
 
+The notion of taking a distributed approach to DSP is reliant on the
+identification of a suitable supporting hardware platform.
+For a distributed audio application, the ideal computing platform should be
+small, inexpensive, plus easily and rapidly programmable;
+of course, it should also provide audio and networking hardware, and, ideally,
+well-documented APIs for programming and interacting with this hardware.
+
+Recent years have seen the emergence of a number of small, low-cost, open-source
+platforms for embedded development, perhaps best known amongst these being
+Arduino\footnote{\url{https://arduino.cc/} \textemdash{} All URLs verified
+12/01/2024}, which, with it's networking support, may be considered a range of
+\textit{Internet of Things} (IoT) devices.
+Though support for audio is limited via official Arduino models, a number of
+audio-specific, Arduino-like systems have been produced, such as various
+ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
+family of microcontroller development boards.
+Also worthy of consideration is the Bela platform; though not a true
+microcontroller (being based on the Beaglebone single-board computer, and
+running an operating system) it is a small-footprint audio-focused device
+suitable for embedded applications.
+
+A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
+microphones, etc.) and open source software libraries exist for Arduino- and
+Beaglebone-based systems.
+Facilitating audio development, many such platforms are programmable with
+Faust, a domain-specific programming language for audio synthesis and signal
+processing\footnote{\url{https://faust.grame.fr/}}.
+Faust provides \textit{architectures} for a number of embedded platforms via its
+\texttt{faust2[...]} tools\footnote{
+    \url{https://faustdoc.grame.fr/manual/tools/}
+}, enabling users to write high level DSP code and compile it to meet the
+requirements of the audio API on the target device~\citep{michon_real_2019,
+    michon_embedded_2020}.
+
 \begin{table}[t]
     \centering
     \begin{tabular}{ c c c r }
@@ -10,8 +44,7 @@
 
         \midrule
 
-        Teensy 4.1\tablefootnote{\url{https://pjrc.com/store/teensy41.html}
-        \textemdash{} All URLs verified 12/01/2024} &
+        Teensy 4.1\tablefootnote{\url{https://pjrc.com/store/teensy41.html}} &
         ARM Cortex-M7 \qty{600}{\MHz} &
         \qty{1}{\mega\byte} SDRAM &
         \texteuro{32} \\
@@ -41,47 +74,15 @@
     \label{tab:embedded-comparison}
 \end{table}
 
-The notion of taking a distributed approach to DSP is reliant on the
-identification of a suitable supporting hardware platform.
-For a distributed audio application, the ideal computing platform should be
-small, inexpensive, plus easily and rapidly programmable;
-of course, it should also provide audio and networking hardware, and, ideally,
-well-documented APIs for programming and interacting with this hardware.
-
-Recent years have seen the emergence of a number of small, low-cost, open-source
-platforms for embedded development, perhaps best known amongst these being
-Arduino\footnote{\url{https://arduino.cc/}}, which, with it's networking support, may be
-considered a range of \textit{Internet of Things} (IoT) devices.
-Though support for audio is limited via official Arduino models, a number of
-audio-specific, Arduino-like systems have been produced, such as various
-ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
-family of microcontroller development boards.
-Also worthy of consideration is the Bela platform; though not a true
-microcontroller (being based on the Beaglebone single-board computer, and
-running an operating system) it is a small-footprint audio-focused device
-suitable for embedded applications.
-
-A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
-microphones, etc.) and open source software libraries exist for Arduino- and
-Beaglebone-based systems.
-Facilitating audio development, many such platforms are programmable with
-Faust, a domain-specific programming language for audio synthesis and signal
-processing\footnote{\url{https://faust.grame.fr/}}.
-Faust provides \textit{architectures} for a number of embedded platforms via its
-\texttt{faust2[...]} tools\footnote{
-    \url{https://faustdoc.grame.fr/manual/tools/}
-}, enabling users to write high level DSP code and compile it to meet the
-requirements of the audio API on the target device~\citep{michon_real_2019,
-    michon_embedded_2020}.
-
-
 A comparison of selected devices can be found in
 \tabref{tab:embedded-comparison}.
 Bela is significantly more powerful than the microcontroller systems, but it is
 commensurately costly.
 Daisy Seed is well-appointed with memory (which is important for DSP algorithms
 featuring long delay-lines, for example), but does not feature ethernet support.
-Teensy4.1, and the selected ESP32 device support networking via their
-respective ethernet add-ons, but the latter's CPU is under-powered.
-Though lacking in memory, Teensy's processor and low price make it the most
+Teensy4.1, and the selected ESP32 and STM32 devices support networking via
+ethernet add-ons, but the ESP32's CPU is underpowered, and the STM32 is
+unfavourably-priced.
+Though lacking in memory, Teensy's processor, low price, and programmability
+via the \texttt{faust2teensy} tool, make it the most
 suitable candidate to support a distributed, networked audio implementation.

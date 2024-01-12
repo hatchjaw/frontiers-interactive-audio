@@ -50,6 +50,108 @@ also to the JackTrip-based approach.
 This being the case, attention was turned to the design of a bespoke multicast
 networked audio system.
 
+\subsubsection{Designing a Networked Audio Protocol}\label{subsubsec:designing-a-protocol}
+
+% The decision to pursue a \textit{no-protocol} approach \textemdash{} or rather
+% to design a new protocol for the system under development \textemdash{} was not
+% taken lightly.
+
+To take a no-protocol approach, such as that described by
+Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, is not without its drawbacks.
+Ironically, for a no-protocol system to
+work, the rubric that ensures successful data encoding, transmission, and
+decoding must be understood implicitly by all members of the network; i.e.\
+there \textit{is}, in fact, a protocol, but that protocol is an unspoken
+contract.
+Dependent on the intended application, and if assumptions can be made about
+matters such as bit resolution, this may be a sensible design choice, but to
+make the new protocol somewhat flexible and future-proof, a simple packet
+header was devised.
+Its structure is given in \lstref{listing:packet-header}.
+
+\begin{codelisting}{
+    Packet header structure,
+    label=listing:packet-header,
+    minted language=cpp,
+    minted style=xcode,
+    float=ht
+}
+    struct PacketHeader {
+        uint16_t SeqNumber;
+        uint8_t BufferSize;
+        uint8_t SamplingRate;
+        uint8_t BitResolution;
+        uint8_t NumChannels;
+    };
+\end{codelisting}
+\noindent
+The resulting six-byte header comprises a two-byte (unsigned 16-bit integer)
+packet sequence number, to be incremented by the sender, plus four further bytes
+describing the structure of the audio data in the packet.
+Commonly-encountered sampling rates, and buffer sizes greater than 255, cannot
+be represented by unsigned eight-bit integers, so
+these are backed up by enumerations inspired by those used by JackTrip\footnote{
+    \url{https://github.com/jacktrip/jacktrip/blob/v1.6.8/src/AudioInterface.h\#L56}
+}:
+
+%\begin{multicodelisting}{Supporting enumerations for packet metadata,
+%    label=ls:packet-enums,
+%    top=0pt,
+%    bottom=0pt
+%}
+%    \begin{tcbraster}[threecolraster]
+%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
+%            enum BufferSizeT {
+%                BUF8 = 3,
+%                BUF16,
+%                BUF32,
+%                BUF64,
+%                BUF128,
+%                BUF256,
+%                BUF512,
+%                BUF1024,
+%                BUF2048,
+%                BUF4096
+%            };
+%        \end{multicodesublisting}
+%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
+%            enum BitResolutionT {
+%                BIT8 = 1,
+%                BIT16,
+%                BIT24,
+%                BIT32
+%            };
+%        \end{multicodesublisting}
+%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
+%            enum SamplingRateT {
+%                SR22,
+%                SR32,
+%                SR44,
+%                SR48,
+%                SR88,
+%                SR96,
+%                SR192
+%            };
+%        \end{multicodesublisting}
+%    \end{tcbraster}
+%\end{multicodelisting}
+\noindent
+A buffer size of 16 is represented by \mintinline{cpp}{BufferSizeT::BUF16},
+which is assigned the number 4, the appropriate power of two to use in
+converting between the enumeration and the number with which it corresponds.
+Similarly, a bit resolution of 16 is associated with
+\mintinline{cpp}{BitResolutionT::BIT16}, which takes the value 2, the number of
+bytes in a 16-bit integer.
+
+For well-formed packets, \mintinline{cpp}{BufferSize} could in fact
+be inferred from the size of the packet (minus its header), divided by
+\mintinline{cpp}{NumChannels} and \mintinline{cpp}{BitResolution}, the latter
+treated as the number of bytes per sample (as per the enumeration value).
+To permit scope for the detection of malformed packets, however, the expense
+of an additional byte in the header was deemed a reasonable one.
+The sequence number will wrap around every 65,536 packets, and is intended as
+a means for a recipient to identify the occurrence of packet loss.
+
 \subsubsection{Server Design}
 
 \begin{figure}[ht]
