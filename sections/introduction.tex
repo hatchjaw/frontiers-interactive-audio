@@ -3,10 +3,11 @@
 Spatial and immersive audio techniques have been the beneficiaries of
 significant research interest over the past few decades.
 Recent developments in virtual and augmented reality technologies and
-\textit{object-based} audio have led to an acceleration in interest in the
-creation of virtual sound fields via approaches such as Wave Field Synthesis
-(WFS) and Higher Order Ambisonics (HOA)~\citep{berkhout_acoustic_1993,
-    ahrens_theory_2008,daniel_further_2003,frank_producing_2015}.
+\textit{object-based} audio~\citep{geier_object-based_2010} have led to an
+acceleration in interest in the creation of virtual sound fields via approaches
+such as Wave Field Synthesis (WFS) and Higher Order Ambisonics
+(HOA)~\citep{berkhout_acoustic_1993,ahrens_theory_2008,daniel_further_2003,
+    frank_producing_2015}.
 These techniques call for the deployment of large numbers of loudspeakers, and
 centralised, \textit{in situ} installations of dedicated hardware and software.
 The costs associated with such installations have seen them largely restricted
@@ -35,7 +36,7 @@ audio.
 
 \subsection{Research Questions}\label{subsec:research-questions}
 
-The primary focus of this thesis is an exploration of employing a
+The primary focus of this work is an exploration of employing a
 network of hardware modules to act as a co-ordinated networked-audio system
 with a view to supporting a distributed approach to audio spatialisation
 techniques.
@@ -47,9 +48,9 @@ The first research question, then, is:
 
 \begin{researchq}
     \label{rq:rq1}
-    How can a network of microcontrollers be used to create a distributed
-    audio system suitable for managing scalable installations for spatial
-    and immersive audio?
+    How can a network of microcontrollers be used to create a distributed audio
+    system suitable for managing scalable installations for spatial and
+    immersive audio?
 \end{researchq}
 
 \noindent
@@ -59,8 +60,9 @@ system:
 \begin{researchq}
     \label{rq:rq2}
     How can such a system be created and configured such that it maintains
-    inter-client synchronicity? What are the effects of loss of
-    synchronicity on distributed spatialisation algorithms?
+    inter-client synchronicity?
+    What are the effects of loss of synchronicity on distributed spatialisation
+    algorithms?
 \end{researchq}
 
 % \noindent
@@ -74,7 +76,7 @@ This consisted of an audio application running on a general purpose computer,
 delivering audio over JackTrip to a collection of hardware modules, and
 WFS control data over multicast UDP.
 Strategies were developed for mitigating the effects of jitter and clock drift,
-and these serve as the basis for work on the project described in this thesis.
+and these serve as the basis for work on the project described in this article.
 
 The prior system was not formally evaluated, but, anecdotally, provided
 support for the holophonic effect of primary-source WFS.

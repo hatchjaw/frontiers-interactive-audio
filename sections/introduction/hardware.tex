@@ -10,25 +10,31 @@
 
         \midrule
 
-        Teensy 4.1\tablefootnote{\url{https://pjrc.com/store/teensy41.html}} &
+        Teensy 4.1\tablefootnote{\url{https://pjrc.com/store/teensy41.html}
+        \textemdash{} All URLs verified 12/01/2024} &
         ARM Cortex-M7 \qty{600}{\MHz} &
         \qty{1}{\mega\byte} SDRAM &
-        \texteuro{31.50} \\
+        \texteuro{32} \\
 
         Daisy Seed\tablefootnote{\url{https://electro-smith.com/daisy/daisy}} &
         ARM Cortex-M7 \qty{480}{\MHz} &
         \qty{64}{\mega\byte} SDRAM &
         \texteuro{28} \\
 
-        ESP32-LyraTD-MSC\tablefootnote{\url{https://espressif.com/en/products/devkits/esp-audio-devkits}} &
-        Xtensa LS6 \qty{240}{\MHz} &
+        ESP32-LyraTD\tablefootnote{\url{https://espressif.com/en/products/devkits/esp-audio-devkits}} &
+        Dual core Xtensa LX6 \qty{240}{\MHz} &
         \qty{8}{\mega\byte} PSRAM &
-        \texteuro{49.50} \\
+        \texteuro{19} \\
+
+        STM32H747I\tablefootnote{\url{https://st.com/en/evaluation-tools/stm32h747i-disco.html}} &
+        ARM Cortex-M7 \qty{480}{\MHz} + Cortex-M4 \qty{240}{\MHz} &
+        \qty{1}{\mega\byte} RAM &
+        \texteuro{94} \\
 
         Bela\tablefootnote{\url{https://shop.bela.io/products/bela-starter-kit}} &
         ARM Cortex-A8 \qty{1}{\GHz}\tablefootnote{\url{https://beagleboard.org/black}} &
         \qty{512}{\mega\byte} DDR3 &
-        \texteuro{209}
+        \texteuro{190}
     \end{tabular}
     \caption{Comparison of selected embedded audio development platforms.
     Prices as of January 2024.}
@@ -40,11 +46,12 @@ identification of a suitable supporting hardware platform.
 For a distributed audio application, the ideal computing platform should be
 small, inexpensive, plus easily and rapidly programmable;
 of course, it should also provide audio and networking hardware, and, ideally,
-well-documented APIs for interacting with this hardware.
+well-documented APIs for programming and interacting with this hardware.
 
 Recent years have seen the emergence of a number of small, low-cost, open-source
 platforms for embedded development, perhaps best known amongst these being
-Arduino\footnote{\url{https://arduino.cc/}}.
+Arduino\footnote{\url{https://arduino.cc/}}, which, with it's networking support, may be
+considered a range of \textit{Internet of Things} (IoT) devices.
 Though support for audio is limited via official Arduino models, a number of
 audio-specific, Arduino-like systems have been produced, such as various
 ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
@@ -53,8 +60,20 @@ Also worthy of consideration is the Bela platform; though not a true
 microcontroller (being based on the Beaglebone single-board computer, and
 running an operating system) it is a small-footprint audio-focused device
 suitable for embedded applications.
-Platforms of this kind that also possess networking support may also fall
-under the category of \textit{Internet of Things} (IoT) devices.
+
+A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
+microphones, etc.) and open source software libraries exist for Arduino- and
+Beaglebone-based systems.
+Facilitating audio development, many such platforms are programmable with
+Faust, a domain-specific programming language for audio synthesis and signal
+processing\footnote{\url{https://faust.grame.fr/}}.
+Faust provides \textit{architectures} for a number of embedded platforms via its
+\texttt{faust2[...]} tools\footnote{
+    \url{https://faustdoc.grame.fr/manual/tools/}
+}, enabling users to write high level DSP code and compile it to meet the
+requirements of the audio API on the target device~\citep{michon_real_2019,
+    michon_embedded_2020}.
+
 
 A comparison of selected devices can be found in
 \tabref{tab:embedded-comparison}.
