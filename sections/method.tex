@@ -1,7 +1,5 @@
 \section{Method}\label{sec:method}
 
-To address the research questions posed in section \ref{s:research-questions},
-a networked audio system was developed.
 Being a system distributed across distinct computing platforms (a general
 purpose computer; a network of microcontrollers), and software elements
 serving a variety of purposes (server and client instances for transmission
@@ -26,35 +24,51 @@ available network bandwidth;
 as such, a unicast system does not meet the requirement of scalability as
 described in \secref{subsec:distributed-computing}.
 
-With a view to exploiting the UDP multicast capabilities of NetJACK, initial
-efforts centred on an attempt to create a NetJACK client for the Teensy
-platform.
-\todo[inline]{Either describe why NetJACK wasn't pursued or remove this part.}
-\begin{inparaenum}[1)]
-    \item NetJACK was created as a general-purpose system, with functionality
-    beyond the requirements of the proposed implementation;
-    \item JACK has not served as a truly cross-platform audio host for a
-    number of years; although \texttt{jackd} runs on Mac OS X systems, not
-    since OS X 10.14 has JACK been compatible with Mac's CoreAudio
-    API, thus any server implementation based upon NetJACK would not be
-    operable on a modern Mac operating system.\footnote{
-        For more information, see Stéphane Letz's proposed design for a
-        successor to the defunct CoreAudio/JACK bridge
-        \url{https://github.com/jackaudio/jack-router/blob/main/macOS/docs/JackRouter-AudioServerPlugin.md}
-        (accessed 04/01/2024).
-    }
-\end{inparaenum}
+%With a view to exploiting the UDP multicast capabilities of NetJACK, initial
+%efforts centred on an attempt to create a NetJACK client for the Teensy
+%platform.
+%\begin{inparaenum}[1)]
+%    \item NetJACK was created as a general-purpose system, with functionality
+%    beyond the requirements of the proposed implementation;
+%    \item JACK has not served as a truly cross-platform audio host for a
+%    number of years; although \texttt{jackd} runs on Mac OS X systems, not
+%    since OS X 10.14 has JACK been compatible with Mac's CoreAudio
+%    API, thus any server implementation based upon NetJACK would not be
+%    operable on a modern Mac operating system.\footnote{
+%        For more information, see Stéphane Letz's proposed design for a
+%        successor to the defunct CoreAudio/JACK bridge
+%        \url{https://github.com/jackaudio/jack-router/blob/main/macOS/docs/JackRouter-AudioServerPlugin.md}
+%        (accessed 04/01/2024).
+%    }
+%\end{inparaenum}
 
-Of course, being tied to JACK as its audio host, the latter rationale applies
-also to the JackTrip-based approach.
-This being the case, attention was turned to the design of a bespoke multicast
-networked audio system.
+%Of course, being tied to JACK as its audio host, the latter rationale applies
+%also to the JackTrip-based approach.
+%This being the case, attention was turned to the design of a bespoke multicast
+%networked audio system.
+
+A multicast NetJACK server was considered, but creating a client implementation
+on what is essentially a bare-metal platform in the shape of the Teensy, was not
+practical.
+Further, due to a break in compatibility with Mac OS X systems, JACK-based
+approaches are not truly cross-platform.\footnote{
+    A successor to the defunct CoreAudio/JACK bridge has been proposed but
+    remains unrealised:
+    \url{https://github.com/jackaudio/jack-router/blob/main/macOS/docs/JackRouter-AudioServerPlugin.md}.
+    This issue of course also affects the viability of the JackTrip-based
+    approach.
+}
+Prioritising simplicity, in the form of an audio server having minimal
+dependencies and a very specific task to achieve, attention was turned to the
+design of a bespoke multicast networked audio server.
 
 \subsubsection{Designing a Networked Audio Protocol}\label{subsubsec:designing-a-protocol}
 
 % The decision to pursue a \textit{no-protocol} approach \textemdash{} or rather
 % to design a new protocol for the system under development \textemdash{} was not
 % taken lightly.
+
+
 
 To take a no-protocol approach, such as that described by
 Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, is not without its drawbacks.
@@ -84,7 +98,7 @@ Its structure is given in \lstref{listing:packet-header}.
         uint8_t NumChannels;
     };
 \end{codelisting}
-\noindent
+
 The resulting six-byte header comprises a two-byte (unsigned 16-bit integer)
 packet sequence number, to be incremented by the sender, plus four further bytes
 describing the structure of the audio data in the packet.

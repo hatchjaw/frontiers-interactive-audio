@@ -5,21 +5,24 @@ independent entities that cooperate to solve a problem that cannot be
 individually solved''}~\citep{kshemkalyani_distributed_2011}.
 In turn, the term \textit{distributed computing} simply describes a system of
 computation that is distributed in
-space~\citep{lamport_distributed_1990}.\footnote{
-    There is a certain linguistic symmetry here with respect to spatial audio,
-    but that is as far as the parallel goes.
-}
-At a low enough level, this effectively describes \textit{any} computer
-system, such systems being composed of individual entities \textemdash{}
-processors, memory, input and output devices, etc. \textemdash{} all
-acting in cooperation.
+space~\citep{lamport_distributed_1990}.%\footnote{
+%    There is a certain linguistic symmetry here with respect to spatial audio,
+%    but that is as far as the parallel goes.
+%}
+%At a low enough level, this effectively describes \textit{any} computer
+%system, such systems being composed of individual entities \textemdash{}
+%processors, memory, input and output devices, etc. \textemdash{} all
+%acting in cooperation.
 
-At a higher level \textemdash{} that of a computer network, for example
-\textemdash{} why take a distributed approach to computation?
-As Kshemkalyani and Singhal describe~\citep{kshemkalyani_distributed_2011},
-a variety of rationales exist for taking such an approach;
-adapting these to the notion of distributing an audio spatialisation algorithm
-across a computer network, most relevant are:
+%At a higher level \textemdash{} that of a computer network, for example
+%\textemdash{} why take a distributed approach to computation?
+%As Kshemkalyani and Singhal describe~\citep{kshemkalyani_distributed_2011},
+A variety of rationales exist for taking a distributed approach to
+computation;
+%adapting these to the notion of distributing an audio spatialisation algorithm
+%across a computer network,
+most relevant to the problem of distributing an audio spatialisation algorithm
+across a computer network are:
 
 \textbf{Scalability}
 Particularly so if taking advantage of a network protocol that supports
@@ -46,26 +49,37 @@ if the hardware supports extension via daisy-chaining, for example.
 A modular, scalable system can be constructed to meet the proportion that
 circumstances require, with the minimum amount of redundancy.
 If it becomes desirable to scale the system up, this can be achieved by small
-increments rather than by expensive leaps.\\
+increments rather than by expensive leaps.
 
-Kshemkalyani and Singhal also vaunt \textit{enhanced reliability} as motivation
-for distributed computing.
-This may indeed hold true for systems where the failure of a single node can be
-compensated for by increased work on the part of the remaining nodes until such
-time as the failed node can resume operation or be replaced;
-it does not for the sort of system under consideration here.
-Indeed, this points toward two significant drawbacks of distributed systems in
-general: increased complexity and a proliferation of potential points of
-failure.
-Nodes in a distributed computational system must be served at the very least
-with power and access (e.g.\ over a network) to the data that they require in
-order to operate.
-This entails the provision of cables, perhaps batteries, and physical
-connections that may be subject to wear-and-tear or misuse.
-Additional concerns surround the programmability of such a system, which is the
-other side to the coin of modularity;
-integrity, in terms of all nodes possessing up-to-date instructions for
-operation, may be difficult to ensure.
+%Kshemkalyani and Singhal also vaunt \textit{enhanced reliability} as motivation
+%for distributed computing.
+%This may indeed hold true for systems where the failure of a single node can be
+%compensated for by increased work on the part of the remaining nodes until such
+%time as the failed node can resume operation or be replaced;
+%it does not for the sort of system under consideration here.
+%Indeed, this points toward two significant drawbacks of distributed systems in
+%general: increased complexity and a proliferation of potential points of
+%failure.
+%Nodes in a distributed computational system must be served at the very least
+%with power and access (e.g.\ over a network) to the data that they require in
+%order to operate.
+%This entails the provision of cables, perhaps batteries, and physical
+%connections that may be subject to wear-and-tear or misuse.
+%Additional concerns surround the programmability of such a system, which is the
+%other side to the coin of modularity;
+%integrity, in terms of all nodes possessing up-to-date instructions for
+%operation, may be difficult to ensure.
+
+Where a distributed system may suffer when compared with its centralised
+equivalent is in terms of reliability.
+Nodes in a distributed computational system must be served with power and access
+to the data they require in order to operate.
+This entails the provision of power, cables and a proliferation of potential
+points of failure.
+The other side to the coin of modularity is a concern regarding the
+programmability of such a system;
+ensuring that all nodes possess up-to-date instructions for operation may not be
+trivial.
 
 \subsection{Distributed Audio Systems}\label{subsec:distributed-audio-systems}
 
@@ -189,5 +203,4 @@ via PTP or lower-resolution network time protocol.
 In the absence of such an authoritative source, e.g.\ over a wide area network,
 or if using hardware that does not support such measures, buffering strategies
 are typically employed, coupled with delay-locked
-loops~\citep{adriaensen_using_2005} and
-resampling~\citep{adriaensen_controlling_2012}.
+loops and resampling~\citep{adriaensen_using_2005, adriaensen_controlling_2012}.

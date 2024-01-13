@@ -45,7 +45,8 @@ To assess this, a similar approach was taken to that found
 in~\citep{rushton_microcontroller-based_2023}
 and~\citep{gabrielli_networked_2012}.
 
-\paragraph{Round Trip Time} To measure transmission round trip time (RTT), the
+\subsubsection{Round Trip Time}
+To measure transmission round trip time (RTT), the
 server transmitted a unipolar sawtooth wave of unit amplitude increment to the
 multicast group, and each client, upon receiving that signal simply returned it
 immediately to that same group to be consumed by the server.
@@ -71,7 +72,8 @@ Server-to-client latency cannot be measured in this way, but that can be
 inferred to be around half of, and, of course, certainly not greater than, the
 RTT.\
 
-\paragraph{Clock Drift/Skew} A unipolar sawtooth wave of unit amplitude
+\subsubsection{Clock Drift/Skew}
+A unipolar sawtooth wave of unit amplitude
 increment was generated on the clients, subtracted from the incoming sawtooth
 wave from the server, and the difference (found similarly to
 equation~\eqref{eq:rtt}) returned to the multicast group for consumption by the

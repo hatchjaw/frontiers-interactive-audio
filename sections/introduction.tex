@@ -37,53 +37,42 @@ audio.
 \input{sections/introduction/spatial-audio}
 \input{sections/introduction/distributed-systems}
 
-\subsection{Research Questions}\label{subsec:research-questions}
+\subsection{Objectives and Outlook}\label{subsec:objectives}
 
-The primary focus of this work is an exploration of employing a
-network of hardware modules to act as a co-ordinated networked-audio system
-with a view to supporting a distributed approach to audio spatialisation
-techniques.
+The primary focus of this work is an exploration of employing a network of
+hardware modules to act as a co-ordinated networked-audio system with a view to
+supporting a distributed approach to audio spatialisation techniques.
 It is hoped that in selecting a low-cost hardware platform, using ubiquitous
 computer networking technologies, and keeping the overall design as simple as
 possible, the work here could lead to a lowering of the barrier to entry of
 the creation of large scale spatial and immersive audio installations.
-The first research question, then, is:
 
-\begin{researchq}
-    \label{rq:rq1}
-    How can a network of microcontrollers be used to create a distributed audio
-    system suitable for managing scalable installations for spatial and
-    immersive audio?
-\end{researchq}
-
-\noindent
-Adjacent to the bare bones of implementation is the performance of the devised
-system:
-
-\begin{researchq}
-    \label{rq:rq2}
-    How can such a system be created and configured such that it maintains
-    inter-client synchronicity?
-    What are the effects of loss of synchronicity on distributed spatialisation
-    algorithms?
-\end{researchq}
-
-% \noindent
-% These questions will be our guides in the chapters to follow.
-
-\subsubsection{Prior Work}
+WFS was chosen as a target implementation for the comparative ease with which
+its algorithm can be parallelised.
+Equations~\eqref{eq:driving-signal} and~\eqref{eq:driving-function} illustrate
+that the driving signal for a given secondary point source is dependent only
+on the signals and relative positions of the virtual primary sources, and is
+independent of the driving signals for the other secondary sources.
+Subject to the feasibility of delivering the source signals to the hardware
+modules, each module would simply have to produce the driving signals for the
+two output channels for which it is responsible.
+Then the temporal challenges described in \secref{subsec:challenges} would
+be the remaining concern: to what extent could synchronicity be maintained
+in the absence of a shared, authoritative source of time, and what would the
+effects of loss of synchronicity be on the performance of the distributed
+algorithm and the integrity of the holophonic effect?
 
 Before beginning work on this project, a distributed WFS system was
 developed, based on the Teensy 4.1 microcontroller and JackTrip protocol.
 This consisted of an audio application running on a general purpose computer,
 delivering audio over JackTrip to a collection of hardware modules, and
-WFS control data over multicast UDP.
+WFS control data over multicast UDP.\
 Strategies were developed for mitigating the effects of jitter and clock drift,
 and these serve as the basis for work on the project described in this article.
 
-The prior system was not formally evaluated, but, anecdotally, provided
-support for the holophonic effect of primary-source WFS.
-These strategies were initial efforts, based on a limited understanding
-of the problem-space, and called for further development.
+The previous system was not formally evaluated, but, anecdotally, provided
+support for the holophonic effect of primary-source WFS.\
+These initial efforts were based on a limited understanding of the
+problem-space, and called for further development.
 It was deemed, also, that the implementation was constrained by the more
 opinionated aspects of the JackTrip system.
