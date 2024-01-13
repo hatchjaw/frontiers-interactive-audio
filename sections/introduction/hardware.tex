@@ -17,13 +17,16 @@ audio-specific, Arduino-like systems have been produced, such as various
 ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
 family of microcontroller development boards.
 Also worthy of consideration is the Bela platform; though not a true
-microcontroller (being based on the Beaglebone single-board computer, and
+microcontroller (being based on the BeagleBone single-board computer, and
 running an operating system) it is a small-footprint audio-focused device
 suitable for embedded applications.
 
 A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
 microphones, etc.) and open source software libraries exist for Arduino- and
-Beaglebone-based systems.
+BeagleBone-based systems.
+Bela itself is an audio ``cape'' for the BeagleBone Black; Teensy can be
+augmented with a dedicated ``audio shield,'' and various digital-to-analog
+converter breakout-boards exist for other Arduino-compatible devices.
 Facilitating audio development, many such platforms are programmable with
 Faust, a domain-specific programming language for audio synthesis and signal
 processing\footnote{\url{https://faust.grame.fr/}}.
@@ -77,12 +80,31 @@ requirements of the audio API on the target device~\citep{michon_real_2019,
 A comparison of selected devices can be found in
 \tabref{tab:embedded-comparison}.
 Bela is significantly more powerful than the microcontroller systems, but it is
-commensurately costly.
+commensurately costly.PJRC, the
 Daisy Seed is well-appointed with memory (which is important for DSP algorithms
 featuring long delay-lines, for example), but does not feature ethernet support.
 Teensy4.1, and the selected ESP32 and STM32 devices support networking via
 ethernet add-ons, but the ESP32's CPU is underpowered, and the STM32 is
 unfavourably-priced.
-Though lacking in memory, Teensy's processor, low price, and programmability
-via the \texttt{faust2teensy} tool, make it the most
-suitable candidate to support a distributed, networked audio implementation.
+Though lacking in memory, Teensy's processor, low price, networking support, and
+programmability via the \texttt{faust2teensy} tool, make it an attractive
+candidate platform for a distributed, networked audio implementation.
+Audio development for the Teensy is further enhanced by the \textit{Teensy
+Audio Library} and associated Audio System Design Tool\footnote{
+    \url{https://pjrc.com/teensy/gui/index.html}
+}, a web-based, graphical programming environment in which the user may describe
+an audio program diagrammatically, and export the result to C++ to be compiled
+for the Teensy.
+Further, thanks to the presence of a vibrant developer community, utilities such
+as \textit{TyTools}\footnote{\url{https://koromix.dev/tytools}} exist, and can
+be used to program multiple Teensy devices in a single command;
+for a system distributed amongst many such devices, this is particularly useful.
+
+One respect in which Teensy is found wanting is audio fidelity.
+By default, its audio shield produces CD quality output (16-bit,
+\qty{44.1}{\kHz}), which is not sufficient for what might be deemed modern,
+high-quality audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
+While Teensy's sampling rate can be increased, sample resolution is fixed by
+the Audio Library.
+This shortcoming notwithstanding, and in light of its other, more advantageous
+qualities, Teensy is the platform upon which development will proceed.
