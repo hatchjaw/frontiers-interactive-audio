@@ -48,7 +48,7 @@ The SoundWIRE project, in search of high audio quality, turned its attention
 directly to the basic transport layer protocols of the Internet Protocol suite:
 Transmission Control Protocol (TCP) and User Datagram Protocol (UDP).
 Chafe et al.\ characterised their compression-free system as taking a
-``simplified approach''~\citep{chafe_simplified_2000} to networked audio,
+``simplified approach'' to networked audio~\citep{chafe_simplified_2000},
 emphasising the importance of delivering multichannel audio of at least CD
 quality (16-bit, \qty{44.1}{\kHz}) with as little latency as possible.
 
@@ -68,8 +68,8 @@ scenario.
 UDP by comparison is a \textit{connectionless} protocol, providing no guarantees
 regarding the integrity of the stream of network data, but equally none of the
 computational, or indeed temporal, overhead that such guarantees introduce.
-A network entity can send UDP packets to a network address irrespective of
-the presence or otherwise of an entity at that address.
+A networked device can send UDP packets to an address irrespective of the
+presence or otherwise of another device at that address.
 Further, \textit{many-to-many} (multicast) and \textit{one-to-many} (broadcast)
 modes of transmission are possible via address spaces reserved as part of the
 internet protocol standard~\citep{meyer_iana_2010}.
@@ -100,39 +100,39 @@ Audio Network Through Ethernet)~\citep{dante_what_2022}.
 
 \subsubsection{AoE in the Audio Industry}
 
-In parallel with the work being carried out by researchers such as those
-developing SoundWIRE, JackTrip and NetJACK, audio industry bodies were taking
-an interest in networked audio.
-Prominent amongst these bodies were the IEEE (Institute of Electrical and
-Electronics Engineers) and AES (Audio Engineering Society) standards groups,
-and companies like Audinate, the creators of the Dante system.
+In parallel with the work being carried out in academia on SoundWIRE, JackTrip
+and NetJACK, audio industry bodies \textemdash{} the IEEE (Institute of
+Electrical and Electronics Engineers) and AES (Audio Engineering Society)
+standards groups, and companies like Audinate, the creators of the Dante system\
+\textemdash{} were taking an interest in networked audio.
 Traditional large-scale audio systems such as those used in broadcast, concert
 venues and recording studios rely on the installation of unwieldy systems of
 analogue hardware and cabling, with many potential points of failure.
 Seeking literally to lighten the load posed by ``hundreds of
 kilograms''~\citep{bakker_introduction_2014} of analogue cabling in analogue
-audio installations, in the 2000s industry entities were looking to high speed
+audio installations, in the 2000s audio companies were looking to high speed
 ethernet as a means to simplify the provision of high-quality, multichannel
 audio in industry settings.
 
 Dante, with its promise of low-latency, highly-multichannel audio over ethernet,
 and device synchronisation via Precision Time Protocol (PTP), has become the de
 facto standard in this area~\citep{bakker_introduction_2014}.
-In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1) standard,
-and AES67 followed in 2013; these open technical standards describe operation
-at layers below TCP and UDP in the OSI (Open Systems Interconnection)
-model~\citep{}\todo[inline]{Add source for OSI\ldots and AVB, AES67}, and
-provide frameworks for interoperability between AoE and AoIP systems, including
-mechanisms for device discovery and synchronisation, again via PTP\@.
+In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1)
+standard~\citep{ieee_ieee_2011}, and AES67 followed in
+2013~\citep{hildebrand_aes67-2013_2014};
+these open technical standards describe operation at layers below TCP and UDP
+in the OSI (Open Systems Interconnection) model, and provide frameworks for
+interoperability between AoE and AoIP systems, including mechanisms for device
+discovery and synchronisation, again via PTP\@.
 Being standards, and not implementations in themselves, it is then up to
 manufacturers to implement the appropriate recommendations in their products.
 (AES67, for example, has in fact been implemented in Dante.)
 
-Bakker et al.\ refer to Dante as an ``open'' system.
-This is perhaps true in the sense that companies can incorporate the Dante
-system into their own products under licence from Audinate, but, from the
-perspective of the academic community, Dante is very much a closed-source
-initiative and not a suitable platform for research.
+Bakker et al.\ refer to Dante as an ``open'' system, which is true, perhaps, in
+the sense that companies can incorporate the Dante system into their products
+under licence from Audinate;
+from the perspective of the academic community, however, Dante is very much a
+closed-source initiative and not a suitable platform for research.
 Open implementations of AVB and AES67 could be of interest, however their
 reliance on PTP, support for which is not offered by ubiquitous, low-cost
 networking equipment, raises the barrier to entry to systems based on these
@@ -141,6 +141,8 @@ Ultimately, if an accessible solution is sought, attention must be turned back
 to the transport layer, and UDP\@.
 
 \subsubsection{Anatomy of a Datagram}\label{subsubsec:anatomy-of-a-datagram}
+
+\todo[inline]{Either flesh this part out again, or get rid.}
 
 %\begin{figure}[h]
 %    \centering

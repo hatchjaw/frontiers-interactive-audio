@@ -68,8 +68,7 @@ design of a bespoke multicast networked audio server.
 % to design a new protocol for the system under development \textemdash{} was not
 % taken lightly.
 
-
-
+\todo[inline]{Non-sequitur; fix this}
 To take a no-protocol approach, such as that described by
 Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, is not without its drawbacks.
 Ironically, for a no-protocol system to
@@ -198,15 +197,16 @@ multichannel audio from an audio application's main processing loop.
 It sets up network \textit{sender} and \textit{receiver} execution threads, and
 assigns a network socket to each; a socket is essentially a numerical identifier
 for an \textit{``endpoint for [network] communication''}
-~\citep{noauthor_socket2_nodate} to which a type, such as \texttt{SOCK\_STREAM}
-for TCP on \texttt{SOCK\_DGRAM} for UDP, can be assigned.
+~\citep{noauthor_socket2_nodate} to which a type \textemdash{}
+\texttt{SOCK\_STREAM} for TCP on \texttt{SOCK\_DGRAM} for UDP \textemdash{} can
+be assigned.
 To avoid potentially blocking the audio application's main processing thread
 with networking operations, upon receiving an audio block the server writes it
 to an intermediate buffer \textemdash{} a first-in-first-out (FIFO) structure
 \textemdash{} and signals to the sender thread that a block is ready for
 transmission.
 The sender thread, which as been awaiting such a signal, then requests samples
-from the FIFO; these are stared as contiguous channels of 32-bit floating point
+from the FIFO; these are stored as contiguous channels of 32-bit floating point
 samples and converted, when requested, to the bit resolution specified in a
 packet header created when \texttt{NetAudioServer} is initialised.
 Upon receiving the requested samples, the sender thread writes these to its
@@ -230,14 +230,16 @@ The six subsequent bytes are the header inserted into the packet by
 \texttt{NetAudioServer}.
 In \lstref{listing:audio-packet} these are:
 \begin{itemize}
-    \item \texttt{0xdf1c}: a sequence number (little-endian) of \numDec{7391};
-    \item \texttt{0x04}: buffer size \numDec{4} corresponding with
+    \item~\texttt{0xdf1c}: a sequence number (little-endian) of
+    \numDec{7391};\footnote{Subscript 10 is employed here to indicate that we
+    are dealing with a decimal number.}
+    \item~\texttt{0x04}: buffer size \num{4} corresponding with
     \texttt{BUF16};
-    \item \texttt{0x02}: sampling rate \numDec{2} corresponding with
+    \item~\texttt{0x02}: sampling rate \num{2} corresponding with
     \texttt{SR44};
-    \item \texttt{0x02}: bit resolution \numDec{2} corresponding with
+    \item~\texttt{0x02}: bit resolution \num{2} corresponding with
     \texttt{BIT16};
-    \item \texttt{0x02}: \numDec{2} audio channels.
+    \item~\texttt{0x02}: \num{2} audio channels.
 \end{itemize}
 
 Audio data begins at byte \texttt{0x0030}.
@@ -300,10 +302,10 @@ platform that has no operating system, and no native notion of threads\footnote{
 
 The task of the network audio clients is threefold in nature:
 \begin{enumerate}
-    \item to retrieve packets of audio data from the UDP multicast group;
-    \item to send a stream of audio data back to the multicast group, primarily
+    \item~to retrieve packets of audio data from the UDP multicast group;
+    \item~to send a stream of audio data back to the multicast group, primarily
     to announce their connectivity;
-    \item to maintain, as far as possible, synchronous operation with the
+    \item~to maintain, as far as possible, synchronous operation with the
     server, and (by extension) each other.
 \end{enumerate}
 
@@ -465,6 +467,8 @@ or impose strict requirements on a future end-user in terms the audio host they
 should use (something that would almost certainly vary with the user's
 operating system), remains one for future research.
 
+\todo[inline]{Reference these figures in the text or get rid.}
+
 \begin{figure}[ht]
     \centering
     \includegraphics[width=.75\textwidth]{figures/multicast}
@@ -487,23 +491,23 @@ operating system), remains one for future research.
     \label{fig:timeline}
 \end{figure}
 
-\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
-
-In principle, there is no meaningful impediment to the so-called
-clients acting as servers in their own right; a change of port number is all
-that would be required for each client to receive traffic from (and send
-traffic to) not just the server, but also from (and to) all other clients.
-Consequently, in code for both the server and clients, networked audio entities
-in the system are referred to as \textit{peers} (see, e.g.
-\figref{fig:plugin-interface}).
-In practice, and for the particular application
-\textemdash{} distributed spatial audio \textemdash{}
-considered here, receiving UDP packets from sources other than the designated
-server is not only unnecessary, but also manifestly inefficient.
-With Chafe et al.'s \textit{Internet Acoustics} work in mind, it is likely that
-there are some very interesting uses for a \textit{promiscuous} network
-of audio peers, but, for now, such applications lie beyond the scope of this
-work.
+%\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
+%
+%In principle, there is no meaningful impediment to the so-called
+%clients acting as servers in their own right; a change of port number is all
+%that would be required for each client to receive traffic from (and send
+%traffic to) not just the server, but also from (and to) all other clients.
+%Consequently, in code for both the server and clients, networked audio entities
+%in the system are referred to as \textit{peers} (see, e.g.
+%\figref{fig:plugin-interface}).
+%In practice, and for the particular application
+%\textemdash{} distributed spatial audio \textemdash{}
+%considered here, receiving UDP packets from sources other than the designated
+%server is not only unnecessary, but also manifestly inefficient.
+%With Chafe et al.'s \textit{Internet Acoustics} work in mind, it is likely that
+%there are some very interesting uses for a \textit{promiscuous} network
+%of audio peers, but, for now, such applications lie beyond the scope of this
+%work.
 
 % \missingfigure{Diagram of signal format conversion, transmission, reception,
 %     and re-conversion, i.e. UDP packets, sample buffers.}
@@ -516,8 +520,10 @@ from~\citep{rushton_microcontroller-based_2023} was reused.
 This algorithm was written in Faust and compiled to
 a C++ class compatible with the Teensy audio library via Faust's
 \texttt{faust2teensy} utility~\citep{michon_real_2019}.
-
-\todo[inline]{Talk about the teensies were programmed; mention tytools.}
+Hardware modules were connected to a general purpose computer via a USB hub
+and the \texttt{tycmd} utility from the TyTools suite (see
+\secref{subsec:hardware-platforms}) was used to ensure that they were all
+programmed with the same instructions.
 
 Implementing Huygens' principle in a digital audio system entails applying
 delays to an audio signal representing a virtual sound source based on the
