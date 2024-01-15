@@ -63,9 +63,8 @@ time found as:
 where $\max_{\text{int16}}$ is the maximum value representable by a
 signed 16-bit integer, \texttt{0x7fff} (\numDec{32767}).
 
-The vagaries of buffering at the level of the server's audio driver aside, the
-resulting value should provide an accurate impression of the number of samples
-that elapse between transmission and reception (see \figref{fig:test-signal}).
+The resulting value is the number of samples elapsed between transmission and
+reception (see \figref{fig:test-signal}).
 Since there is one source of transmission, for multiple clients, comparing RTT
 offers a means to assess inter-client synchronicity.
 Server-to-client latency cannot be measured in this way, but that can be
@@ -309,3 +308,34 @@ felt that the sound sources were moving.
 Finally, a participant with prior experience working with WFS systems, remarked
 that the distance effect (i.e.\ the WFS prefilter) was perhaps a little extreme,
 and not altogether realistic.
+
+\subsection{Discussion}\label{subsec:discussion}
+
+The temporal clustering and polarisation seen in
+\figsref{fig:rtt-drift-16}{fig:rtt-drift-32} is indicative of two points for
+concern with regard to technical implementation:
+the read-write difference threshold strategy may be insufficiently forgiving,
+forcing the read position into deleteriously fluctuating increment changes in
+response to periods of jitter.
+And without a master clock to indicate to each client the beginning of each
+output audio block, even with clock rates perfectly aligned, there is nothing
+to guarantee agreement of the timing of audio interrupts at the client side.
+
+To avoid sudden, large or `unrealistic' clock adjustments, clients assess
+the drift ratio as assessed via the ratio of network packet
+transmission to reception and, if it lies beyond an arbitrary threshold,
+simply resets the clock to the default \qty{44.1}{\kHz}.
+Resets of this sort may account for the large steps seen in the drift plots
+in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32}.
+It is clear that this strategy could be significantly improved upon.
+
+The phasing effect noted by one participant is a disappointing consequence
+of the approach taken to combating jitter and keeping the clients close,
+temporally, together, and as close to the server as possible.
+It is clear that the current approach is, at best, too aggressive to be viable
+for high-quality audio output.
+Furthermore, an unpitched sound source such as a snare drum, though audibly
+susceptible to the time-varying comb-filter effect described, masks other
+artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
+read position increment, and sudden, comparatively large audio clock
+adjustments.

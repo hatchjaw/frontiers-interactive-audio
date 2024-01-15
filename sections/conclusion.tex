@@ -1,53 +1,20 @@
-\section{Discussion}\label{sec:discussion}
+\section{Conclusion}\label{sec:conclusion}
 
-The temporal clustering and polarisation seen in
-\figsref{fig:rtt-drift-16}{fig:rtt-drift-32} is indicative of two points for
-concern with regard to technical implementation:
-the read-write difference threshold strategy may be insufficiently forgiving,
-forcing the read position into deleteriously fluctuating increment changes in
-response to periods of jitter.
-And without a master clock to indicate to each client the beginning of each
-output audio block, even with clock rates perfectly aligned, there is nothing
-to guarantee agreement of the timing of audio interrupts at the client side.
+\todo[inline]{Rewrite conclusion completely.}
 
-To avoid sudden, large or `unrealistic' clock adjustments, clients assess
-the drift ratio as assessed via the ratio of network packet
-transmission to reception and, if it lies beyond an arbitrary threshold,
-simply resets the clock to the default \qty{44.1}{\kHz}.
-Resets of this sort may account for the large steps seen in the drift plots
-in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32}.
-It is clear that this strategy could be significantly improved upon.
-
-The phasing effect noted by one participant is a disappointing consequence
-of the approach taken to combating jitter and keeping the clients close,
-temporally, together, and as close to the server as possible.
-It is clear that the current approach is, at best, too aggressive to be viable
-for high-quality audio output.
-Furthermore, an unpitched sound source such as a snare drum, though audibly
-susceptible to the time-varying comb-filter effect described, masks other
-artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
-read position increment, and sudden, comparatively large audio clock
-adjustments.
-
-\subsection{Conclusion}\label{subsec:conclusion}
-
-In this article we have described an exploration of
-%certain fundamental aspects
-%of digital audio,
-transmission of audio data over computer networks, distributed computing and
-audio spatialisation.
+In this article we have described an exploration of transmission of audio data
+over computer networks, distributed computing and audio spatialisation.
 A networked audio system was developed, strategies devised for
-addressing challenges presented by distributed computing,
-and a distributed spatial audio system was developed and deployed.
+addressing challenges presented by distributed computing, and a distributed
+spatial audio system was developed and deployed.
 Evaluation of the system exposed the extent of the technical challenges
 that confront it in its current form, and shed light on opportunities for
 further development.
-In an informal setting, perceptual testing revealed that it may, with heavy
-provisos, offer performance sufficient to support timing-critical sound field
-synthesis techniques.
+Perceptual testing revealed that it may, with heavy provisos, offer performance
+sufficient to support timing-critical sound field synthesis techniques.
 
 It is pertinent at this point to consider the research questions stated in
-\secref{subsec:research-questions}, and what exploring those questions has
+\secref{}, and what exploring those questions has
 revealed.
 
 \paragraph{Research Question 1}

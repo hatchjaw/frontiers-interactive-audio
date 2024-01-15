@@ -22,7 +22,7 @@ connects~\citep{caceres_jacktrip_2010};
 notionally this entails, should enough clients connect, exhaustion of all
 available network bandwidth;
 as such, a unicast system does not meet the requirement of scalability as
-described in \secref{subsec:distributed-computing}.
+described in \secref{subsec:distributed-audio-systems}.
 
 %With a view to exploiting the UDP multicast capabilities of NetJACK, initial
 %efforts centred on an attempt to create a NetJACK client for the Teensy
@@ -64,22 +64,12 @@ design of a bespoke multicast networked audio server.
 
 \subsubsection{Designing a Networked Audio Protocol}\label{subsubsec:designing-a-protocol}
 
-% The decision to pursue a \textit{no-protocol} approach \textemdash{} or rather
-% to design a new protocol for the system under development \textemdash{} was not
-% taken lightly.
-
-\todo[inline]{Non-sequitur; fix this}
-To take a no-protocol approach, such as that described by
-Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, is not without its drawbacks.
-Ironically, for a no-protocol system to
-work, the rubric that ensures successful data encoding, transmission, and
-decoding must be understood implicitly by all members of the network; i.e.\
-there \textit{is}, in fact, a protocol, but that protocol is an unspoken
-contract.
 Dependent on the intended application, and if assumptions can be made about
-matters such as bit resolution, this may be a sensible design choice, but to
-make the new protocol somewhat flexible and future-proof, a simple packet
-header was devised.
+matters such as sampling rate and bit resolution, a \textit{no-protocol}
+approach, as described by Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, may be
+a viable one.
+To make the new system somewhat flexible and future-proof, however, a simple
+packet header was devised.
 Its structure is given in \lstref{listing:packet-header}.
 
 \begin{codelisting}{
@@ -261,21 +251,25 @@ outputs to an oscilloscope.
 Second, this numerically-predictable signal served as a means to inspect the
 integrity of the audio server algorithm, and to identify the appropriate
 endianness for transmission.
-Inspecting the first sixteen samples of the first audio channel (grouped
-by sample for legibility, see \lstref{listing:chan-1-samples}), it is evident
+Inspecting the first sixteen samples of the first audio channel
+%(grouped
+%by sample for legibility, see \lstref{listing:chan-1-samples}),
+it is evident
 that the amplitude values increment on a per-sample basis, and, since it is the
 first byte that increases with each sample, that samples are transmitted little
 endian.
 
-\codeinputlisting[float=h]
-{text}
-{listings/audio-packet-excerpt.txt}
-{Extracted samples from the transmitted unipolar sawtooth wave}
-{chan-1-samples}
+%\codeinputlisting[float=h]
+%{text}
+%{listings/audio-packet-excerpt.txt}
+%{Extracted samples from the transmitted unipolar sawtooth wave}
+%{chan-1-samples}
 
 The receiver thread polls its socket for traffic reaching the multicast group
 from clients, and uses the presence of an incoming packet stream as proof that
 a client is connected.
+
+\todo[inline]{Describe number of channels that can be sent at bufsize 16 and 32}
 
 \subsection{The Networked Audio Client}\label{subsec:networked-audio-client}
 
@@ -358,12 +352,11 @@ to the intermediate buffer:
     }
 \end{codelisting}
 \noindent
-The client also performs a periodic check for the presence of the server (and
-potentially other clients),
-and, as described in \secref{subsec:client-sync}, makes adjustments to its
-audio clock.
+The client also performs a periodic check for the presence of the server, and,
+as described in \secref{subsubsec:client-sync}, makes adjustments to its audio
+clock.
 
-On the audio interrupt, the client reads from the intermediate buffer to
+On each audio interrupt, the client reads from the intermediate buffer to
 produce samples for audio output.
 It also takes samples reaching its audio inputs (e.g.\ arriving from other
 Teensy audio library classes), and adds those to a packet to be sent to the
@@ -383,7 +376,21 @@ multicast group at the earliest possible subsequent call to
     }
 \end{codelisting}
 
-\subsection{Synchronicity with the Server}\label{subsec:client-sync}
+The timeline of client-server interaction is illustrated in
+\figref{fig:timeline}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/timeline}
+    \caption{Example timeline of client-server interaction. Blue arrows
+    indicate audio data being sent from the server to the multicast group;
+    orange arrows indicate audio data being sent from the client back to the
+    multicast group;
+    green arrows represent control data.}
+    \label{fig:timeline}
+\end{figure}
+
+\subsubsection{Synchronicity with the Server}\label{subsubsec:client-sync}
 
 Due to the influence of clock drift and transmission jitter, and since the
 clients constitute a distributed system, with no direct knowledge of each other
@@ -393,7 +400,7 @@ the greatest challenge.
 A two-pronged strategy was developed for addressing server-client and
 inter-client timing discrepancies:
 
-\textbf{Jitter Compensation:}
+\paragraph{Jitter Compensation}
 Similar to the approach taken in prior
 work~\citep{rushton_microcontroller-based_2023}, clients monitored the difference
 between the write and read positions to their intermediate audio buffer,
@@ -411,7 +418,7 @@ interpolator were converted from their 16-bit signed integer representation
 to floating point numbers, interpolation conducted, and the resulting value
 rounded to the nearest integer for output.
 
-\textbf{Clock Drift Compensation:}
+\paragraph{Clock Drift Compensation}
 In the absence of an authoritative source of time, clients were set up to infer
 the difference in rate between their own internal clock and that of the server
 by comparing the rate of packet reception from the network to their internal
@@ -421,7 +428,7 @@ packets written from the network to the intermediate buffer to blocks read
 from the intermediate buffer for audio output.
 This ratio was then used to calculate appropriate divisors to apply to the
 \qty{24}{\MHz} master clock generated by a crystal oscillator on the Teensy,
-adjusting the audio clock's phase locked loop (PLL) to produce an adjusted audio
+adjusting the audio clock's phase locked ltheoop (PLL) to produce an adjusted audio
 sampling rate.
 The aim of this approach was to minimise reliance on the adaptive resampler
 described above, and ultimately encourage all clients to run at the same audio
@@ -437,10 +444,10 @@ signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.\
 subject to a high degree of jitter.
 Though the average rate of execution was commensurate with the selected sample
 rate and audio buffer size, individual audio buffer intervals differed, in
-microsecond terms, by up to an order of magnitude. This inconsistent audio
-timing was sufficient to cause transmission jitter that overwhelmed
-the client-side strategy for jitter compensation.
-The result was consistent audible distortion due to rapid fluctuations in the
+microsecond terms, by up to an order of magnitude.
+This inconsistent audio timing was sufficient to cause transmission jitter that
+overwhelmed the client-side strategy for jitter compensation.
+The result was persistent audible distortion due to rapid fluctuations in the
 client's audio buffer read-position increment.
 
 Switching from ALSA to JACK as the audio host resolved this issue, but since
@@ -462,34 +469,10 @@ which the timing of operations is critical, is susceptible to the whims of
 a variety of supporting hardware and software systems \textemdash{} things
 that in a more conventional audio system can, to a greater degree, be taken for
 granted.
-The topic of whether to attempt to compensate for this sort thing in software
-or impose strict requirements on a future end-user in terms the audio host they
-should use (something that would almost certainly vary with the user's
+The topic of whether to attempt to compensate for this manner of phenomenon in
+software or impose strict requirements on a future end-user in terms the audio
+host they should use (something that would almost certainly vary with the user's
 operating system), remains one for future research.
-
-\todo[inline]{Reference these figures in the text or get rid.}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=.75\textwidth]{figures/multicast}
-    \caption{Architecture of the networked audio system.
-    The server sends audio and control data to a UDP multicast group on
-    distinct port numbers; clients listen for this data, and send an audio
-    stream back to the multicast group with which the server can register
-    their presence on the network.}
-    \label{fig:multicast}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/timeline}
-    \caption{Example timeline of client-server interaction. Blue arrows
-    indicate audio data being sent from the server to the multicast group;
-    orange arrows indicate audio data being sent from the client back to the
-    multicast group;
-    green arrows represent control data.}
-    \label{fig:timeline}
-\end{figure}
 
 %\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
 %
@@ -514,15 +497,15 @@ operating system), remains one for future research.
 
 \subsection{The Audio Spatialisation Algorithm}\label{subsec:wfs-algorithm}
 
-With some minor modifications, e.g.\ the possibility to specify speaker spacing
+With some modifications, e.g.\ the possibility to specify speaker spacing
 parametrically, the WFS algorithm
 from~\citep{rushton_microcontroller-based_2023} was reused.
 This algorithm was written in Faust and compiled to
 a C++ class compatible with the Teensy audio library via Faust's
-\texttt{faust2teensy} utility~\citep{michon_real_2019}.
+\texttt{faust2teensy} utility.
 Hardware modules were connected to a general purpose computer via a USB hub
 and the \texttt{tycmd} utility from the TyTools suite (see
-\secref{subsec:hardware-platforms}) was used to ensure that they were all
+\secref{subsec:hardware-platforms}) was used to ensure that all modules were
 programmed with the same instructions.
 
 Implementing Huygens' principle in a digital audio system entails applying
@@ -566,15 +549,17 @@ for each of its output channels, the maximum length of which (depending on
 the position of a given module in the speaker array) corresponds, after removal
 of the longitudinal component, of the width of the speaker array.
 It was observed that, for eight virtual sources and eight hardware modules,
-the maximum speaker spacing permissible lay around \qty{.4}{\m},
+the maximum speaker spacing permissible lay at around \qty{.4}{\m},
 corresponding with a speaker array of maximum width 15 $\times$ 0.4 =
 \qty{6}{\m}, equating to a maximum delay of $\sim$\qty{17}{\ms} or
 approximately 795 samples at a sampling rate of \qty{44.1}{\kHz}.
 The matter has not been rigorously tested, but nonetheless the presumption is
 that this places significant limits on the modularity of the system.
-\todo[inline]{What about soldering on extra PSRAM?}
-It is hoped that future versions of the Teensy platform, or developments in
-other microcontroller platforms, overcome this manner of limitation.
+Teensy's memory capacity can be extended by attaching up to two inexpensive
+PSRAM chips for a further \qty{16}{\mega\byte} of memory.
+These chips must be soldered onto the Teensy board, however, and the suitability
+of such additional memory for rapid access, such as is called for in an audio
+DSP algorithm, remains to be investigated.
 
 \subsubsection{Controlling the WFS Algorithm}
 
@@ -595,13 +580,25 @@ to consume.
 packet, an OSC bundle containing one message.
 This message has address \texttt{/source/0/x}, indicating that it refers to the
 $x$-coordinate of the zeroth sound source, providing a value in the form of a
-32-bit floating point number, \texttt{0x3d1b5fa2}, approximately
-\numDec{0.038}.\todo[inline]{Check control data endianness}
+big-endian 32-bit floating point number, \texttt{0x3d1b5fa2}, approximately
+\numDec{0.038}.
 
 \subsection{System Overview}\label{subsec:system-overview}
 
-Being composed of multiple hardware and software components, it is worthwhile
-to summarise the nature of these components and the interactions between them.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=.75\textwidth]{figures/multicast}
+    \caption{Architecture of the networked audio system.
+    The server sends audio and control data to a UDP multicast group on
+    distinct port numbers; clients listen for this data, and send an audio
+    stream back to the multicast group with which the server can register
+    their presence on the network.}
+    \label{fig:architecture}
+\end{figure}
+
+The proposed system being composed of multiple hardware and software components,
+it is worthwhile to summarise the nature of these components and the
+interactions between them.
 
 \subsubsection{Hardware Setup}
 
@@ -662,6 +659,8 @@ of the hardware module on which it is running.
 Additionally, the client-side networked audio client returns a stream of audio
 data to the multicast group, to be consumed by the server.
 
+A diagram of the fundamental system architecture is shown in
+\figref{fig:architecture}.
 Code for the server and client software components can be found at
 \url{https://github.com/hatchjaw/netjuce} and
 \url{https://github.com/hatchjaw/netjuce-teensy} respectively.\todo[inline]{
