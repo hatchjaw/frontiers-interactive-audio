@@ -41,7 +41,7 @@ a distributed digital waveguide dubbed the
 
 \subsubsection{Protocols and Systems}\label{subsubsec:protocols-systems}
 
-VoIP research in the 1990s focused on matters such as audio codecs and data
+VoIP research in the 1990s focused audio codecs and data
 compression~\citep{turletti_inria_1995,hardman_successful_1998}, seeking a
 compromise with the \textit{best-effort} nature of internet service.
 The SoundWIRE project, in search of high audio quality, turned its attention
@@ -55,9 +55,8 @@ quality (16-bit, \qty{44.1}{\kHz}) with as little latency as possible.
 SoundWIRE experiments included using TCP for unidirectional transmission such as
 concert streaming.
 TCP is in fact a bidirectional protocol, but its \textit{connection-oriented},
-one-to-one design, whereby networked entities establish a connection via a
-`handshake', following which packets of data are exchanged, allows for
-mechanisms that guarantee packet ordering and provide protections against packet
+one-to-one design allows for packet flow control mechanisms that guarantee
+packet ordering and provide protections against packet
 loss~\citep{schiavoni_alternatives_2013,al-dhief_performance_2018}.
 These mechanisms mean that, at the expense of increased latency, quality of
 service, and thus audio fidelity, is ensured; ideal for a remote concert
@@ -66,8 +65,8 @@ scenario.
 %applicability to distributed computing, however.
 
 UDP by comparison is a \textit{connectionless} protocol, providing no guarantees
-regarding the integrity of the stream of network data, but equally none of the
-computational, or indeed temporal, overhead that such guarantees introduce.
+regarding the integrity of the packet stream, but equally none of the
+computational or temporal overhead that such guarantees introduce.
 A networked device can send UDP packets to an address irrespective of the
 presence or otherwise of another device at that address.
 Further, \textit{many-to-many} (multicast) and \textit{one-to-many} (broadcast)
@@ -89,12 +88,11 @@ in its `hub server' mode, into a kind of \textit{multiple one-to-one} design
 \textemdash{} multicast transmission is not possible.
 
 UDP has emerged as the protocol of choice for platforms enabling remote musical
-collaboration, serving as the basis for systems such as
-NetJACK~\citep{carot_netjack_2009}, part of the JACK Audio Connection Kit (a
-cross-platform audio host), Jamulus~\citep{fischer_case_2015},
-Soundjack~\citep{renaud_networked_2012}, and other jamming-focused platforms,
-plus more recent entrants such as the closed-source, but ultimately UDP-based
-Elk OS~\citep{turchet_elk_2021}.
+collaboration, serving as the basis for NetJACK~\citep{carot_netjack_2009}, part
+of the JACK Audio Connection Kit (a cross-platform audio host),
+Jamulus~\citep{fischer_case_2015}, Soundjack~\citep{renaud_networked_2012}, and
+other jamming-focused platforms, plus more recent entrants, the closed-source,
+but ultimately UDP-based Elk OS~\citep{turchet_elk_2021} for instance.
 UDP even plays a fundamental role in proprietary systems such as Dante (Digital
 Audio Network Through Ethernet)~\citep{dante_what_2022}.
 
@@ -103,7 +101,7 @@ Audio Network Through Ethernet)~\citep{dante_what_2022}.
 In parallel with the work being carried out in academia on SoundWIRE, JackTrip
 and NetJACK, audio industry bodies \textemdash{} the IEEE (Institute of
 Electrical and Electronics Engineers) and AES (Audio Engineering Society)
-standards groups, and companies like Audinate, the creators of the Dante system\
+standards groups, and companies like Audinate, the creators of Dante
 \textemdash{} were taking an interest in networked audio.
 Traditional large-scale audio systems such as those used in broadcast, concert
 venues and recording studios rely on the installation of unwieldy systems of
@@ -139,111 +137,3 @@ networking equipment, raises the barrier to entry to systems based on these
 standards.
 Ultimately, if an accessible solution is sought, attention must be turned back
 to the transport layer, and UDP\@.
-
-\subsubsection{Anatomy of a Datagram}\label{subsubsec:anatomy-of-a-datagram}
-
-\todo[inline]{Either flesh this part out again, or get rid.}
-
-%\begin{figure}[h]
-%    \centering
-%    \includegraphics[width=.5\textwidth]{figures/udp}
-%    \caption{Structure of an ethernet frame containing a UDP packet.}
-%    \label{fig:udp-frame}
-%\end{figure}
-
-A UDP packet consists of data encoded in 8-bit integer format.
-Being a transport layer protocol, a UDP packet is in fact preceded in an
-ethernet frame by information relating to lower layers in the OSI hierarchy: the
-network layer and the data link layer.
-%The structure of a UDP packet (within an ethernet frame) is shown in
-%\figref{fig:udp-frame}.
-
-%\codeinputlisting[float=h]
-%{text}
-%{listings/udp-packet.txt}
-%{Network capture: ethernet frame containing a UDP packet}
-%{packet-hello-world}
-%%\noindent
-%The ethernet frame in \lstref{listing:packet-hello-world} was generated
-%using the Netcat (\texttt{nc}) command line utility\footnote{
-%    \url{https://nc110.sourceforge.io/}
-%}, and captured with Wireshark network traffic analysis software.
-%Four-digit numbers to the left indicate the hexadecimal index of the byte
-%at the beginning of the corresponding line.
-%The central block of two-digit hexadecimal numbers are a representation of the
-%bytes in the ethernet frame, labelled above by byte position.
-%The block of characters to the right are the same data encoded as ASCII
-%characters.
-
-%\begin{table}[h]
-%    \centering
-%    \begin{tabular}[h]{c c c c}
-%        Start           & End             & Purpose                 & Value                                        \\
-%        \midrule[1pt]
-%        \texttt{0x0000} & \texttt{0x000d} & Ethernet header         &                                              \\
-%        \midrule
-%        \texttt{0x0000} & \texttt{0x0005} & Destination MAC address &                                              \\
-%        \texttt{0x0006} & \texttt{0x000b} & Source MAC address      &                                              \\
-%        \texttt{0x000c} & \texttt{0x000d} & Ethernet frame type     & \texttt{0x0800}: IPv4                        \\
-%        \midrule[1pt]
-%        \texttt{0x000e} & \texttt{0x0021} & IPv4 header             &                                              \\
-%        \midrule
-%        \texttt{0x0017} & \texttt{0x0017} & Protocol                & \texttt{0x11}: UDP                           \\
-%        \texttt{0x001a} & \texttt{0x001d} & Source IP address       & \texttt{0xac1efedf}: \texttt{172.30.254.223} \\
-%        \texttt{0x001e} & \texttt{0x0021} & Destination IP address  & \texttt{0x7f000001}: \texttt{127.0.0.1}      \\
-%        \midrule[1pt]
-%        \texttt{0x0022} & \texttt{0x0029} & UDP header              &                                              \\
-%        \midrule
-%        \texttt{0x0022} & \texttt{0x0023} & Source port number      & \texttt{0xed3f}: \numDec{60735}              \\
-%        \texttt{0x0024} & \texttt{0x0025} & Destination port number & \texttt{0x22b8}: \numDec{8888}               \\
-%        \texttt{0x0026} & \texttt{0x0027} & Length                  & \texttt{0x0016}: \numDec{22}                 \\
-%        \midrule[1pt]
-%        \texttt{0x002a} & \texttt{0x0037} & UDP Payload             &                                              \\
-%        \bottomrule
-%    \end{tabular}
-%    \label{tab:packet-structure}
-%    \caption{Description of selected fields in the UDP packet depicted in
-%    \lstref{listing:packet-hello-world}.}
-%\end{table}
-
-%Bytes \texttt{0x0000} to \texttt{0x000d} make up the ethernet header,
-%consisting of the media access control (MAC) addresses of the destination and
-%source; the final two bytes of the ethernet header, \texttt{0x0800}, indicate
-%that this is an \textit{internet protocol version 4} frame.
-%Bytes \texttt{0x000e} to \texttt{0x0021} are the IPv4 header; this contains
-%information about the internet protocol part of the packet, such as its length
-%in bytes \textemdash{} \texttt{0x002a} (\numDec{42}) \textemdash{} and
-%the source and destination IP addresses, encoded as groups of four-bytes.
-%The source IP address, for example, is \texttt{0xac1efedf}, a 32-bit encoding
-%of the more familiar-looking \texttt{172.30.254.223}.
-%
-%Beginning at byte \texttt{0x0022} is the UPD header.
-%This contains the source port (\texttt{0xed3f}, \numDec{60735}), destination
-%port (\texttt{0x22b8}, \numDec{8888}), the length of the UDP part of the frame
-%(\texttt{0x0016}, \numDec{22} bytes) and ends with a checksum, which
-%can be used to verify the integrity of the packet\footnote{
-%    In the remainder of this work it is assumed that transmission over LAN is
-%    unlikely to result in packet corruption; the UDP checksum is not used.
-%}.
-%The packet payload begins at byte \texttt{0x002a}, and consists of bytes
-%corresponding with the ASCII characters \texttt{Hello, world!}, plus
-%\texttt{0x0a}, the line feed (LF) character, captured and sent by Netcat when
-%the user hit the return key.
-
-%Netcat takes data supplied to a computer's standard input stream, in this
-%case characters supplied to a terminal emulator, and uses this data as the
-%payload for the packet to be transmitted.
-The payload of a UDP packet can of course consist of any data which can be
-appropriately byte-encoded, such as a stream of audio samples, or audio control
-data such as MIDI or OSC messages.
-
-Ethernet frames, and UDP datagrams by extension, are subject to size
-limitations.
-The maximum transmissible unit (MTU) of a transport medium is the limit on the
-size of a packet that can be sent without fragmentation, i.e.\ without being
-split into multiple sub-packets.
-Two bytes (sixteen bits) are allocated to the `Total Length' field of the IPv4
-header, which suggests an MTU of $2^{16}-1=~$\num{65535} bytes;
-in practice, however, the data link layer imposes a basic limit of \num{1500}
-bytes on the payload of an ethernet
-frame~\citep{schiavoni_alternatives_2013,ieee_ieee_2018}.

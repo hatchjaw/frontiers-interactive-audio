@@ -66,8 +66,8 @@ design of a bespoke multicast networked audio server.
 
 Dependent on the intended application, and if assumptions can be made about
 matters such as sampling rate and bit resolution, a \textit{no-protocol}
-approach, as described by Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, may be
-a viable one.
+approach, such as described by Lopez-Lezcano~\citep{lopez-lezcano_jack_2012},
+may be a viable one.
 To make the new system somewhat flexible and future-proof, however, a simple
 packet header was devised.
 Its structure is given in \lstref{listing:packet-header}.
@@ -187,7 +187,7 @@ multichannel audio from an audio application's main processing loop.
 It sets up network \textit{sender} and \textit{receiver} execution threads, and
 assigns a network socket to each; a socket is essentially a numerical identifier
 for an \textit{``endpoint for [network] communication''}
-~\citep{noauthor_socket2_nodate} to which a type \textemdash{}
+~\citep{kerrisk_socket2_2023} to which a type \textemdash{}
 \texttt{SOCK\_STREAM} for TCP on \texttt{SOCK\_DGRAM} for UDP \textemdash{} can
 be assigned.
 To avoid potentially blocking the audio application's main processing thread
@@ -269,7 +269,25 @@ The receiver thread polls its socket for traffic reaching the multicast group
 from clients, and uses the presence of an incoming packet stream as proof that
 a client is connected.
 
-\todo[inline]{Describe number of channels that can be sent at bufsize 16 and 32}
+\paragraph{Transmission Considerations}\label{par:transmission-considerations}
+
+Ethernet frames, and UDP datagrams by extension, are subject to size
+limitations.
+The maximum transmissible unit (MTU) of a transport medium is the limit on the
+size of a packet that can be sent without fragmentation, i.e.\ without being
+split into multiple sub-packets.
+Two bytes are allocated to the `Total Length' field of the IPv4 header, which
+suggests an MTU of $2^{16}-1=~$\num{65535} bytes;
+in practice, however, the data link layer imposes a basic limit of \num{1500}
+bytes on the payload of an ethernet
+frame~\citep{schiavoni_alternatives_2013,ieee_ieee_2018}.
+
+With the headers for the data link (Ethernet), network (IPv4), and transport
+(UDP) layers accounted for, plus the audio header described above, in principle
+\num{1452} bytes remain in each packet for audio data.
+Assuming 16-bit resolution, and the transmission of one UDP packet per audio
+buffer, data for up to 90 audio channels can be transmitted at a buffer size of
+16 frames without fragmentation, or up to 45 channels at 32 frames.
 
 \subsection{The Networked Audio Client}\label{subsec:networked-audio-client}
 
@@ -332,8 +350,7 @@ Separating audio and networking operations to \texttt{update()} and
 by way of an intermediate buffer, similar to the FIFO used on the server.
 Thus the client attempts to receive packets from, and send a packet to, the
 multicast group on each call to \texttt{loop()}, with incoming packets written
-to the intermediate buffer:
-
+to the intermediate buffer (see listing \lstref{ls:njc-loop}).
 \begin{codelisting}{
     \texttt{loop} method of the networked audio client implementation,
     minted style=xcode,
@@ -351,7 +368,6 @@ to the intermediate buffer:
         adjustClock();
     }
 \end{codelisting}
-\noindent
 The client also performs a periodic check for the presence of the server, and,
 as described in \secref{subsubsec:client-sync}, makes adjustments to its audio
 clock.
@@ -361,7 +377,7 @@ produce samples for audio output.
 It also takes samples reaching its audio inputs (e.g.\ arriving from other
 Teensy audio library classes), and adds those to a packet to be sent to the
 multicast group at the earliest possible subsequent call to
-\texttt{NetJUCEClient::loop}:
+\texttt{NetJUCEClient::loop} (\lstref{ls:njc-update}).
 \begin{codelisting}{
     \texttt{update} method of the networked audio client implementation,
     minted style=xcode,
@@ -465,10 +481,9 @@ interface (a potential barrier to entry) would have improved the situation.
 
 This incident serves to illustrate that, beyond the concerns associated
 with effective software design, a system such as the one described here, for
-which the timing of operations is critical, is susceptible to the whims of
-a variety of supporting hardware and software systems \textemdash{} things
-that in a more conventional audio system can, to a greater degree, be taken for
-granted.
+which the timing of operations is critical, is subject to the whims of a variety
+of supporting hardware and software systems \textemdash{} things that in a more
+conventional audio system can, to a greater degree, be taken for granted.
 The topic of whether to attempt to compensate for this manner of phenomenon in
 software or impose strict requirements on a future end-user in terms the audio
 host they should use (something that would almost certainly vary with the user's
@@ -558,8 +573,8 @@ that this places significant limits on the modularity of the system.
 Teensy's memory capacity can be extended by attaching up to two inexpensive
 PSRAM chips for a further \qty{16}{\mega\byte} of memory.
 These chips must be soldered onto the Teensy board, however, and the suitability
-of such additional memory for rapid access, such as is called for in an audio
-DSP algorithm, remains to be investigated.
+of such additional memory for rapid access, such as is required in an audio DSP
+algorithm, remains to be investigated.
 
 \subsubsection{Controlling the WFS Algorithm}
 

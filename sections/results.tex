@@ -147,7 +147,7 @@ containing steady-state harmonic content revealed obtrusive audible artefacts.
 A buffer size of 16 samples had been selected in an attempt to minimise the
 duration of the window of inter-client synchronicity, and to maximise the
 number of channels that could be transmitted over the network, subject to
-restrictions posed by the MTU (see \secref{subsubsec:anatomy-of-a-datagram}).
+restrictions posed by the MTU (see \secref{par:transmission-considerations}).
 Recalling, however, that previous work~\citep{rushton_microcontroller-based_2023}
 had employed a 32-sample audio buffer, equivalent measurements were taken for
 the larger buffer size, the results of which are depicted in
@@ -201,26 +201,6 @@ room for improvement in the devised strategy for PLL adjustment.
 
 \subsection{Perceptual Evaluation}\label{subsec:perceptual-evaluation}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=.8\textwidth]{figures/subjective}
-    \caption{
-        Results of the perceptual evaluation.
-        Lateral (horizontal axis) and longitudinal (vertical axis) components
-        are normalised to $[0, 1]$.
-        For each plot, the horizontal axis (i.e. longitudinal component
-        equalling 0) corresponds with the location of the speaker array.
-        Each plot shows the intended position of the virtual sound source as
-        specified by parameters to the WFS plugin interface (blue cross) and
-        estimated sound source positions as reported by participants (coloured
-        dots).
-        Each plot is labelled with the mean Euclidean error $\mu_\epsilon$
-        between intended position and reported positions.
-        Legend in plot \textbf{(A)} applies to all plots.
-    }
-    \label{fig:perceptual}
-\end{figure}
-
 The WFS system was subjected to an informal perceptual evaluation, in which
 participants were presented with a virtual sound source at various locations
 and asked to indicate, on a diagram of the virtual sound field, the point
@@ -268,6 +248,26 @@ For each position, the auditory stimulus was sounded, and repeated at the
 participant's request.
 Details of the source positions for each test, and the responses given by
 eight participants, are displayed in \figref{fig:perceptual}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=.775\textwidth]{figures/subjective}
+    \caption{
+        Results of the perceptual evaluation.
+        Lateral (horizontal axis) and longitudinal (vertical axis) components
+        are normalised to $[0, 1]$.
+        For each plot, the horizontal axis (i.e. longitudinal component
+        equalling 0) corresponds with the location of the speaker array.
+        Each plot shows the intended position of the virtual sound source as
+        specified by parameters to the WFS plugin interface (blue cross) and
+        estimated sound source positions as reported by participants (coloured
+        dots).
+        Each plot is labelled with the mean Euclidean error $\mu_\epsilon$
+        between intended position and reported positions.
+        Legend in plot \textbf{(A)} applies to all plots.
+    }
+    \label{fig:perceptual}
+\end{figure}
 
 As can be seen, although far from perfect, and with some significant
 outliers (e.g.\ the position reported by the fifth participant for test
@@ -334,7 +334,7 @@ of the approach taken to combating jitter and keeping the clients close,
 temporally, together, and as close to the server as possible.
 It is clear that the current approach is, at best, too aggressive to be viable
 for high-quality audio output.
-Furthermore, an unpitched sound source such as a snare drum, though audibly
+Furthermore, an unpitched sound source like a snare drum, though audibly
 susceptible to the time-varying comb-filter effect described, masks other
 artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
 read position increment, and sudden, comparatively large audio clock

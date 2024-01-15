@@ -1,7 +1,5 @@
 \section{Conclusion}\label{sec:conclusion}
 
-\todo[inline]{Rewrite conclusion completely.}
-
 In this article we have described an exploration of transmission of audio data
 over computer networks, distributed computing and audio spatialisation.
 A networked audio system was developed, strategies devised for
@@ -10,14 +8,12 @@ spatial audio system was developed and deployed.
 Evaluation of the system exposed the extent of the technical challenges
 that confront it in its current form, and shed light on opportunities for
 further development.
-Perceptual testing revealed that it may, with heavy provisos, offer performance
-sufficient to support timing-critical sound field synthesis techniques.
+Perceptual testing revealed that it may, with certain limitations, offer
+performance sufficient to support timing-critical sound field synthesis
+techniques.
+The proposed system represents a milestone on the road towards an accessible
+alternative to state of the art spatial and immersive audio installations.
 
-It is pertinent at this point to consider the research questions stated in
-\secref{}, and what exploring those questions has
-revealed.
-
-\paragraph{Research Question 1}
 It has been shown that a system of discrete computational entities can
 communicate effectively over an ethernet network, exchanging audio and control
 data in a scalable fashion via a UDP multicast group.
@@ -25,18 +21,15 @@ Though facing significant technical challenges, an approach to the foundational
 requirements of such a system has been demonstrated, with encouraging results
 with regard to spatial audio applications.
 
-\paragraph{Research Question 2}
 Timing discrepancies between entities in the networked audio system give rise
 to audible artefacts such as time-varying comb-filtering.
 Loss of synchronicity is difficult to measure and compensate for in real-time
 and the extent of the resulting audible disturbances is unpredictable, but,
-depending on the nature of the sound sources being dealt with,
-certainly perceptible.
+depending on the nature of the sound sources being dealt with, certainly
+perceptible.
 The developed strategies for mitigation of asynchronicity are
 \textit{best-effort} in nature, and call for further refinement, or replacement
 with more sophisticated techniques.
-
-\subsection{Future Work}\label{subsec:future-work}
 
 Given its potential to disrupt the present situation with regard to spatial
 audio installations, or complement it with a modular approach that could serve
@@ -52,7 +45,6 @@ is built around, plus its software libraries \textemdash{} much that is
 typically taken for granted in the development of embedded systems, and audio
 and networking systems, calls for deeper investigation.
 
-\paragraph{Clock-sharing}
 Each Teensy generates a clock signal to deliver to its audio shield.
 In a locally distributed setting, this is quite redundant.
 It may be possible to generate a single, authoritative clock on one Teensy
@@ -60,7 +52,6 @@ and deliver that to all others in the system.
 If this can be achieved, it would remedy the issue of clock drift, leaving
 only jitter to be addressed.
 
-\paragraph{Further Audio Spatialisation Techniques}
 A basic, linear, distributed wave field synthesis algorithm has been
 demonstrated, implementing primary virtual sources.
 WFS is capable of producing other types of sources, supporting nonlinear

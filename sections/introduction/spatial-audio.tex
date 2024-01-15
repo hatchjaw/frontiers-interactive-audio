@@ -26,31 +26,42 @@ delivered to a secondary sound source in the listening
 environment~\citep{ahrens_analytic_2012}.
 For a loudspeaker at position $\mathbf{x} = \begin{bmatrix}
                                                 x & y & z
-\end{bmatrix}^T$, the driving signal $\hat{D}(\mathbf{x}, \omega)$ can be
-expressed, in the frequency domain, as the product of the input signal,
-$\Sigin(\omega)$ and the driving function $D(\mathbf{x}, \omega)$:
-\begin{equation}
-    \label{eq:driving-signal-freq}
-    \hat{D}(\mathbf{x},\omega) = \Sigin(\omega) \cdot D(\mathbf{x},\omega),
-\end{equation}
-where $\omega$ denotes radian frequency, $\omega = 2\pi f$, and $f$, in turn,
-is time frequency.
-Moving to the time domain, the multiplication of the input signal and driving
-function changes to a convolution, and equation~\eqref{eq:driving-signal-freq}
-becomes:
+\end{bmatrix}^T$, the time-domain driving signal $\hat{d}(\mathbf{x},t)$
+can be expressed as a convolution of the input signal $\sigin(t)$ and the
+driving function $d(\mathbf{x},t)$:
 \begin{equation}
     \label{eq:driving-signal-time}
     \hat{d}(\mathbf{x},t) = \sigin(t) \ast d(\mathbf{x},t),
 \end{equation}
 where $t$ denotes time.
 
+
+%the driving signal $\hat{D}(\mathbf{x}, \omega)$ can be
+%expressed, in the frequency domain, as the product of the input signal,
+%$\Sigin(\omega)$ and the driving function $D(\mathbf{x}, \omega)$:
+%\begin{equation}
+%    \label{eq:driving-signal-freq}
+%    \hat{D}(\mathbf{x},\omega) = \Sigin(\omega) \cdot D(\mathbf{x},\omega),
+%\end{equation}
+%where $\omega$ denotes radian frequency, $\omega = 2\pi f$, and $f$, in turn,
+%is time frequency.
+%Moving to the time domain, the multiplication of the input signal and driving
+%function changes to a convolution, and equation~\eqref{eq:driving-signal-freq}
+%becomes:
+%\begin{equation}
+%    \label{eq:driving-signal-time}
+%    \hat{d}(\mathbf{x},t) = \sigin(t) \ast d(\mathbf{x},t),
+%\end{equation}
+%where $t$ denotes time.
+
 An early sound field synthesis approach, referred to as an `acoustic
 curtain'~\citep{ziemer_wave_2020}, entailed placing microphones in one space,
 such as a concert auditorium, and, in another space, loudspeakers at locations
 corresponding to those of the microphones.
-In this case, there are as many input signals $\hat{S}_k(\omega)$ as there are
+In this case, there are as many input signals $\sigink(t)$ as there are
 microphones, and the driving function reduces to a `pass-through' of each
-signal to its corresponding loudspeaker, i.e. $D_k(\mathbf{x}, \omega) = 1$.
+signal to its corresponding loudspeaker, i.e.\
+$d_k(\mathbf{x}, t) = 1$.
 
 The acoustic curtain is a relatively rarely-deployed technique (though similar
 recreation of `real' sound fields is still conducted, albeit typically by way
