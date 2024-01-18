@@ -3,36 +3,56 @@
 The notion of taking a distributed approach to DSP is reliant on the
 identification of a suitable supporting hardware platform.
 For an accessible, distributed audio application, the ideal computing platform
-should be small, inexpensive, plus easily and rapidly programmable;
+should be small and inexpensive, plus easily and rapidly programmable;
 of course, it should also provide audio and networking hardware, and, ideally,
 well-documented APIs for programming and interacting with this hardware.
 
-Recent years have seen the emergence of a number of small, low-cost, open-source
-platforms for embedded development, perhaps best known amongst these being the
-Arduino family of microcontroller development boards\footnote{\url{https://arduino.cc/} \textemdash{} All URLs verified
-12/01/2024}.
-Though support for audio is limited via official Arduino models, a number of
-audio-specific, Arduino-like systems have been produced, such as various
-ESP32 and STM32 models, Daisy Seed (itself an STM32-based board), and the Teensy
-family of microcontroller development boards.
-Also worthy of consideration is the Bela platform; though not a true
-microcontroller (being based on the BeagleBone single-board computer, and
-running an operating system) it is a small-footprint audio-focused device
-suitable for embedded applications.
+Recent years have seen the emergence of a number of small, low-cost platforms
+for embedded systems development, perhaps best known amongst these being the
+\textit{Arduino} family of microcontroller development boards,\footnote{
+    \url{https://arduino.cc/} \textemdash{} All URLs verified 12/01/2024
+}
+whose open-source SDK, software libraries, and IDE have greatly improved the
+accessibility of development on embedded systems~\citep{michon_embedded_2020}.
+Though support for audio is limited via Arduino devices, a number of
+audio-specific systems, programmable with the Arduino SDK and IDE, and
+operable with many Arduino-compatible add-ons (sensors, displays, etc.), have
+been produced;
+these include various \textit{ESP32} and \textit{STM32} models, and the
+\textit{Daisy} and \textit{Teensy} microcontroller ranges.
+These platforms benefit from the wealth of tools, documentation and support
+associated with Arduino and the surrounding D.I.Y.\ and maker communities.
+Also worthy of consideration is the Bela platform;
+though an \textit{embedded Linux system} rather than a microcontroller
+\textemdash{} being based on the \textit{BeagleBone Black} single-board computer
+\textemdash{} it is a small-footprint audio-focused device, with an accessible,
+web-based IDE, and suitable for embedded applications.
 
-A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
-microphones, etc.) and open source software libraries exist for Arduino- and
-BeagleBone-based systems.
-Bela itself is an audio ``cape'' for the BeagleBone Black; Teensy can be
-augmented with a dedicated ``audio shield,'' and various audio codec
-breakout-boards exist for other Arduino-compatible devices.
+%A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
+%microphones, etc.) and open source software libraries exist for Arduino- and
+%BeagleBone-based systems.
+%Bela itself is an audio ``cape'' for the BeagleBone Black; Teensy can be
+%augmented with a dedicated ``audio shield,'' and various audio codec
+%breakout-boards exist for other Arduino-compatible devices.
+
+The above systems are typically programmed in C++, with support for audio
+development provided by libraries such as Daisy's \textit{DaisySP} and Teensy's
+\textit{Teensy Audio Library}, which each provide audio APIs and a selection of
+pre-made algorithms for audio synthesis and signal processing.
+Bela, as an alternative to its C++ audio API, can be programmed with the
+graphical programming language PureData, and
+Teensy, as a complement to its Audio Library, offers a web-based
+\textit{Audio System Design Tool}, via which the user may describe an audio
+system diagrammatically and export the result to C++.
+
+
 Further facilitating audio development, many such platforms are programmable
 with Faust, a domain-specific programming language for audio synthesis and
-signal processing\footnote{\url{https://faust.grame.fr/}}.
+signal processing.\footnote{\url{https://faust.grame.fr/}}
 Faust provides \textit{architectures} for a number of embedded platforms via its
-\texttt{faust2[...]} tools\footnote{
+\texttt{faust2[...]} tools,\footnote{
     \url{https://faustdoc.grame.fr/manual/tools/}
-}, enabling users to write high level DSP code and compile it to meet the
+} enabling users to write high level DSP code and compile it to meet the
 requirements of the audio API on the target device~\citep{michon_real_2019,
     michon_embedded_2020}.
 
@@ -89,9 +109,9 @@ Though lacking in memory, Teensy's processor, low price, networking support, and
 programmability via the \texttt{faust2teensy} tool, make it an attractive
 candidate platform for a distributed, networked audio implementation.
 Audio development for the Teensy is further enhanced by the \textit{Teensy
-Audio Library} and associated Audio System Design Tool\footnote{
+Audio Library} and associated Audio System Design Tool,\footnote{
     \url{https://pjrc.com/teensy/gui/index.html}
-}, a web-based, graphical programming environment in which the user may describe
+} a web-based, graphical programming environment in which the user may describe
 an audio program diagrammatically, and export the result to C++ to be compiled
 for the Teensy.
 Further, thanks to the presence of a vibrant developer community, utilities such
@@ -101,8 +121,8 @@ for a system distributed amongst many such devices, this is particularly useful.
 
 One respect in which Teensy is found wanting is audio fidelity.
 By default, its audio shield produces CD quality output (16-bit,
-\qty{44.1}{\kHz}), which is not sufficient for what might be deemed modern,
-high-quality audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
+\qty{44.1}{\kHz}), which is not sufficient for what might be deemed high-quality
+audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
 While Teensy's sampling rate can be increased, sample resolution is fixed by
 the Teensy Audio Library.
 This shortcoming notwithstanding, and in light of its other, more advantageous
