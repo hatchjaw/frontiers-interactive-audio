@@ -28,33 +28,39 @@ though an \textit{embedded Linux system} rather than a microcontroller
 \textemdash{} it is a small-footprint audio-focused device, with an accessible,
 web-based IDE, and suitable for embedded applications.
 
-%A wealth of hardware add-ons (e.g.\ audio and ethernet boards, sensors,
-%microphones, etc.) and open source software libraries exist for Arduino- and
-%BeagleBone-based systems.
-%Bela itself is an audio ``cape'' for the BeagleBone Black; Teensy can be
-%augmented with a dedicated ``audio shield,'' and various audio codec
-%breakout-boards exist for other Arduino-compatible devices.
-
 The above systems are typically programmed in C++, with support for audio
 development provided by libraries such as Daisy's \textit{DaisySP} and Teensy's
 \textit{Teensy Audio Library}, which each provide audio APIs and a selection of
-pre-made algorithms for audio synthesis and signal processing.
+pre-made algorithms for audio synthesis and DSP.\
 Bela, as an alternative to its C++ audio API, can be programmed with the
-graphical programming language PureData, and
-Teensy, as a complement to its Audio Library, offers a web-based
-\textit{Audio System Design Tool}, via which the user may describe an audio
-system diagrammatically and export the result to C++.
+graphical programming language PureData, and Teensy, as a complement to its
+Audio Library, offers a web-based \textit{Audio System Design Tool}, via which
+the user may describe an audio system diagrammatically and export the result to
+C++.
 
-
-Further facilitating audio development, many such platforms are programmable
-with Faust, a domain-specific programming language for audio synthesis and
-signal processing.\footnote{\url{https://faust.grame.fr/}}
-Faust provides \textit{architectures} for a number of embedded platforms via its
-\texttt{faust2[...]} tools,\footnote{
+This profusion of approaches, and a variety of platform-specific APIs, can
+render embedded audio development somewhat difficult to approach.
+A concerted effort has been made, however, by the community behind the
+\textit{Faust} programming language,\footnote{\url{https://faust.grame.fr/}} to
+provide support for embedded platforms.
+Faust is a functional paradigm, audio domain-specific programming language, that
+was created to serve as a ``viable and efficient alternative to
+C/C++''~\citep{orlarey_faust_2009} for the development of audio applications on
+a variety of platforms.
+In Faust, a user can write high level sound synthesis or DSP code and export the
+result to C++ that meets the requirements of the audio API on a given target
+platform.
+This is achieved via a series of platform-specific ``architecture files'' and
+Faust's \texttt{faust2[...]} tools,\footnote{
     \url{https://faustdoc.grame.fr/manual/tools/}
-} enabling users to write high level DSP code and compile it to meet the
-requirements of the audio API on the target device~\citep{michon_real_2019,
+} which include
+\texttt{faust2bela}, \texttt{faust2teensy}, etc.~\citep{michon_real_2019,
     michon_embedded_2020}.
+Developers are thus able to focus on writing audio code, rather than being
+concerned with the peculiarities of the device or system upon which they wish
+to deploy their program;
+further, Faust's support for a variety of embedded platforms facilitates testing
+and rapid prototyping.
 
 \begin{table}[t]
     \centering
@@ -105,15 +111,9 @@ featuring long delay-lines, for example), but does not feature ethernet support.
 Teensy 4.1, and the selected ESP32 and STM32 devices support networking via
 ethernet add-ons, but the ESP32's CPU is underpowered, and the STM32 is
 unfavourably-priced.
-Though lacking in memory, Teensy's processor, low price, networking support, and
-programmability via the \texttt{faust2teensy} tool, make it an attractive
-candidate platform for a distributed, networked audio implementation.
-Audio development for the Teensy is further enhanced by the \textit{Teensy
-Audio Library} and associated Audio System Design Tool,\footnote{
-    \url{https://pjrc.com/teensy/gui/index.html}
-} a web-based, graphical programming environment in which the user may describe
-an audio program diagrammatically, and export the result to C++ to be compiled
-for the Teensy.
+Though lacking in memory, Teensy's processor, low price, and networking support
+make it an attractive candidate platform for a distributed, networked audio
+implementation.
 Further, thanks to the presence of a vibrant developer community, utilities such
 as \textit{TyTools}\footnote{\url{https://koromix.dev/tytools}} exist, and can
 be used to program multiple Teensy devices in a single command;
