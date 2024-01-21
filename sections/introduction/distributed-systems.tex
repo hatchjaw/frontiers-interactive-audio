@@ -1,62 +1,51 @@
 \subsection{Distributed Audio Systems}\label{subsec:distributed-audio-systems}
 
+%In the preceding sections we have described ways of transmitting audio data to a
+%network of computers, identified a suitable computing platform for networked
+%audio, and discussed various approaches to audio spatialisation.
+%Our aim is to create a distributed system
+
+As alluded to earlier in this section, our aim is to distribute the problem of
+audio spatialisation, and it is worthwhile to revisit why this is the case.
 In the broadest terms, a distributed system is \textit{``a collection of
 independent entities that cooperate to solve a problem that cannot be
 individually solved''}~\citep{kshemkalyani_distributed_2011}.
-In turn, the term \textit{distributed computing} simply describes a system of
-computation that is distributed in
-space~\citep{lamport_distributed_1990}.
-
-A variety of rationales exist for taking a distributed approach to
-computation;
-%adapting these to the notion of distributing an audio spatialisation algorithm
-%across a computer network,
-most relevant to the problem of distributing an audio spatialisation algorithm
-across a computer network are:
-
-\textbf{Scalability}
-Particularly so if taking advantage of a network protocol that supports
-multicast or broadcast transmission.
-Under a unicast model, as employed by JackTrip, streams of audio data are
-duplicated on a per-client basis;
-under such a model, at some point all available network bandwidth will be
-exhausted.
-An ideal multicast networked audio system entails there being just one stream
-of audio data, plus perhaps a stream of control data, for all clients to
-consume.
-Dependent on the application, the server in such a system may not need to be
-aware of how many clients are connected; similarly, clients exist in isolation,
-and fulfil their task with no dependency on their peers on the network.
-
-\textbf{Modularity}
-Closely related to scalability, modularity entails \textit{extensibility}.
-This is something that centralised audio spatialisation systems either lack
-entirely, or possess only at great cost in terms of hardware, and even then only
-if the hardware supports extension via daisy-chaining, for example.
-
-\textbf{Improved cost/performance ratio}
-A modular, scalable system can be constructed to meet the proportion that
-circumstances require, with the minimum amount of redundancy.
-If it becomes desirable to scale the system up, this can be achieved by small
-increments rather than by expensive leaps.
+An ideal distributed system is characterised by: \textit{modularity}, being
+comprised of separate, interchangeable entities; \textit{scalability}, being
+extensible without incurring a performance penalty to the system as a whole,
+and; \textit{improved performance/cost ratio}, since it can be constructed to
+meet the proportion that circumstances require, with the minimum degree of
+redundancy.
+%Additionally, our ideal spatial audio system should be flexible and accessible,
+%not being tied to any particular space.
 
 Where a distributed system may suffer when compared with its centralised
 equivalent is in terms of reliability.
 Nodes in a distributed computational system must be served with power and access
-to the data they require in order to operate.
-This entails the provision of power, cables and a proliferation of potential
-points of failure.
+to the data they require in order to operate, which entails a proliferation of
+potential points of failure.
 The other side to the coin of modularity is a concern regarding the
 programmability of such a system;
-ensuring that all nodes possess up-to-date instructions for operation may not be
-trivial.
+ensuring that all entities possess up-to-date instructions for operation may not
+be trivial.
+Further, distributing an algorithm requires identifying a way to execute it in
+parallel;
+some algorithms may be better suited to parallelisation than others.
 
-Distributed audio processing is by no means a matter without precedent;
-a selection of prior work in distributed DSP and audio spatialisation, plus
+Distributed audio processing is by no means a matter without precedent.
+Indeed, the WFS system at TU Berlin described in \secref{subsubsec:spatial-sota}
+is in fact a distributed system, its 800+ output channels being driven by a
+cluster of fifteen Linux computers producing 56 output channels
+each~\citep{baalman_renewed_2007}.
+In light of the manner in which it is built into the concert hall that it
+serves, and the high cost of the system as a whole, however, such a system is
+far from accessible.
+
+A selection of prior work in distributed DSP and audio spatialisation, plus
 systems incorporating microcontrollers and single-board computers is detailed
 below.
 
-\subsubsection{State of the Art}
+\subsubsection{State of the Art Distributed Audio Systems}
 
 Applications of SoundWIRE to what its creators termed \textit{Internet
 Acoustics}~\citep{chafe_physical_2002} obviously represent a case of distributed
@@ -131,32 +120,10 @@ its emphasis on a fully-costed, flexible, do-it-yourself alternative to
 conventional spatial audio systems is pertinent to this work, though it diverges
 in its use of AVB, and associated hardware for audio transmission.
 
-A full 24-channel OTTOsonics system, including speakers and audio interface, is
-costed at around \texteuro{2600}.
-A more conventional, 64-channel WFS system, such as is installed in the
-Multisensory Experience Lab at Aalborg University (AAU),
-Copenhagen~\citep{grani_gestural_2016}, features two 32-channel MADI to analogue
-converters costing roughly \texteuro{5000} apiece.
-The world's largest WFS system, at TU Berlin, features over 800 output channels
-driven by a distributed cluster of fifteen
-computers~\citep{baalman_renewed_2007}\footnote{
-    See also
-    \url{https://tu.berlin/en/ak/research/projects/wellenfeldsynthese-fuer-einen-grossen-hoersaal}
-    and WFS speaker module produced by Four Audio for installation at TU
-    \url{https://four-audio.com/en/products/wfs/}.
-}; the expense associated with this system is difficult to assess, as it is tied
-to the concert hall space in which it resides.
-Indeed, one thing besides expense that unites the systems at AAU and TU Berlin,
-plus similar installations at IRCAM (Paris)\footnote{
-    \url{https://ircam.fr/article/connaissez-vous-lespace-de-projection}
-} and the Rensselaer Polytechnic Institute (NY, USA)\footnote{
-    \url{https://empac.rpi.edu/about/building/venues}
-} is their \textit{in-situ} nature;
-these are site-specific systems with, at best, limited flexibility.
-
 \subsubsection{Challenges}\label{subsubsec:challenges}
 
-Time, especially when dealing with the fine margins posed by real-time audio
+In addition to the problems of programmability, and effective parallelisation,
+time, especially when dealing with the fine margins posed by real-time audio
 processing, represents the principal source of difficulty in a distributed
 audio setting.
 
@@ -186,9 +153,9 @@ over a longer timescale.
 As two distinct systems of time move in and out of phase with each other over
 the longer term, drift may indeed give rise to jitter.
 
-In studio and professional audio settings, devices may be synchronised via an
-authoritative clock source such as word clock, or, in a networked setting,
-via PTP or lower-resolution network time protocol.
+In professional audio settings, devices may be synchronised via an authoritative
+clock source such as word clock, or, in a networked setting, via PTP or
+lower-resolution network time protocol.
 In the absence of such an authoritative source, e.g.\ over a wide area network,
 or if using hardware that does not support such measures, buffering strategies
 are typically employed, coupled with delay-locked

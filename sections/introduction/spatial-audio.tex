@@ -5,11 +5,10 @@ space.
 The spatialisation of \textit{primary sound sources}, e.g.\ sound
 captured by microphones, stored as digital audio files, or synthesised in
 real-time can be achieved simply by delivering those primary sources to
-\textit{secondary sound sources}, i.e.\ loudspeakers, placed at arbitrary
-positions relative to a listener.
-Loudspeakers being stationary entities by-and-large, the idea of moving a sound
-source is physically impractical, however, and that of locating a sound source
-between loudspeaker positions physically impossible.
+\textit{secondary sound sources}, i.e.\ loudspeakers or headphones.
+%Loudspeakers being stationary entities by-and-large, the idea of moving a sound
+%source is physically impractical, however, and that of locating a sound source
+%between loudspeaker positions physically impossible.
 Taking advantage of auditory cues, and the nature of the propagation of sound,
 it is possible to suggest the presence of primary sources at arbitrary
 locations, independent of the secondary source distribution.
@@ -54,38 +53,38 @@ where $t$ denotes time.
 %\end{equation}
 %where $t$ denotes time.
 
-An early sound field synthesis approach, referred to as an `acoustic
-curtain'~\citep{ziemer_wave_2020}, entailed placing microphones in one space,
-such as a concert auditorium, and, in another space, loudspeakers at locations
-corresponding to those of the microphones.
-In this case, there are as many input signals $\sigink(t)$ as there are
-microphones, and the driving function reduces to a `pass-through' of each
-signal to its corresponding loudspeaker, i.e.\
-$d_k(\mathbf{x}, t) = 1$.
+%An early sound field synthesis approach, referred to as an `acoustic
+%curtain'~\citep{ziemer_wave_2020}, entailed placing microphones in one space,
+%such as a concert auditorium, and, in another space, loudspeakers at locations
+%corresponding to those of the microphones.
+%In this case, there are as many input signals $\sigink(t)$ as there are
+%microphones, and the driving function reduces to a `pass-through' of each
+%signal to its corresponding loudspeaker, i.e.\
+%$d_k(\mathbf{x}, t) = 1$.
+%
+%The acoustic curtain is a relatively rarely-deployed technique (though similar
+%recreation of `real' sound fields is still conducted, albeit typically by way
+%of ambisonic recording and reproduction) and sound field synthesis is most
+%often concerned with the distribution and movement of artificial or arbitrary
+%sound sources.
 
-The acoustic curtain is a relatively rarely-deployed technique (though similar
-recreation of `real' sound fields is still conducted, albeit typically by way
-of ambisonic recording and reproduction) and sound field synthesis is most
-often concerned with the distribution and movement of artificial or arbitrary
-sound sources.
 Commonly-employed approaches to sound field creation can be grouped into two
 broad categories: amplitude- and time-based panning techniques, and physical
 sound field recreation approaches.
 
-\subsubsection{Periphony}\label{subsubsec:periphony}
+\subsubsection{Periphony and Binaural Reproduction}\label{subsubsec:periphony}
 
-The former, \textit{periphonic}, types are perhaps more familiar to the
-layperson and encompass stereophony and surround-sound systems, consisting of
-secondary sources in a horizontal planar arrangement equidistant from the
-listening position.
+The former, \textit{periphonic}, types encompass stereophony and surround-sound
+systems, consisting of secondary sources in a horizontal planar arrangement
+equidistant from the listening position.
 These techniques exploit the interaural level difference (ILD) cue, i.e.\ the
 difference in perceived amplitude relative to the listener's
 ears~\citep{pulkki_virtual_1997,verheijen_sound_1998,ziemer_wave_2020}, to
 encourage the listener to localise sound to a position on the circumference of
 an arc or circle around the listening position.
-This is achieved by weighting the amplitudes of signals sent to the
-secondary sources, creating a ``phantom'' sound source that may appear to
-emanate from a position between loudspeakers.
+%This is achieved by weighting the amplitudes of signals sent to the
+%secondary sources, creating a ``phantom'' sound source that may appear to
+%emanate from a position between loudspeakers.
 For systems of this sort, the driving function is a constant scalar value, or,
 for a moving phantom source, a time-varying function that returns a scalar
 value.
@@ -106,28 +105,49 @@ form:
 \end{equation}
 where $\tau$ is the duration of the delay.
 
-The effects of ILD and ITD cues may transfer to headphone-based listening,
-in which case, rather than periphonic, they become a sort of \textit{in-head}
+The effects of ILD and ITD cues transfer to headphone-based listening, in which
+case, rather than periphonic, they form a sort of \textit{in-head}
 localisation~\citep{ahrens_analytic_2012}.
-It is worth mentioning that these cues vary in their effectiveness with
-frequency and, excepting the case of headphone-based listening, intersect with
-cues related to listener's torso~\citep{verheijen_sound_1998} and the
-head-related transfer
-function~\citep{de_poli_physically_1998,geier_object-based_2010}.
+For a significantly more naturalistic auditory outcome, ILD and ITD cues, when
+combined with filters describing the dispersive and absorptive effects of the
+head, torso and outer ears, constitute a Head-Related Transfer Function (HRTF),
+the key component in what is termed \textit{binaural reproduction}.
+Binaural recordings are taken either with a dummy head or ear-mounted
+microphones, and thus the signal for each ear is coloured by the head used
+during recording, or HRTF measurements can be taken and used to describe filters
+to be applied to arbitrary signals at playback.
+Binaural sound is suited to headphone-based listening but may be achieved with
+loudspeakers if suitable cross-talk cancellation is
+applied~\citep{kaiser_transaural_2011}.
 
-Periphonic approaches (again, headphones excepted) are subject to the
-phenomenon of an ideal listening position, or
-\textit{sweet-spot}~\citep{verheijen_sound_1998,nicol_sound_2017}, that is a
+%It is worth mentioning that these cues vary in their effectiveness with
+%frequency and, excepting the case of headphone-based listening, intersect with
+%cues related to listener's torso~\citep{verheijen_sound_1998} and the
+%head-related transfer
+%function~\citep{de_poli_physically_1998,geier_object-based_2010}.
+
+Periphonic and binaural approaches are subject to the phenomenon of an ideal
+listening position, or \textit{sweet-spot}~\citep{nicol_sound_2017}, that is a
 listening position away from which the spatialisation effect is significantly
 degraded.
-As such, these techniques are not suited to subjection to multiple listeners,
-nor to immersive auditory experiences permitting the participant to move freely
-about their environment.
-Additionally, phantom sources are inherently bound to the periphery on which
-they reside;
-there is no authentic way to model a phantom source at greater (or lesser)
-distance, though using reverberation and amplitude cues may offer a satisfactory
-perceptual impression.
+Binaural reproduction, if not coupled with head motion tracking, is similarly
+afflicted by an ideal position and
+\textit{orientation}~\citep{verheijen_sound_1998};
+further, for faithful reproduction, HRTFs should be
+individualised~\citep{de_poli_physically_1998}.
+As such, these techniques are not suited to collective and immersive auditory
+experiences whereby multiple participants may move freely about their
+environment.
+
+%subjection to multiple listeners,
+%nor to immersive auditory experiences permitting the participant to move freely
+%about their environment.
+
+%Additionally, phantom sources are inherently bound to the periphery on which
+%they reside;
+%there is no authentic way to model a phantom source at greater (or lesser)
+%distance, though using reverberation and amplitude cues may offer a satisfactory
+%perceptual impression.
 
 \subsubsection{Physically-Inspired Techniques}\label{subsubsec:sound-field-synthesis}
 
@@ -140,20 +160,22 @@ perceptual impression.
     The bottom of the figure represents a virtual sound field, and the top a
     real sound field, separated by a row of secondary point sources
         (loudspeakers).
-        The small blue circle represents a virtual sound source and the blue
-        dashed arcs are virtual wavefronts associated with that sound source;
-        the grey arcs are wavefronts produced by the array of secondary point
-        sources;
-        the solid blue arcs represent the propagation of a reconstructed
+        The small circle represents a virtual sound source and the dashed arcs
+        are virtual wavefronts associated with that sound source;
+        the small solid arcs are wavefronts produced by the array of secondary
+        point sources;
+        the large solid arcs represent the propagation of a reconstructed
         wavefront in the real sound field.}
     \label{fig:wfs_1}
 \end{figure}
 
-Physical approaches fall into two main types: wave field synthesis (WFS) and
-ambisonics (and higher-order ambisonics \textemdash{} HOA). Rather than
-directly manipulating sound localisation cues, these types seek to trigger
-those cues indirectly by synthesising a sound field as if it had been created
-by `true' acoustic sources, as opposed to loudspeakers.
+Physical approaches fall into two main types: wave field synthesis
+(WFS)~\citep{berkhout_acoustic_1993} and
+ambisonics (and higher-order ambisonics \textemdash{}
+HOA)~\citep{frank_producing_2015}.
+Rather than directly manipulating sound localisation cues, these types seek to
+trigger those cues indirectly by synthesising a sound field as if it had been
+created by `true' acoustic sources, as opposed to loudspeakers.
 In the case of ambisonics, the sound field is decomposed into `spherical
 harmonics', spatial functions described by linear sums of directional
 components of increasing order~\citep{nicol_sound_2017}.
@@ -170,10 +192,9 @@ calculated, in terms of computational demands placed on the system.
 
 \subsubsection{Wave Field Synthesis}
 
-Reminiscent of the acoustic curtain, WFS is based upon Huygens' principle,
-originating in the field of optics, which states that a propagating
-wavefront can be recreated by a distribution of secondary point
-sources~\citep{mueller_acoustic_1971,berkhout_acoustic_1993,
+WFS is based upon Huygens' principle, originating in the field of optics, which
+states that a propagating wavefront can be recreated by a distribution of
+secondary point sources~\citep{mueller_acoustic_1971,berkhout_acoustic_1993,
     belloch_performance_2021} (see \figref{fig:wfs_1}).
 It is variously termed a form of \textit{acoustic holography} or
 \textit{holophony}~\citep{berkhout_holographic_1988,ahrens_analytic_2012}.
@@ -186,8 +207,8 @@ The principle assumes a continuous array of secondary sources but of course in
 practice it is necessary to use a discrete array of loudspeakers, which,
 much as is the case with HOA, has consequences for spatial resolution;
 to mitigate the issue of spatial aliasing, whereby sounds of higher frequency
-cannot be recreated unambiguously~\citep{winter_geometric_2018},
-secondary sources should be placed very close together.
+cannot be recreated unambiguously~\citep{winter_geometric_2018}, secondary
+sources should be placed very close together.
 Consequently, to serve a large listening area, many speakers, and thus many
 audio channels, are required.
 
@@ -229,3 +250,29 @@ The delta function $\delta$ has the effect of delaying the prefilter, and thus
 $\sigink$, by the time of propagation for a medium with propagation speed $c$
 (typically modelled as \qty[per-mode=symbol]{343}{\m\per\s} for sound in air).
 The components of the driving function are depicted in \figref{fig:wfs_2}.
+
+\subsubsection{State of the Art Spatial Audio Installations}
+\label{subsubsec:spatial-sota}
+
+A full 24-channel OTTOsonics system, including speakers and audio interface, is
+costed at around \texteuro{2600}.
+A more conventional, 64-channel WFS system, such as is installed in the
+Multisensory Experience Lab at Aalborg University (AAU),
+Copenhagen~\citep{grani_gestural_2016}, features two 32-channel MADI to analogue
+converters costing roughly \texteuro{5000} apiece.
+The world's largest WFS system, at TU Berlin, features over 800 output channels
+driven by a distributed cluster of fifteen
+computers~\citep{baalman_renewed_2007}\footnote{
+    See also
+    \url{https://tu.berlin/en/ak/research/projects/wellenfeldsynthese-fuer-einen-grossen-hoersaal}
+    and WFS speaker module produced by Four Audio for installation at TU
+    \url{https://four-audio.com/en/products/wfs/}.
+}; the expense associated with this system is difficult to assess, as it is tied
+to the concert hall space in which it resides.
+Indeed, one thing besides expense that unites the systems at AAU and TU Berlin,
+plus similar installations at IRCAM (Paris)\footnote{
+    \url{https://ircam.fr/article/connaissez-vous-lespace-de-projection}
+} and the Rensselaer Polytechnic Institute (NY, USA)\footnote{
+    \url{https://empac.rpi.edu/about/building/venues}
+} is their \textit{in-situ} nature;
+these are site-specific systems with, at best, limited flexibility.

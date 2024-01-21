@@ -35,40 +35,71 @@ development of a distributed system for spatial and immersive audio.
 
 \subsection{Objectives and Outlook}\label{subsec:objectives}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/system_overview}
+    \caption{
+        Overivew of the proposed distributed, networked audio system.
+        A general purpose computer runs DAW software, which in turn runs an
+        instance of an audio plugin that encapsulates servers for audio and
+        control data.
+        The computer is physically connected, via a network switch, to
+        microcontroller-based clients.
+        The clients receive the audio and control data, which are consumed by
+        a distributed audio spatialisation algorithm, and return an audio stream
+        to the server (perhaps via some manner of signal processor).
+        Clients deliver the output signals produced by their instance of the
+        distributed algorithm to loudspeakers.
+    }
+    \label{fig:system-overview}
+\end{figure}
+
 The primary focus of this work is an exploration of employing a network of
-hardware modules to act as a co-ordinated networked-audio system with a view to
+hardware modules to act as a co-ordinated networked audio system with a view to
 supporting a distributed approach to audio spatialisation techniques.
 It is hoped that in selecting a low-cost hardware platform, using ubiquitous
 computer networking technologies, and keeping the overall design as simple as
 possible, the work here could lead to a lowering of the barrier to entry of
 the creation of large scale spatial and immersive audio installations.
+With a view to optimising accessibility and interoperability with existing audio
+tools, the decision was made to encapsulate server part of the proposed
+networked audio system in an audio plugin suitable for use in a DAW.
+This plugin should deliver audio and control data to a network of
+microcontroller-based clients via a UDP multicast group.
+Clients, programmed with a parallelised WFS algorithm, should use the audio and
+control data to perform their part of the distributed signal process.
+An overview of the system is depicted in \figref{fig:system-overview}.
 
-WFS was chosen as a target implementation for the comparative ease with which
-its algorithm can be parallelised.
+WFS was chosen for implementation due to the comparative ease with which the WFS
+algorithm can be parallelised.
 Equations~\eqref{eq:driving-signal} and~\eqref{eq:driving-function} illustrate
 that the driving signal for a given secondary point source is dependent only
 on the signals and relative positions of the virtual primary sources, and is
 independent of the driving signals for the other secondary sources.
-Subject to the feasibility of delivering the source signals to the hardware
-modules, each module would simply have to produce the driving signals for the
-two output channels for which it is responsible.
+Subject to delivering the source signals to the hardware modules, each module
+would simply have to produce the driving signals for the two output channels
+for which it is responsible.
 Then the temporal challenges described in \secref{subsubsec:challenges} would
 be the remaining concern: to what extent could synchronicity be maintained
 in the absence of a shared, authoritative source of time, and what would the
 effects of loss of synchronicity be on the performance of the distributed
 algorithm and the integrity of the holophonic effect?
 
-Prior to the commencement of this project, a distributed WFS system was
-developed, based on the Teensy 4.1 microcontroller and JackTrip protocol.
-This consisted of an audio application running on a general purpose computer,
-delivering audio over JackTrip to a collection of hardware modules, and
-WFS control data over multicast UDP.\
+Prior to work on this project, a distributed WFS system was developed, based on
+the Teensy 4.1 microcontroller and JackTrip
+protocol~\citep{rushton_microcontroller-based_2023}.
+This consisted of a standalone audio application running on a general purpose
+computer, delivering audio over JackTrip to a collection of hardware modules,
+and WFS control data over multicast UDP.\
 Strategies were developed for mitigating the effects of jitter and clock drift,
-and these serve as the basis for work on the project described in this article.
-
+and were developed further as part of the work described here;
+these, and other aspects of the development of the proposed system, are
+described in \secref{sec:method}.
 The previous system was not formally evaluated, but, anecdotally, provided
 support for the holophonic effect of primary-source WFS.\
-These initial efforts were based on a limited understanding of the
-problem-space, and called for further development.
-It was deemed, also, that the implementation was constrained by the more
-opinionated aspects of the JackTrip system.
+A perceptual evaluation of the new system was conducted, and this is described,
+along with a technical evaluation, in \secref{sec:results}.
+%These initial efforts were based on a limited understanding of the
+%problem-space, and called for further development.
+%It was deemed, also, that the implementation was constrained by the more
+%opinionated aspects of the JackTrip system.
