@@ -43,8 +43,8 @@ render embedded audio development somewhat difficult to approach.
 A concerted effort has been made, however, by the community behind the
 \textit{Faust} programming language,\footnote{\url{https://faust.grame.fr/}} to
 provide support for embedded platforms.
-Faust is a functional paradigm, audio domain-specific programming language, that
-was created to serve as a ``viable and efficient alternative to
+Faust is a functional paradigm, audio domain-specific language, that was created
+to serve as a ``viable and efficient alternative to
 C/C++''~\citep{orlarey_faust_2009} for the development of audio applications on
 a variety of platforms.
 In Faust, a user can write high level sound synthesis or DSP code and export the
@@ -116,14 +116,14 @@ make it an attractive candidate platform for a distributed, networked audio
 implementation.
 Further, thanks to the presence of a vibrant developer community, utilities such
 as \textit{TyTools}\footnote{\url{https://koromix.dev/tytools}} exist, and can
-be used to program multiple Teensy devices in a single command;
-for a system distributed amongst many such devices, this is particularly useful.
+be used to program multiple Teensy devices in a single command \textemdash{}
+useful for a system distributed amongst many such devices.
 
 One respect in which Teensy is found wanting is audio fidelity.
 By default, its audio shield produces CD quality output (16-bit,
 \qty{44.1}{\kHz}), which is not sufficient for what might be deemed high-quality
 audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
 While Teensy's sampling rate can be increased, sample resolution is fixed by
-the Teensy Audio Library.
+the Teensy Audio Library and at the level of the audio codec.
 This shortcoming notwithstanding, and in light of its other, more advantageous
 qualities, Teensy is the platform upon which development was conducted.

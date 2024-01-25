@@ -147,8 +147,10 @@ containing steady-state harmonic content revealed obtrusive audible artefacts.
 A buffer size of 16 samples had been selected in an attempt to minimise the
 duration of the window of inter-client synchronicity, and to maximise the
 number of channels that could be transmitted over the network, subject to
-restrictions posed by the MTU (see \secref{par:transmission-considerations}).
-Recalling, however, that previous work~\citep{rushton_microcontroller-based_2023}
+restrictions posed by the MTU (see
+\secref{subsubsec:transmission-considerations}).
+Recalling, however, that previous
+work~\citep{rushton_microcontroller-based_2023}
 had employed a 32-sample audio buffer, equivalent measurements were taken for
 the larger buffer size, the results of which are depicted in
 \figref{fig:rtt-drift-32} and \figref{fig:spectrograms}(B).
@@ -278,7 +280,7 @@ Indeed, tests \textbf{(B)}, \textbf{(D)}, and \textbf{(G)} exhibit the lowest
 mean error values between the intended and reported positions.
 The results for tests \textbf{(C)} and \textbf{(H)}, exhibit the greatest mean
 error, and ambiguity regarding the lateral position of distant sound sources is
-to be expected;
+perhaps to be expected;
 as the distance of a sound source from the listener increases, $r_k - y_k$
 tends towards zero, and thus the ITD (and ILD) also approaches zero;
 thus, with increased distance the wavefront produced by a sound source (be it a

@@ -33,14 +33,12 @@ parallel;
 some algorithms may be better suited to parallelisation than others.
 
 Distributed audio processing is by no means a matter without precedent.
-Indeed, the WFS system at TU Berlin described in \secref{subsubsec:spatial-sota}
-is in fact a distributed system, its 800+ output channels being driven by a
-cluster of fifteen Linux computers producing 56 output channels
-each~\citep{baalman_renewed_2007}.
-In light of the manner in which it is built into the concert hall that it
-serves, and the high cost of the system as a whole, however, such a system is
-far from accessible.
-
+(Indeed, the WFS installation at TU Berlin described in
+\secref{subsubsec:spatial-sota} is of course a distributed system, albeit not
+an especially accessible one.)
+%In light of the manner in which it is built into the concert hall that it
+%serves, and the high cost of the system as a whole, however, such a system is
+%far from accessible.
 A selection of prior work in distributed DSP and audio spatialisation, plus
 systems incorporating microcontrollers and single-board computers is detailed
 below.
@@ -92,7 +90,7 @@ sawtooth wave as a timer (see \secref{subsec:technical-evaluation} for an
 application of this technique).
 
 Exploring the possibilities of burgeoning network technology in the early 2010s,
-Lopez-Lezcano set out to build a UDP-based `network sound card' to support
+Lopez-Lezcano set out to build a UDP-based ``network sound card'' to support
 a networked WFS system~\citep{lopez-lezcano_jack_2012}.
 The aim was to replace otherwise expensive high channel-count conventional
 audio interfaces, which receive audio over the MADI (Multichannel Audio Digital
@@ -119,6 +117,10 @@ project;
 its emphasis on a fully-costed, flexible, do-it-yourself alternative to
 conventional spatial audio systems is pertinent to this work, though it diverges
 in its use of AVB, and associated hardware for audio transmission.
+A full 24-channel OTTOsonics system, including speakers and audio interface, is
+costed at around \texteuro{2600} (\texteuro{108.33}/channel), however, which
+certainly places it favourably when compared with state-of-the-art
+spatialisation systems.
 
 \subsubsection{Challenges}\label{subsubsec:challenges}
 

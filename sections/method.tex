@@ -6,7 +6,7 @@ serving a variety of purposes (server and client instances for transmission
 and reception of networked audio and control data, plus a digital
 signal processing algorithm), it is important to consider each of these
 elements in detail.
-In the sections to follow, these elements are described;
+In the subsections to follow, these elements are described;
 finally an overview of the devised system is provided.
 
 \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
@@ -93,9 +93,10 @@ packet sequence number, to be incremented by the sender, plus four further bytes
 describing the structure of the audio data in the packet.
 Commonly-encountered sampling rates, and buffer sizes greater than 255, cannot
 be represented by unsigned eight-bit integers, so
-these are backed up by enumerations inspired by those used by JackTrip\footnote{
+these are backed up by enumerations inspired by those used by
+JackTrip.\footnote{
     \url{https://github.com/jacktrip/jacktrip/blob/v1.6.8/src/AudioInterface.h\#L56}
-}:
+}
 
 %\begin{multicodelisting}{Supporting enumerations for packet metadata,
 %    label=ls:packet-enums,
@@ -256,8 +257,8 @@ Inspecting the first sixteen samples of the first audio channel
 %by sample for legibility, see \lstref{listing:chan-1-samples}),
 it is evident
 that the amplitude values increment on a per-sample basis, and, since it is the
-first byte that increases with each sample, that samples are transmitted little
-endian.
+first byte that increases with each sample, that samples are transmitted
+little-endian.
 
 %\codeinputlisting[float=h]
 %{text}
@@ -269,7 +270,7 @@ The receiver thread polls its socket for traffic reaching the multicast group
 from clients, and uses the presence of an incoming packet stream as proof that
 a client is connected.
 
-\paragraph{Transmission Considerations}\label{par:transmission-considerations}
+\subsubsection{Transmission Considerations}\label{subsubsec:transmission-considerations}
 
 Ethernet frames, and UDP datagrams by extension, are subject to size
 limitations.
@@ -305,14 +306,14 @@ Unlike the networked audio server, which runs on a general purpose computer and
 has access to threads of execution, which it can use to conduct related but
 separate tasks that rely on some central resource (the FIFO buffer alluded to
 above), the client implementation is designed to operate on a microcontroller
-platform that has no operating system, and no native notion of threads\footnote{
+platform that has no operating system, and no native notion of threads.\footnote{
     There is in fact a non-core library, \textit{TeensyThreads}, that provides
     thread-like functionality. It was experimented with during development,
     but found to be incompatible with the interrupt-driven nature of the
     Teensy audio and networking libraries.
-}.
+}
 
-The task of the network audio clients is threefold in nature:
+The task of the clients is threefold in nature:
 \begin{enumerate}
     \item~to retrieve packets of audio data from the UDP multicast group;
     \item~to send a stream of audio data back to the multicast group, primarily
@@ -331,7 +332,7 @@ implementation of the Teensy audio library class \texttt{AudioStream}.
 is where an audio library class should perform operations on the current
 audio buffer.
 Due to the regular timing of calls to \texttt{AudioStream::update}, and the
-correspondence between an audio buffer and a network audio packet, it was
+correspondence between an audio buffer and a networked audio packet, it was
 tempting to use that method, and thus the underlying audio interrupt, as an
 opportunity to handle networking operations too.
 This proved unreliable, however; conflicts between the audio and network
@@ -450,44 +451,44 @@ The aim of this approach was to minimise reliance on the adaptive resampler
 described above, and ultimately encourage all clients to run at the same audio
 rate as the server.
 
-\subsubsection{An Unexpected Source of Jitter}
-
-Jitter does not arise solely during the journey from machine to machine across
-a network.
-It was found that, using the general purpose computer's default audio host
-(ALSA), the timing of iterations of JUCE's audio processing loop, and thus
-signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.\
-subject to a high degree of jitter.
-Though the average rate of execution was commensurate with the selected sample
-rate and audio buffer size, individual audio buffer intervals differed, in
-microsecond terms, by up to an order of magnitude.
-This inconsistent audio timing was sufficient to cause transmission jitter that
-overwhelmed the client-side strategy for jitter compensation.
-The result was persistent audible distortion due to rapid fluctuations in the
-client's audio buffer read-position increment.
-
-Switching from ALSA to JACK as the audio host resolved this issue, but since
-JACK \textit{uses} ALSA as its underlying audio host, this phenomenon was
-difficult to account for.
-A detailed description lies beyond the scope of this report, but
-essentially JACK uses \textit{direct memory access} to map the underlying audio
-device into memory,\footnote{
-    Credit goes to Stéphane Letz, a prominent contributor to the JACK project,
-    for providing this bit of context.
-} and seemingly does so in a more effective manner than the driver
-for the sound card on the development machine.
-It is not known at the time of writing whether using ALSA with an external audio
-interface (a potential barrier to entry) would have improved the situation.
-
-This incident serves to illustrate that, beyond the concerns associated
-with effective software design, a system such as the one described here, for
-which the timing of operations is critical, is subject to the whims of a variety
-of supporting hardware and software systems \textemdash{} things that in a more
-conventional audio system can, to a greater degree, be taken for granted.
-The topic of whether to attempt to compensate for this manner of phenomenon in
-software or impose strict requirements on a future end-user in terms the audio
-host they should use (something that would almost certainly vary with the user's
-operating system), remains one for future research.
+%\subsubsection{An Unexpected Source of Jitter}
+%
+%Jitter does not arise solely during the journey from machine to machine across
+%a network.
+%It was found that, using the general purpose computer's default audio host
+%(ALSA), the timing of iterations of JUCE's audio processing loop, and thus
+%signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.\
+%subject to a high degree of jitter.
+%Though the average rate of execution was commensurate with the selected sample
+%rate and audio buffer size, individual audio buffer intervals differed, in
+%microsecond terms, by up to an order of magnitude.
+%This inconsistent audio timing was sufficient to cause transmission jitter that
+%overwhelmed the client-side strategy for jitter compensation.
+%The result was persistent audible distortion due to rapid fluctuations in the
+%client's audio buffer read-position increment.
+%
+%Switching from ALSA to JACK as the audio host resolved this issue, but since
+%JACK \textit{uses} ALSA as its underlying audio host, this phenomenon was
+%difficult to account for.
+%A detailed description lies beyond the scope of this report, but
+%essentially JACK uses \textit{direct memory access} to map the underlying audio
+%device into memory,\footnote{
+%    Credit goes to Stéphane Letz, a prominent contributor to the JACK project,
+%    for providing this bit of context.
+%} and seemingly does so in a more effective manner than the driver
+%for the sound card on the development machine.
+%It is not known at the time of writing whether using ALSA with an external audio
+%interface (a potential barrier to entry) would have improved the situation.
+%
+%This incident serves to illustrate that, beyond the concerns associated
+%with effective software design, a system such as the one described here, for
+%which the timing of operations is critical, is subject to the whims of a variety
+%of supporting hardware and software systems \textemdash{} things that in a more
+%conventional audio system can, to a greater degree, be taken for granted.
+%The topic of whether to attempt to compensate for this manner of phenomenon in
+%software or impose strict requirements on a future end-user in terms the audio
+%host they should use (something that would almost certainly vary with the user's
+%operating system), remains one for future research.
 
 %\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
 %
@@ -542,9 +543,9 @@ driving function becomes:
     d_k(\bfx,t) = f(t, r_k) \ast \delta\left(t - \frac{r_k-y_k}{c}\right).
 \end{equation}
 In implementation, the prefilter was tuned by ear using Faust's
-\texttt{fi.lowpass} function\footnote{
+\texttt{fi.lowpass} function;\footnote{
     \url{https://faustlibraries.grame.fr/libs/filters/\#filowpass}
-};
+}
 a thorough treatment of the simulation of distance effects in WFS stands as a
 topic for future work.
 
@@ -600,16 +601,16 @@ big-endian 32-bit floating point number, \texttt{0x3d1b5fa2}, approximately
 
 \subsection{System Overview}\label{subsec:system-overview}
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=.75\textwidth]{figures/multicast}
-    \caption{Architecture of the networked audio system.
-    The server sends audio and control data to a UDP multicast group on
-    distinct port numbers; clients listen for this data, and send an audio
-    stream back to the multicast group with which the server can register
-    their presence on the network.}
-    \label{fig:architecture}
-\end{figure}
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics[width=.75\textwidth]{figures/multicast}
+%    \caption{Architecture of the networked audio system.
+%    The server sends audio and control data to a UDP multicast group on
+%    distinct port numbers; clients listen for this data, and send an audio
+%    stream back to the multicast group with which the server can register
+%    their presence on the network.}
+%    \label{fig:architecture}
+%\end{figure}
 
 The proposed system being composed of multiple hardware and software components,
 it is worthwhile to summarise the nature of these components and the
@@ -617,18 +618,18 @@ interactions between them.
 
 \subsubsection{Hardware Setup}
 
-The network audio server runs on a general purpose computer.
+The networked audio server runs on a general purpose computer.
 During the development and testing of this project, that computer was an ASUS
 G513R Notebook PC, with an AMD Ryzen 7 6800H processor with a clock
 speed of \qty{3.2}{\GHz}.
 For the majority of development, the computer's internal sound card was used;
 for testing and evaluation, it was connected to a Steinberg UR44C USB audio
-interface in the hope that this would provide better reliability in terms of
-audio interrupt timing.
+interface, the expectation being that this would provide better reliability in
+terms of audio interrupt timing.
 
 The computer was connected via CAT6 ethernet cable to an eight-port ethernet
 switch (D-Link DGS-108GL).
-For evaluation, and to support a total of eight network audio clients, this
+For evaluation, and to support a total of eight networked audio clients, this
 switch was daisy-chained to an additional switch (D-Link DES-1008D).
 Teensy 4.1 hardware modules, assembled as per \figref{fig:teensy}, were
 connected via CAT6 ethernet cables to available ports on the ethernet switches.
@@ -656,7 +657,7 @@ speakers.
 \end{figure}
 
 Server-side, the software system consists of a VST plugin running in Reaper
-digital audio workstation software\footnote{\url{https://reaper.fm/}}.
+digital audio workstation software.\footnote{\url{https://reaper.fm/}}
 The plugin comprises the networked audio server, receiving monophonic audio
 sources in the form of audio or instrument tracks in the DAW, plus a control
 data server, commanded either by parameter automation via the DAW, or manually
@@ -674,8 +675,8 @@ of the hardware module on which it is running.
 Additionally, the client-side networked audio client returns a stream of audio
 data to the multicast group, to be consumed by the server.
 
-A diagram of the fundamental system architecture is shown in
-\figref{fig:architecture}.
+%A diagram of the fundamental system architecture is shown in
+%\figref{fig:architecture}.
 Code for the server and client software components can be found at
 \url{https://github.com/hatchjaw/netjuce} and
 \url{https://github.com/hatchjaw/netjuce-teensy} respectively.\todo[inline]{

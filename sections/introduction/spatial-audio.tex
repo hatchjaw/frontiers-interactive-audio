@@ -131,8 +131,7 @@ listening position, or \textit{sweet-spot}~\citep{nicol_sound_2017}, that is a
 listening position away from which the spatialisation effect is significantly
 degraded.
 Binaural reproduction, if not coupled with head motion tracking, is similarly
-afflicted by an ideal position and
-\textit{orientation}~\citep{verheijen_sound_1998};
+afflicted by an ideal position and orientation~\citep{verheijen_sound_1998};
 further, for faithful reproduction, HRTFs should be
 individualised~\citep{de_poli_physically_1998}.
 As such, these techniques are not suited to collective and immersive auditory
@@ -244,8 +243,8 @@ where the driving function $d_k$ is~\citep{ahrens_analytic_2012}:
     \label{eq:driving-function}
     d_k(\bfx,t) = \frac{y_k}{r_k}f(t) \ast \delta\left(t - \frac{r_k}{c}\right).
 \end{equation}
-The \textit{WFS prefilter} $f(t)$ is a function that aims to simulate the
-absorption of energy into the simulated medium of acoustic propagation.
+The \textit{WFS prefilter} $f(t)$ is a function that simulates the absorption of
+energy into the simulated medium of acoustic propagation.
 The delta function $\delta$ has the effect of delaying the prefilter, and thus
 $\sigink$, by the time of propagation for a medium with propagation speed $c$
 (typically modelled as \qty[per-mode=symbol]{343}{\m\per\s} for sound in air).
@@ -254,25 +253,53 @@ The components of the driving function are depicted in \figref{fig:wfs_2}.
 \subsubsection{State of the Art Spatial Audio Installations}
 \label{subsubsec:spatial-sota}
 
-A full 24-channel OTTOsonics system, including speakers and audio interface, is
-costed at around \texteuro{2600}.
-A more conventional, 64-channel WFS system, such as is installed in the
-Multisensory Experience Lab at Aalborg University (AAU),
-Copenhagen~\citep{grani_gestural_2016}, features two 32-channel MADI to analogue
-converters costing roughly \texteuro{5000} apiece.
+As described, for optimal spatial resolution, systems implementing ambisonics
+and WFS require many output channels; in effect, the more channels, and the
+greater the loudspeaker-density, the better.
+
+The Multisensory Experience Lab at Aalborg University (AAU), Copenhagen, hosts
+a 64-channel, square-array WFS system covering an area of
+\qtyproduct{4 x 4}{\m}~\citep{grani_gestural_2016}.
+It is driven by a Mac Pro desktop computer, connected, via a USB MADI interface,
+to two 32-channel MADI to analogue converters.
+Though this system's WFS engine is provided by open-source \textit{WFSCollider}
+software,\footnote{\url{https://github.com/GameOfLife/WFSCollider}} being a
+centralised system, the computer that co-ordinates its operation is powerful
+\textemdash{} 12-core CPU, \qty{64}{\giga\byte} RAM \textemdash{} and was costly
+at the time of purchase; likely on the order of several thousand Euros.
+With further regard to cost, the current equivalent MADI to analogue converter
+models are priced at roughly \texteuro{5000} apiece.
+Excluding the cost of loudspeakers (and the gantry upon which they are mounted)
+one may reasonably place an estimate of \texteuro{250} per output channel on
+this system.
+
 The world's largest WFS system, at TU Berlin, features over 800 output channels
-driven by a distributed cluster of fifteen
-computers~\citep{baalman_renewed_2007}\footnote{
+served by a distributed cluster of fifteen computers acting as audio nodes and
+two additional control computers~\citep{baalman_renewed_2007}.\footnote{
     See also
     \url{https://tu.berlin/en/ak/research/projects/wellenfeldsynthese-fuer-einen-grossen-hoersaal}
     and WFS speaker module produced by Four Audio for installation at TU
     \url{https://four-audio.com/en/products/wfs/}.
-}; the expense associated with this system is difficult to assess, as it is tied
-to the concert hall space in which it resides.
+}
+The fifteen audio nodes of the TU Berlin system are each equipped with a MADI
+audio interface, connected to a MADI to ADAT bridge;
+these can, at the time of writing, be purchased for around \texteuro{\num{1400}}
+and \texteuro{\num{4500}} each, respectively, for a total of
+\texteuro{\num{88500}}.
+Imagining \texteuro{2000} per computer, a conservative estimate of
+\texteuro{150}/channel may be reached, however the expense associated with this
+system is difficult to assess as it is tied to the concert hall space in which
+it resides.
 Indeed, one thing besides expense that unites the systems at AAU and TU Berlin,
 plus similar installations at IRCAM (Paris)\footnote{
     \url{https://ircam.fr/article/connaissez-vous-lespace-de-projection}
-} and the Rensselaer Polytechnic Institute (NY, USA)\footnote{
+} and the 512-channel system at the Rensselaer Polytechnic Institute
+(NY, USA)\footnote{
     \url{https://empac.rpi.edu/about/building/venues}
 } is their \textit{in-situ} nature;
 these are site-specific systems with, at best, limited flexibility.
+
+What one is afforded by WFS installations of this scale and expense, however, is
+high quality audio reproduction with tantamount to perfect output synchronicity;
+the integrity of the holophonic effect of WFS is, unavoidable matters of spatial
+aliasing aside, guaranteed.

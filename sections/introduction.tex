@@ -9,16 +9,18 @@ Field Synthesis (WFS) and Higher Order Ambisonics
 (HOA)~\citep{berkhout_acoustic_1993,ahrens_theory_2008,daniel_further_2003,
     frank_producing_2015}.
 These techniques call for the deployment of large numbers of loudspeakers, and
-centralised, \textit{in situ} installations of dedicated hardware and software.
+\textit{in situ} installations of dedicated hardware and software.
 The costs associated with such installations have seen them largely restricted
 to the preserve of concert venues, cinemas, and institutions with the means to
 purchase and operate large-scale systems of this sort.
 
 Advancements in embedded computing mean that there now exist an assortment of
 small, low-cost devices with support for audio Digital Signal Processing (DSP).
-These devices are open source, relatively easy to program, and may provide
-support for communication over ubiquitous computer networking equipment and
-protocols.
+These devices are relatively easy to program with open-source APIs and
+libraries, and may provide support for communication over ubiquitous computer
+networking equipment and protocols, an important capability in light of the
+rise of high-speed ethernet as a standard for multichannel audio
+transmission~\citep{bakker_introduction_2014}.
 A network of such devices could be used to \textit{distribute} the problem of
 audio spatialisation, potentially lowering the barrier to entry to what is
 otherwise a comparatively exclusive branch of audio research.
@@ -63,12 +65,12 @@ possible, the work here could lead to a lowering of the barrier to entry of
 the creation of large scale spatial and immersive audio installations.
 With a view to optimising accessibility and interoperability with existing audio
 tools, the decision was made to encapsulate server part of the proposed
-networked audio system in an audio plugin suitable for use in a DAW.
+networked audio system in an audio plugin suitable for use in a DAW\@.
 This plugin should deliver audio and control data to a network of
 microcontroller-based clients via a UDP multicast group.
 Clients, programmed with a parallelised WFS algorithm, should use the audio and
 control data to perform their part of the distributed signal process.
-An overview of the system is depicted in \figref{fig:system-overview}.
+An overview of the proposed system is depicted in \figref{fig:system-overview}.
 
 WFS was chosen for implementation due to the comparative ease with which the WFS
 algorithm can be parallelised.

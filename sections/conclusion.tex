@@ -45,20 +45,30 @@ is built around, plus its software libraries \textemdash{} much that is
 typically taken for granted in the development of embedded systems, and audio
 and networking systems, calls for deeper investigation.
 
-Each Teensy generates a clock signal to deliver to its audio shield.
+Each microcontroller generates a clock signal to deliver to its audio shield.
 In a locally distributed setting, this is quite redundant.
-It may be possible to generate a single, authoritative clock on one Teensy
-and deliver that to all others in the system.
-If this can be achieved, it would remedy the issue of clock drift, leaving
-only jitter to be addressed.
+It may be possible to generate a single, authoritative clock on one node and
+deliver that to all others in the system.
+If this can be achieved, it would remedy the issue of clock drift, leaving only
+jitter to be addressed.
+Furthermore, Teensy is not the only platform worthy of consideration;
+developments in microcontroller technology are to be expected, and devices
+supporting higher-quality audio than offered by Teensy may emerge.
+One device not considered here is the Raspberry Pi, a powerful, low-cost
+platform, most commonly operated as a single-board computer, with an operating
+system.
+Support exists for \textit{bare-metal} development for the Raspberry Pi,
+however, and since it can output 24-bit audio, it should be investigated for its
+suitability.
 
-A basic, linear, distributed wave field synthesis algorithm has been
-demonstrated, implementing primary virtual sources.
+With regard to audio spatialisation, a basic, linear, wave field synthesis
+algorithm has been demonstrated here, implementing primary virtual sources.
 WFS is capable of producing other types of sources, supporting nonlinear
 speaker arrays, three-dimensional arrays, and more faithful models of
 energy loss due to absorption.
 There are many further avenues to pursue, including optimising any DSP
-algorithms to best exploit the capabilities of what is, in the shape of the
-Teensy, a very powerful platform.
-Further, and only given cursory treatment here, higher order ambisonics remains
-as a worthy target for implementation in future work.
+algorithms to best exploit the capabilities of what, in the shape of the
+Teensy and other microcontroller systems, are very powerful platforms.
+Further, and only given cursory treatment here, higher order ambisonics, subject
+to an assessment of its suitability to parallelisation, remains as a worthy
+target for implementation in future work.
