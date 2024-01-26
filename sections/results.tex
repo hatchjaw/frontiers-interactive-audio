@@ -330,9 +330,9 @@ Resets of this sort may account for the large steps seen in the drift plots
 in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32}.
 It is clear that this strategy could be significantly improved upon.
 
-The phasing effect noted by one participant is a disappointing consequence
-of the approach taken to combating jitter and keeping the clients close,
-temporally, together, and as close to the server as possible.
+The phasing effect noted by one participant is a  consequence of the approach
+taken to combating jitter and keeping the clients close, temporally, together,
+and as close to the server as possible.
 It is clear that the current approach is, at best, too aggressive to be viable
 for high-quality audio output.
 Furthermore, an unpitched sound source like a snare drum, though audibly
@@ -340,3 +340,18 @@ susceptible to the time-varying comb-filter effect described, masks other
 artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
 read position increment, and sudden, comparatively large audio clock
 adjustments.
+
+The above being said, the perceptual test shows that the system produces virtual
+sound sources that listeners are, at least to some extent, able to localise.
+Further, it achieves this at a significantly lower cost-per-channel than any of
+the systems discussed in sections \secref{subsubsec:spatial-sota}, and, speakers
+excepted, compares favourably with the OTTOSonics system referred to in
+\secref{subsec:distributed-audio-systems}, particularly as channel-count
+increases, i.e.\ in terms of cost, it has the potential to scale better.
+The most costly component of the system is the computer, but this could be
+exchanged for any interested user's personal machine, so long as it is able to
+run a DAW and has an ethernet interface.
+The Teensy modules, including audio shield, cost around \texteuro{45};
+eight-port ethernet switches can be purchased for as little as \texteuro{20-30}
+Assuming a computer costing \texteuro{1500}, at 16 channels we can estimate
+around \texteuro{120}/channel, dropping to \texteuro{50} for 64 channels.
