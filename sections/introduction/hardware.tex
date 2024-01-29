@@ -22,11 +22,22 @@ these include various \textit{ESP32} and \textit{STM32} models, and the
 \textit{Daisy} and \textit{Teensy} microcontroller ranges.
 These platforms benefit from the wealth of tools, documentation and support
 associated with Arduino and the surrounding D.I.Y.\ and maker communities.
-Also worthy of consideration is the Bela platform;
-though an \textit{embedded Linux system} rather than a microcontroller
-\textemdash{} being based on the \textit{BeagleBone Black} single-board computer
-\textemdash{} it is a small-footprint audio-focused device, with an accessible,
-web-based IDE, and suitable for embedded applications.
+Also worthy of consideration are the \textit{Raspberry Pi} and \textit{Bela}
+platforms.
+Though these are \textit{Embedded Linux Systems} (ELS) rather than
+microcontrollers,
+%\textemdash{} Bela is an audio ``cape'' for the \textit{BeagleBone Black}
+%single-board computer, and a variety of audio breakout-boards exist for
+%producing high quality audio output with Raspberry Pi models \textemdash{}
+they are small-footprint devices, suitable for embedded applications.
+Bela in particular has been designed with a focus on audio development and
+interaction via sensors; it can be programmed via an accessible, web-based IDE,
+and the user need not interact with the underlying Linux operating system.
+Raspberry Pi is less approachable for audio development, and tends to be
+operated as more of a general-purpose small computer, though support for
+treating the platform like a microcontroller \textemdash{} taking a
+\textit{bare metal} approach \textemdash{} is offered via the \textit{Circle}
+environment.\footnote{\url{https://github.com/rsta2/circle}}
 
 The above systems are typically programmed in C++, with support for audio
 development provided by libraries such as Daisy's \textit{DaisySP} and Teensy's
@@ -88,14 +99,19 @@ and rapid prototyping.
         \texteuro{19} \\
 
         STM32H747I\tablefootnote{\url{https://st.com/en/evaluation-tools/stm32h747i-disco.html}} &
-        ARM Cortex-M7 \qty{480}{\MHz} + Cortex-M4 \qty{240}{\MHz} &
+        ARM Cortex-M7 \qty{480}{\MHz} + M4 \qty{240}{\MHz} &
         \qty{1}{\mega\byte} RAM &
         \texteuro{94} \\
 
         Bela\tablefootnote{\url{https://shop.bela.io/products/bela-starter-kit}} &
         ARM Cortex-A8 \qty{1}{\GHz}\tablefootnote{\url{https://beagleboard.org/black}} &
-        \qty{512}{\mega\byte} DDR3 &
-        \texteuro{190}
+        \qty{512}{\mega\byte} SDRAM &
+        \texteuro{190} \\
+
+        Raspberry Pi 4\tablefootnote{\url{https://www.raspberrypi.com/products/raspberry-pi-4-model-b/}} &
+        ARM Cortex-A72 \qty{1.8}{\GHz} &
+        \qtyrange{1}{8}{\giga\byte} SDRAM &
+        \texteuro{30-100}
     \end{tabular}
     \caption{Comparison of selected embedded audio development platforms.
     Prices as of January 2024.}
@@ -106,6 +122,12 @@ A comparison of selected devices can be found in
 \tabref{tab:embedded-comparison}.
 Bela is significantly more powerful than the microcontroller systems, but it is
 commensurately costly.
+The Raspberry Pi is also very capable, and a model with \qty{1}{\gigabyte} RAM
+may cost as little as \texteuro{30};
+its operating system stands as an impediment, however, to implementations that
+seek to prioritise audio functionality over all else.
+Support for bare metal development on Raspberry Pi is not comprehensive, and
+there is no Faust tool to produce code that is compatible with Circle.
 Daisy Seed is well-appointed with memory (which is important for DSP algorithms
 featuring long delay-lines, for example), but does not feature ethernet support.
 Teensy 4.1, and the selected ESP32 and STM32 devices support networking via
