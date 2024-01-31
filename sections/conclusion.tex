@@ -54,12 +54,13 @@ jitter to be addressed.
 Furthermore, Teensy is not the only platform worthy of consideration;
 developments in microcontroller technology are to be expected, and devices
 supporting higher-quality audio than offered by Teensy may emerge.
-One device not considered here is the Raspberry Pi, a powerful, low-cost
-platform, most commonly operated as a single-board computer, with an operating
-system.
-Support exists for \textit{bare-metal} development for the Raspberry Pi,
-however, and since it can output 24-bit audio, it should be investigated for its
-suitability.
+One device considered briefly here is the Raspberry Pi;
+in principle it is priced comparably with the Teensy, and is supported by audio
+breakout boards that can output 24-bit audio.
+Improved bare metal support, including the creation of a \texttt{faust2circle}
+tool, could make Raspberry Pi a significantly more attractive platform,
+particularly in terms of memory and the dimensions of the sound fields that
+could be produced.
 
 With regard to audio spatialisation, a basic, linear, wave field synthesis
 algorithm has been demonstrated here, implementing primary virtual sources.

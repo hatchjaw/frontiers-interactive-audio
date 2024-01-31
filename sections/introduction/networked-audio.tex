@@ -112,28 +112,94 @@ audio installations, in the 2000s audio companies were looking to high speed
 ethernet as a means to simplify the provision of high-quality, multichannel
 audio in industry settings.
 
-Dante, with its promise of low-latency, highly-multichannel audio over ethernet,
-and device synchronisation via Precision Time Protocol (PTP), has become the de
-facto standard in this area~\citep{bakker_introduction_2014}.
+Key to these efforts was the release, in 2002, of the IEEE 1588 standard for the
+Precision Time Protocol (PTP), a means by which networked computer systems
+can achieve clock synchronicity~\citep{lee_proceedings_2005}.
+PTP superseded the lower-resolution Network Time Protocol (NTP), and, under
+ideal conditions, can achieve synchronisation accuracy of sub-microsecond
+order~\citep{tongzhou_research_2022}.
+Synchronisation is achieved via the exchange of timestamped packets, coupled
+with precise estimates for send and receive times.
+Precision is best when timestamps can be calculated at the \textit{physical
+layer} \textemdash{} the lowest level of the Open Systems Interconnection (OSI)
+model, of which the aforementioned transport layer is a component \textemdash{}
+i.e.\ by dedicated timers at the level of the physical network interface.
+Legacy and low-cost networking equipment do not possess support for hardware
+timestamping, however~\citep{correll_design_2006}, and devices that do offer
+such support are markedly more expensive\footnote{
+    Consumer-grade, eight-port ethernet switches can cost as little as
+    \texteuro{20};
+    The cheapest equivalent devices with PTP support cost, at the time of
+    writing, on the order of \texteuro{150-200}, e.g.\
+    \url{https://www.fs.com/de-en/products/148180.html}.
+}.
+PTP can be deployed as a software-only
+implementation~\citep{correll_design_2006}, albeit with impaired accuracy and
+a protracted clock-convergence period.
+
+Dante, with its promise of low-latency, highly-multichannel audio over wired
+LAN, and device synchronisation via hardware PTP, has become the de facto
+industry standard in networked audio~\citep{bakker_introduction_2014}.
 In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1)
 standard~\citep{ieee_ieee_2011}, and AES67 followed in
 2013~\citep{hildebrand_aes67-2013_2014};
 these open technical standards describe operation at layers below TCP and UDP
-in the OSI (Open Systems Interconnection) model, and provide frameworks for
+in the OSI model, and provide frameworks for
 interoperability between AoE and AoIP systems, including mechanisms for device
 discovery and synchronisation, again via PTP\@.
 Being standards, and not implementations in themselves, it is then up to
 manufacturers to implement the appropriate recommendations in their products.
-(AES67, for example, has in fact been implemented in Dante.)
 
 Bakker et al.\ refer to Dante as an ``open'' system, which is true, perhaps, in
 the sense that companies can incorporate the Dante system into their products
 under licence from Audinate;
 from the perspective of the academic community, however, Dante is very much a
 closed-source initiative and not a suitable platform for research.
-Open implementations of AVB and AES67 could be of interest, however their
-reliance on PTP, support for which is not offered by ubiquitous, low-cost
-networking equipment, raises the barrier to entry to systems based on these
-standards.
+Open implementations of AVB and AES67 exist, but, being complex standards
+featuring many components, such implementations may not be complete, and support
+for embedded platforms is limited,\footnote{
+    See, for example, \url{https://github.com/tschiemer/aes67} and
+    \url{https://github.com/adiknoth/Open-AVB}.
+} and a reliance on PTP raises the barrier to entry, if hardware-based accuracy
+is sought.
 Ultimately, if an accessible solution is sought, attention must be turned back
 to the transport layer, and UDP\@.
+
+\subsubsection{Challenges Posed by Networked Audio}\label{subsubsec:challenges}
+
+Time, especially when dealing with the fine margins posed by real-time audio
+processing, represents the principal source of difficulty in a networked
+audio setting.
+
+\textit{Jitter} refers to fluctuations in the rate of transmission or
+processing.
+In a networked audio setting, jitter gives rise to a situation whereby the
+arrival of audio data does not correspond with the moments at which it is
+needed.
+In a naive implementation, this may result in a recipient either halting
+processing until it receives the expected data, or simply continuing without
+any data.
+In either case, the result is likely to be disruption of the integrity of the
+audio signal in the form of audible discontinuities.
+
+\textit{Clock drift} arises as an inevitable consequence of no source of time
+in a system of computation being perfectly uniform, and no two sources of time
+being identical.
+The timing of a computer system is typically governed by a crystal oscillator,
+the accuracy of which is affected by factors such as ambient temperature, and
+potentially computational load on the system it
+governs~\citep{marouani_internal_2008}.
+Relative drift (sometimes, within the diagnostic parts of JackTrip for example,
+referred to as \textit{skew}), is the difference in clock rates between two or
+more systems.
+Whereas jitter is a short-term phenomenon, clock drift typically takes effect
+over a longer timescale.
+As two distinct systems of time move in and out of phase with each other over
+the longer term, drift may indeed give rise to jitter.
+
+In professional audio settings, devices may be synchronised via an authoritative
+clock source such as word clock, or, in a networked setting, via PTP.\
+In the absence of such an authoritative source, e.g.\ over a wide area network,
+or if using hardware that does not support such measures, buffering strategies
+are typically employed, coupled with delay-locked
+loops and resampling~\citep{adriaensen_using_2005, adriaensen_controlling_2012}.

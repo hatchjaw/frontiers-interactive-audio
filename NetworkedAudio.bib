@@ -868,7 +868,6 @@
 
 @article{michon_embedded_2020,
 	title = {Embedded {Real}-{Time} {Audio} {Signal} {Processing} {With} {Faust}},
-	abstract = {FAUST has been targeting an increasing number of embedded platforms for real-time audio signal processing applications in recent years. It can now be used to program microcontrollers, mobile platforms, embedded Linux systems, Digital Signal Processors (DSPs), and more. This paper gives an overview of existing targets, presents ongoing research, and gives potential avenues for future developments in this ﬁeld.},
 	author = {Michon, Romain and Orlarey, Yann and Letz, Stéphane and Fober, Dominique and Roosenburg, Dirk},
 	year = {2020},
 	file = {Michon et al. - 2020 - Embedded Real-Time Audio Signal Processing With Fa.pdf:/home/tar/Zotero/storage/T95VMA5Z/Michon et al. - 2020 - Embedded Real-Time Audio Signal Processing With Fa.pdf:application/pdf},
@@ -876,7 +875,6 @@
 
 @article{hildebrand_aes67-2013_2014,
 	title = {{AES67}-2013: {AES} standard for audio applications of networks - {High}-performance streaming audio-over-{IP} interoperability},
-	abstract = {This paper accompanies the respective NAB BEC 2013 presentation on the AES67 standard on highperformance streaming audio-over-IP interoperability. While the conference presentation can provide just a brief overview on intention, scope and content of the standard, this paper provides a more in-depth view on the technical ingredients of AES67 and its applicability.},
 	author = {Hildebrand, Andreas},
 	year = {2014},
 	file = {Hildebrand - 2014 - AES67-2013 AES standard for audio applications of.pdf:/home/tar/Zotero/storage/I6T9K3S6/Hildebrand - 2014 - AES67-2013 AES standard for audio applications of.pdf:application/pdf},
@@ -905,7 +903,6 @@
 
 @inproceedings{grani_gestural_2016,
 	title = {Gestural {Control} {Of} {Wavefield} synthesis},
-	abstract = {We present a report covering our preliminary research on the control of spatial sound sources in waveﬁeld synthesis through gesture based interfaces.},
 	booktitle = {Sound {And} {Music} {Computing} {Conference} 2016},
 	author = {Grani, Francesco and Di Carlo, Diego and Madrid Portillo, Jorge and Girardi, Matteo and Paisa, Razvan and Banas, Jian Stian and Vogiatzoglou, Iakovos and Overholt, Dan and Serafin, Stefania},
 	year = {2016},
@@ -931,7 +928,6 @@
 
 @article{orlarey_faust_2009,
 	title = {{FAUST}: an {Efficient} {Functional} {Approach} to {DSP} {Programming}},
-	language = {en},
 	journal = {New computational paradigms for computer music},
 	author = {Orlarey, Yann and Fober, Dominique and Letz, Stéphane},
 	year = {2009},
@@ -959,4 +955,37 @@
 	year = {1995},
 	pages = {58},
 	file = {Malham and Myatt - 1995 - 3-D Sound Spatialization using Ambisonic Technique.pdf:/home/tar/Zotero/storage/YRMBDFER/Malham and Myatt - 1995 - 3-D Sound Spatialization using Ambisonic Technique.pdf:application/pdf},
+}
+
+@inproceedings{tongzhou_research_2022,
+	address = {Dalian, China},
+	title = {Research and {Implementation} of {High} {Precision} {Clock} {Synchronization} of {Network} {Audio} {System} {Based} on {FPGA} and 10-{Gigabit} {Ethernet}},
+	isbn = {978-1-66548-122-9},
+	url = {https://ieeexplore.ieee.org/document/9927717/},
+	doi = {10.1109/ICISCAE55891.2022.9927717},
+	abstract = {This paper proposes a new high-precision clock synchronization architecture, using 10-Gigabit Ethernet and 2layer encapsulation, and can be used in network audio systems like studios, and OB vehicles. We choose linuxptp on PC for the master clock device and FPGA for the slave clock device. Compared with commonly used architecture like PTPd, the synchronization accuracy of our system is reduced to 524ns (120 minutes running time).},
+	urldate = {2024-01-30},
+	booktitle = {2022 {IEEE} 5th {International} {Conference} on {Information} {Systems} and {Computer} {Aided} {Education} ({ICISCAE})},
+	publisher = {IEEE},
+	author = {Tongzhou, Wu and Lunhui, Deng},
+	month = sep,
+	year = {2022},
+	pages = {154--161},
+	file = {Tongzhou and Lunhui - 2022 - Research and Implementation of High Precision Cloc.pdf:/home/tar/Zotero/storage/UK7HHQSE/Tongzhou and Lunhui - 2022 - Research and Implementation of High Precision Cloc.pdf:application/pdf},
+}
+
+@article{lee_proceedings_2005,
+	title = {Proceedings of the 2005 {Conference} on {IEEE} 1588 {Standard} for a {Precision} {Clock} {Synchronization} {Protocol} for {Networked} {Measurement} and {Control} {Systems}},
+	author = {Lee, Kang B and Eidson, John C and Weibel, Hans and Mohl, Dirk},
+	year = {2005},
+}
+
+@inproceedings{correll_design_2006,
+	title = {Design {Considerations} for {Software} {Only} {Implementations} of the {IEEE} 1588 {Precision} {Time} {Protocol}},
+	abstract = {This paper investigates adjusting computer clock frequency and time to provide a precise clock for test and measurement systems. In particular, it is concerned with the precision achievable using IEEE 1588 Precision Time Protocol systems without the support of specialized hardware. This paper outlines the design of a free IEEE 1588 implementation named PTPd. Particular attention is paid to the design of the clock servo—the system that steers the clock rate. This paper evaluates the implementation by the precision of the time coordination between networked test and measurement systems. I. INTRODUCTION The IEEE 1588 Precision Time Protocol (PTP) (1) provides a means by which networked computer systems can agree on a master clock reference time, and a means by which slave clocks can estimate their offset from master clock time. PTP implementations typically have a clock servo that uses a series of time offset estimates to coordinate the local slave clock with the reference master clock time, a process referred to as clock discipline. This paper presents our software-only implementation of PTP. Precise time coordination with PTP relies on precise estimates of the send and receive times (time stamps) of messages exchanged between the master and slaves. High precision time stamps can be achieved with the support of specialized hardware interfaces in the physical layer of the network; however, many legacy systems lack such hardware interfaces. A PTP implementation that is not supported by specialized hardware is referred to as a software-only implementation. These implementations must time stamp in higher layers of the network, which introduces large degrees of non-determinism in the time stamp latencies, known as jitter. Achieving precise master-slave time coordination with jittery time stamps is the primary obstacle in the design of software-only PTP implementations. This paper is organized as follows. Section II is a brief introduction to IEEE 1588 (PTP). Section III introduces PTPd, our open-source, software-only PTP implementation. Section IV provides an overview of clock servo design and the specifics of PTPd's clock servo. Section V presents test results of PTPd's performance in a target application. PTPd achieved precision on the order of microseconds. Section VI presents conclusions, comments on future work, and a link to PTPd's source code.},
+	booktitle = {Proceedings of the 2005 {Conference} on {IEEE} 1588 {Standard} for a {Precision} {Clock} {Synchronization} {Protocol} for {Networked} {Measurement} and {Control} {Systems}},
+	author = {Correll, Kendall and Barendt, Nick},
+	month = jan,
+	year = {2006},
+	file = {Full Text PDF:/home/tar/Zotero/storage/4F34L9LE/Correll and Barendt - 2006 - Design Considerations for Software Only Implementa.pdf:application/pdf},
 }
