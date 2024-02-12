@@ -139,18 +139,28 @@ JackTrip.\footnote{
 %        \end{multicodesublisting}
 %    \end{tcbraster}
 %\end{multicodelisting}
-\noindent
-A buffer size of 16 is represented by \mintinline{cpp}{BufferSizeT::BUF16},
-which is assigned the number 4, the appropriate power of two to use in
-converting between the enumeration and the number with which it corresponds.
-Similarly, a bit resolution of 16 is associated with
-\mintinline{cpp}{BitResolutionT::BIT16}, which takes the value 2, the number of
-bytes in a 16-bit integer.
 
-For well-formed packets, \mintinline{cpp}{BufferSize} could in fact
-be inferred from the size of the packet (minus its header), divided by
-\mintinline{cpp}{NumChannels} and \mintinline{cpp}{BitResolution}, the latter
-treated as the number of bytes per sample (as per the enumeration value).
+\texttt{BufferSize} describes the number of audio frames per packet\footnote{
+    Not to be confused with the number of \textit{samples} in the packet, the
+    number of frames is the number of samples divided by the number of channels.
+} as the $n$th power of 2; for example, the enumeration \texttt{BufferSizeT}
+features a member \texttt{BufferSizeT::BUF16}; 16 being the fourth power of 2,
+this is assigned the number 4.
+%An audio buffer size of 16 frames is represented by the enumeration member
+%\texttt{BufferSizeT::BUF16}, which is assigned the number 4, the appropriate
+%power of two to use in converting between the enumeration and the number with
+%which it corresponds.
+\texttt{BitResolution} could be used to transmit one of 8, 16, 24, or 32 as-is;
+there is a utility, however, when decoding a packet, in knowing the number of
+\textit{bytes} per audio sample, so this is the number that is represented, e.g.
+\texttt{BitResolutionT::BIT16} takes the value 2, the number of bytes in a
+16-bit integer.
+
+For well-formed packets, \texttt{BufferSize} could be inferred from the size of
+the packet (minus its header), divided by \texttt{NumChannels} and
+\texttt{BitResolution}.
+%, the latter treated as the number of bytes per sample (as
+%per the enumeration value).
 To permit scope for the detection of malformed packets, however, the expense
 of an additional byte in the header was deemed a reasonable one.
 The sequence number will wrap around every 65,536 packets, and is intended as
