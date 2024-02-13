@@ -240,7 +240,7 @@ The six subsequent bytes are the header inserted into the packet by
 \texttt{NetAudioServer}.
 In \lstref{listing:audio-packet} these are:
 \begin{itemize}
-    \item~\texttt{0xdf1c}: a sequence number (little-endian) of
+    \item~\texttt{0x1cdf}: a sequence number (little-endian) of
     \numDec{7391};\footnote{Subscript 10 is employed here to indicate a decimal
     number.}
     \item~\texttt{0x04}: buffer size \num{4} corresponding with
@@ -268,16 +268,15 @@ First, its impulse-like behaviour once every \num{32768} samples (roughly
 \qty{.74}{\s} at a sampling rate of \qty{44.1}{\kHz}) is useful for taking basic
 synchronicity measurements, e.g.\ involving connecting two clients' audio
 outputs to an oscilloscope.
-Second, this numerically-predictable signal served as a means to inspect the
-integrity of the audio server algorithm, and to identify the appropriate
-endianness for transmission.
+Second, this numerically-predictable signal serves as a means to inspect the
+integrity of the audio server algorithm, and to verify that the expected
+sample interleaving and endianness is employed.
 Inspecting the first sixteen samples of the first audio channel
 %(grouped
 %by sample for legibility, see \lstref{listing:chan-1-samples}),
-it is evident
-that the amplitude values increment on a per-sample basis, and, since it is the
-first byte that increases with each sample, that samples are transmitted
-little-endian.
+it is evident that the amplitude values increment on a per-sample basis, and,
+since it is the first byte that increases with each sample, that samples are
+transmitted little-endian.
 
 %\codeinputlisting[float=h]
 %{text}
@@ -285,9 +284,14 @@ little-endian.
 %{Extracted samples from the transmitted unipolar sawtooth wave}
 %{chan-1-samples}
 
-The receiver thread polls its socket for traffic reaching the multicast group
-from clients, and uses the presence of an incoming packet stream as proof that
-a client is connected.
+The purpose of the server's receiver thread is to poll its socket for traffic
+reaching the multicast group from connected clients.
+Clients are programmed to return a stream of packets of audio data to the
+multicast group, and the receive thread uses the existence of a such a stream,
+with a given origin IP address, to indicate the presence of a client at that
+address.
+If a client fails to return a packet for more than \qty{1}{\second} it is
+considered disconnected.
 
 \subsubsection{Transmission Considerations}\label{subsubsec:transmission-considerations}
 
