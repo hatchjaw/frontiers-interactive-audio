@@ -68,8 +68,8 @@ Dependent on the intended application, and if assumptions can be made about
 matters such as sampling rate and bit resolution, a \textit{no-protocol}
 approach, such as described by Lopez-Lezcano~\citep{lopez-lezcano_jack_2012},
 may be a viable one.
-To make the new system somewhat flexible and future-proof, however, a simple
-packet header was devised.
+To improve the flexibility of the system and make it somewhat future-proof,
+however, a simple packet header was devised.
 Its structure is given in \lstref{listing:packet-header}.
 
 \begin{codelisting}{
@@ -166,6 +166,13 @@ of an additional byte in the header was deemed a reasonable one.
 The sequence number will wrap around every 65,536 packets, and is intended as
 a means for a recipient to identify the occurrence of packet loss.
 
+One piece of information that is not stated in the packet header is the manner
+in which audio samples in the packet should be interleaved.
+The assumption taken \textemdash{} indeed, the same assumption used by JackTrip
+\textemdash{} is that audio data is channel-interleaved, i.e.\ audio data
+consists of a contiguous block of samples for one channel, followed by a block
+for the next channel, and so on.
+
 \subsubsection{Server Design}
 
 \begin{figure}[ht]
@@ -175,11 +182,12 @@ a means for a recipient to identify the occurrence of packet loss.
     The network sender awaits notification of readiness to read samples from a
     first-in-first-out buffer of audio samples.
     The audio processor receives audio channels from a multichannel source
-        (e.g. a DAW); at each iteration of its processing loop, it writes samples
-        to the FIFO; upon write-completion, the FIFO sends a signal to the network
-        sender that a block of samples is ready.
-        Samples are converted to the appropriate format, and bundled into a UDP
-        packet which is then written to the network.}
+        (e.g. a DAW); at each iteration of its processing loop, it writes
+        samples to the FIFO; upon write-completion, the FIFO sends a signal to
+        the network sender that a block of samples is ready.
+        Samples are converted to the appropriate bit resolution
+        % and endianness?
+        and bundled into a UDP packet which is then written to the network.}
     \label{fig:audio-server}
 \end{figure}
 
@@ -233,14 +241,14 @@ The six subsequent bytes are the header inserted into the packet by
 In \lstref{listing:audio-packet} these are:
 \begin{itemize}
     \item~\texttt{0xdf1c}: a sequence number (little-endian) of
-    \numDec{7391};\footnote{Subscript 10 is employed here to indicate that we
-    are dealing with a decimal number.}
+    \numDec{7391};\footnote{Subscript 10 is employed here to indicate a decimal
+    number.}
     \item~\texttt{0x04}: buffer size \num{4} corresponding with
-    \texttt{BUF16};
+    \texttt{BufferSizeT::BUF16};
     \item~\texttt{0x02}: sampling rate \num{2} corresponding with
-    \texttt{SR44};
+    \texttt{SamplingRateT::SR44};
     \item~\texttt{0x02}: bit resolution \num{2} corresponding with
-    \texttt{BIT16};
+    \texttt{BitResolutionT::BIT16};
     \item~\texttt{0x02}: \num{2} audio channels.
 \end{itemize}
 
