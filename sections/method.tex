@@ -638,13 +638,14 @@ OSC control data, describing virtual sound source positions, speaker spacing,
 and informing clients of their position in the speaker array, is bundled into
 UDP packets and delivered by the server to the multicast group for all clients
 to consume.
-Source positions are described as coordinates in two-dimensional plane, with
+Source positions are described as coordinates in a two-dimensional plane, with
 $x$ and $y$ components, each normalised to the range $[0,1]$, transmitted
 separately.
 The width of the speaker array is inferred from the speaker spacing (in
 metres), multiplied by the number of speaker-intervals in the array, i.e.\ one
-fewer than the number of speakers, thus a virtual source can be located no
-further, laterally, than the centre of a speaker lying at the edge of the array.
+fewer than the number of speakers.
+%, thus a virtual source can be located no
+%further, laterally, than the centre of a speaker lying at the edge of the array
 For the proposed implementation, the number of speakers is known to the server
 and clients at compile time; with further development this could be made
 specifiable at runtime.

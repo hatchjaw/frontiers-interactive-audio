@@ -72,19 +72,18 @@ inferred to be around half of, and, of course, certainly not greater than, the
 RTT.\
 
 \subsubsection{Clock Drift/Skew}
-A unipolar sawtooth wave of unit amplitude
-increment was generated on the clients, subtracted from the incoming sawtooth
-wave from the server, and the difference (found similarly to
-equation~\eqref{eq:rtt}) returned to the multicast group for consumption by the
-server.
+A unipolar sawtooth wave of unit amplitude increment was generated on the
+clients, subtracted from the incoming sawtooth wave from the server, and the
+difference (found as per equation~\eqref{eq:rtt}) returned to the multicast
+group for consumption by the server.
 Under ideal conditions, the incoming signal and the one being generated on a
-given client, while not necessarily (and almost certainly not) synchronised,
-should be out of phase by some constant value;
-if this value changes then some relative drift has occurred between server and
+given client, while almost certainly not synchronised, should be out of phase by
+some constant value;
+if this value changes then relative drift has occurred between server and
 client.
-While not of direct relevance to synchronicity, the client-side clock-adjustment
-strategy was designed to minimise the reliance on the adaptive resampling
-approach that it complements;
+%While not of direct relevance to synchronicity,
+The client-side clock-adjustment strategy was designed to minimise the reliance
+on the adaptive resampling approach that it complements;
 low drift would be indicative of the effectiveness of that strategy.
 
 \begin{figure}[ht]
@@ -94,7 +93,19 @@ low drift would be indicative of the effectiveness of that strategy.
         Round-trip time, RTT spread, and clock drift measurements for eight
         networked audio clients, for a networked audio session of eight minutes'
         duration.
-        Audio buffer size, 16 samples.
+        Audio buffer size, 16 samples, sampling rate \qty{44.1}{\kHz}.
+        The legend in the bottommost plot applies also to the upper plot.
+        Round-trip time, in samples, measured at the server, and found as the
+        difference between an outgoing sawtooth wave and its returning
+        counterparts from each of eight connected clients.
+        Round-trip time spread found as the range ($\text{RTT}_{\max} -
+        \text{RTT}_{\min}$), in samples, at each point in time, of
+        round-trip times reported for all eight clients.
+        Mean spread is the arithmetic mean of RTT spread values taken across
+        the entire test.
+        Drift, in samples, found as the difference between an outgoing sawtooth
+        wave and a sawtooth wave generated on each client, that difference
+        returned to the multicast group for consumption by the server.
     }
     \label{fig:rtt-drift-16}
 \end{figure}
@@ -273,7 +284,7 @@ eight participants, are displayed in \figref{fig:perceptual}.
 As can be seen, although far from perfect, and with some significant
 outliers (e.g.\ the position reported by the fifth participant for test
 \textbf{(D)}), certain trends do appear to emerge from the results.
-Firstly, responses seem to loosely track the intended positions, with reported
+Firstly, responses loosely track the intended positions, with reported
 positions most closely corresponding with intended ones for virtual source
 locations lying close to the speaker array.
 Indeed, tests \textbf{(B)}, \textbf{(D)}, and \textbf{(G)} exhibit the lowest
