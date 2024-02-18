@@ -579,8 +579,9 @@ programmed with the same instructions.
 
 As illustrated in \figref{fig:wfs_2}, producing the driving signal for a WFS
 secondary source at position $\mathbf{x}$ entails applying a delay to an audio
-signal $s_{in,k}$ based on the distance $r_k$ between the intended position of a
-virtual primary source and the secondary source.
+signal $\sigink$, representing the $k$th virtual primary source.
+This delay is based on the distance $r_k$ between $\mathbf{x}$ and the
+desired virtual position of $\sigink$.
 In its distributed form, the WFS algorithm, informed of the position in the
 array of the two loudspeakers for which it is responsible, computes only the
 delays for each primary source with respect to those two loudspeakers, i.e.\
