@@ -23,21 +23,23 @@ with regard to spatial audio applications.
 
 Timing discrepancies between entities in the networked audio system give rise
 to audible artefacts such as time-varying comb-filtering.
-Loss of synchronicity is difficult to measure and compensate for in real-time
-and the extent of the resulting audible disturbances is unpredictable, but,
-depending on the nature of the sound sources being dealt with, certainly
-perceptible.
-The developed strategies for mitigation of asynchronicity are
-\textit{best-effort} in nature, and call for further refinement, or replacement
-with more sophisticated techniques.
+Loss of synchronicity is difficult to measure and compensate for in real-time;
+the extent of the resulting audible disturbances is unpredictable, and firmer
+conclusions about their extent, and thresholds for their perceptibility should
+ideally be sought.
+%These disturbances but,
+%anecdotally, perceptible, albeit perhaps depending on the nature of the sound
+%sources being treated.
+The developed strategies for mitigation of asynchronicity call for further
+refinement, or replacement with more sophisticated techniques.
 
 Given its potential to disrupt the present situation with regard to spatial
 audio installations, or complement it with a modular approach that could serve
-more flexible and perhaps creative ends, it is hoped that scope will exist to
-develop this work further.
+more flexible and creative ends, it is hoped that scope will exist to develop
+this work further.
 A number of technical challenges remain, and questions with regard to the
-fundamental, low-level characteristics of the various components of the devised
-system stand unanswered.
+fundamental characteristics of the various components of the devised system
+stand unanswered.
 From the level of audio hardware and driver software, to audio host and audio
 buffer behaviour, to network QoS and the performance of network switches, to
 the behaviour of the Teensy platform, and the processor and audio codec that it
@@ -52,18 +54,18 @@ deliver that to all others in the system.
 If this can be achieved, it would remedy the issue of clock drift, leaving only
 jitter to be addressed.
 Furthermore, Teensy is not the only platform worthy of consideration;
-developments in microcontroller technology are to be expected, and devices
-supporting higher-quality audio than offered by Teensy may emerge.
-One device considered briefly here is the Raspberry Pi;
+developments in microcontroller technology are to be expected, and suitable
+devices supporting higher-quality audio than offered by Teensy may emerge.
+One device considered only briefly here is the Raspberry Pi;
 in principle it is priced comparably with the Teensy, and is supported by audio
 breakout boards that can output 24-bit audio.
 Improved bare metal support, including the creation of a \texttt{faust2circle}
 tool, could make Raspberry Pi a significantly more attractive platform,
 particularly in terms of memory and the dimensions of the sound fields that
-could be produced.
+could be synthesised.
 
 With regard to audio spatialisation, a basic, linear, wave field synthesis
-algorithm has been demonstrated here, implementing primary virtual sources.
+algorithm has been demonstrated here, implementing virtual primary sources.
 WFS is capable of producing other types of sources, supporting nonlinear
 speaker arrays, three-dimensional arrays, and more faithful models of
 energy loss due to absorption.

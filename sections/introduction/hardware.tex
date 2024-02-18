@@ -10,9 +10,10 @@ well-documented APIs for programming and interacting with this hardware.
 Recent years have seen the emergence of a number of small, low-cost platforms
 for embedded systems development, perhaps best known amongst these being the
 \textit{Arduino} family of microcontroller development boards,\footnote{
-    \url{https://arduino.cc/} \textemdash{} All URLs verified 12/01/2024
+    \url{https://arduino.cc/}
 }
-whose open-source SDK, software libraries, and IDE have greatly improved the
+whose open-source Software Development Kit (SDK), software libraries, and
+Integrated Development Environment (IDE) have greatly improved the
 accessibility of development on embedded systems~\citep{michon_embedded_2020}.
 Though support for audio is limited via Arduino devices, a number of
 audio-specific systems, programmable with the Arduino SDK and IDE, and
@@ -24,8 +25,7 @@ These platforms benefit from the wealth of tools, documentation and support
 associated with Arduino and the surrounding D.I.Y.\ and maker communities.
 Also worthy of consideration are the \textit{Raspberry Pi} and \textit{Bela}
 platforms.
-Though these are \textit{Embedded Linux Systems} (ELS) rather than
-microcontrollers,
+Though these are \textit{Embedded Linux Systems} rather than microcontrollers,
 %\textemdash{} Bela is an audio ``cape'' for the \textit{BeagleBone Black}
 %single-board computer, and a variety of audio breakout-boards exist for
 %producing high quality audio output with Raspberry Pi models \textemdash{}
@@ -142,10 +142,11 @@ be used to program multiple Teensy devices in a single command \textemdash{}
 useful for a system distributed amongst many such devices.
 
 One respect in which Teensy is found wanting is audio fidelity.
-By default, its audio shield produces CD quality output (16-bit,
-\qty{44.1}{\kHz}), which is not sufficient for what might be deemed high-quality
-audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
+By default, its audio add-on (or \textt{shield}) produces CD quality output
+(16-bit, \qty{44.1}{\kHz}), falling short of modern requirements for
+high-quality audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
 While Teensy's sampling rate can be increased, sample resolution is fixed by
 the Teensy Audio Library and at the level of the audio codec.
-This shortcoming notwithstanding, and in light of its other, more advantageous
-qualities, Teensy is the platform upon which development was conducted.
+In spite of this shortcoming, and in light of its other, more advantageous
+qualities, Teensy was selected as the platform upon which to conduct
+development.

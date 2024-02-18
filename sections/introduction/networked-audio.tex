@@ -67,7 +67,7 @@ scenario.
 UDP by comparison is a \textit{connectionless} protocol, providing no guarantees
 regarding the integrity of the packet stream, but equally none of the
 computational or temporal overhead that such guarantees introduce.
-A networked device can send UDP packets to an address irrespective of the
+A networked device can send UDP packets to a valid address irrespective of the
 presence or otherwise of another device at that address.
 Further, \textit{many-to-many} (multicast) and \textit{one-to-many} (broadcast)
 modes of transmission are possible via address spaces reserved as part of the
@@ -76,7 +76,7 @@ Via UDP, SoundWIRE was able to run as a distributed digital waveguide over a
 WAN spanning around \qty{4500}{\km}~\citep{chafe_simplified_2000}.
 
 From the SoundWIRE project emerged
-\textit{JackTrip}~\citep{caceres_jacktrip_2010,caceras_jacktripsoundwire_2010},
+\textit{JackTrip}~\citep{caceres_jacktrip_2010,caceres_jacktripsoundwire_2010},
 a hybrid system that couples a TCP handshake with audio transmission over UDP,
 thus sidestepping the overhead of TCP packet flow control.
 Rather than relying on TCP's built-in mechanisms for stream integrity, JackTrip
@@ -131,7 +131,8 @@ such support are markedly more expensive\footnote{
     \texteuro{20};
     The cheapest equivalent devices with PTP support cost, at the time of
     writing, on the order of \texteuro{150-200}, e.g.\
-    \url{https://www.fs.com/de-en/products/148180.html}.
+    \url{https://www.fs.com/de-en/products/148180.html} \textemdash{} All URLs
+    verified 12/01/2024.
 }.
 PTP can be deployed as a software-only
 implementation~\citep{correll_design_2006}, albeit with impaired accuracy and
@@ -192,10 +193,9 @@ governs~\citep{marouani_internal_2008}.
 Relative drift (sometimes, within the diagnostic parts of JackTrip for example,
 referred to as \textit{skew}), is the difference in clock rates between two or
 more systems.
-Whereas jitter is a short-term phenomenon, clock drift typically takes effect
-over a longer timescale.
-As two distinct systems of time move in and out of phase with each other over
-the longer term, drift may indeed give rise to jitter.
+Whereas jitter is a transient phenomenon, clock drift is continuous, and as two
+distinct systems of time move in and out of phase with each other over the
+longer term, drift may indeed give rise to jitter.
 
 In professional audio settings, devices may be synchronised via an authoritative
 clock source such as word clock, or, in a networked setting, via PTP.\

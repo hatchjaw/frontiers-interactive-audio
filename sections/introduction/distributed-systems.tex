@@ -70,7 +70,7 @@ A server sent packets of audio data to be processed by a collection of
 clients, which would then return processed audio to the server to be combined
 and used for output.
 Since clients were not to be used directly for output, synchronisation was not
-important, but Lago identifies the timing or hardware based interrupts for
+important, but Lago identified the timing or hardware based interrupts for
 audio and network processing as being of great importance to a distributed
 real-time implementation.
 Though an interesting exploration of approaching certain difficulties of
@@ -93,18 +93,18 @@ Exploring the possibilities of burgeoning network technology in the early 2010s,
 Lopez-Lezcano set out to build a UDP-based ``network sound card'' to support
 a networked WFS system~\citep{lopez-lezcano_jack_2012}.
 The aim was to replace otherwise expensive high channel-count conventional
-audio interfaces, which receive audio over the MADI (Multichannel Audio Digital
-Interface) protocol, with a more cost-effective alternative.
+audio interfaces, which receive audio over the MADI protocol, with a more
+cost-effective alternative.
 Ultimately the devised system was not used for audio spatialisation, but
 facilitated networked musical performance, and it stands as an example of the
 results that can be achieved by using `raw' UDP data for audio transmission,
-rather than an established protocol or system.
+rather than an established networked audio system or protocol.
 
 In addition to Gabrielli et al., implementations on embedded platforms include
-Chafe and Oshiro's port of JackTrip to the Raspberry Pi single-board computer
-for further internet acoustics, plus distributed spatialisation systems such as
-those described by Devonport and Foss~\citep{devonport_distribution_2019} and
-Belloch et al.~\citep{belloch_performance_2021}
+Chafe and Oshiro's port of JackTrip to the Raspberry Pi for further internet
+acoustics, plus distributed spatialisation systems such as those described by
+Devonport and Foss~\citep{devonport_distribution_2019} and Belloch et
+al.~\citep{belloch_performance_2021}
 The latter two address aims closely aligned with the work described here, but
 are based on costly computing platforms.
 Devonport and Foss achieved high synchronicity via AVB; Belloch et al.\ used a
@@ -112,8 +112,7 @@ GPU-based hardware platform, which is perhaps unsuited to its task, and report
 client synchronisation to the millisecond range \textemdash{} likely not
 sufficient for timing-critical audio spatialisation effects.
 
-Also of interest is the OTTOsonics~\citep{mitterhuber_ottosonics_2022}
-project;
+Also of interest is the OTTOsonics project~\citep{mitterhuber_ottosonics_2022};
 its emphasis on a fully-costed, flexible, do-it-yourself alternative to
 conventional spatial audio systems is pertinent to this work, though it diverges
 in its use of AVB, and associated hardware for audio transmission.

@@ -3,9 +3,8 @@
 Being a system distributed across distinct computing platforms (a general
 purpose computer; a network of microcontrollers), and software elements
 serving a variety of purposes (server and client instances for transmission
-and reception of networked audio and control data, plus a digital
-signal processing algorithm), it is important to consider each of these
-elements in detail.
+and reception of networked audio and control data, plus a DSP algorithm), it is
+important to consider each of these elements in detail.
 In the subsections to follow, these elements are described;
 finally an overview of the devised system is provided.
 
@@ -211,7 +210,7 @@ to which a type \textemdash{} \texttt{SOCK\_STREAM} for TCP on
 To avoid potentially blocking the audio application's main processing thread
 with networking operations, upon receiving an audio block the server writes it
 to an intermediate buffer \textemdash{} a first-in-first-out (FIFO) structure
-\textemdash{} and signals to the sender thread that a block is ready for
+\textemdash{} and signals the sender thread that a block is ready for
 transmission.
 The sender thread, which as been awaiting such a signal, then requests samples
 from the FIFO; these are stored as contiguous channels of 32-bit floating point
@@ -221,7 +220,7 @@ Byte order, or \textit{endianness}~\citep{cohen_holy_1981}, is also specified as
 part of this conversion.
 Though network byte order is typically big-endian, or Most Significant Byte
 (MSB) first, it was found that little-endian transmission meant that samples
-could be decoded seamlessly at the client side.\footnote{
+could be decoded trivially at the client side.\footnote{
     Endianness is a thorny issue \textemdash{} just consider Danny Cohen's
     \textit{...Plea for Peace}~\citep{cohen_holy_1981}.
     To appeal momentarily to authority, JackTrip too transmits audio data (and
@@ -240,11 +239,12 @@ audio packet:
 {Network capture: ethernet frame containing a UDP audio packet}
 {audio-packet}
 
-Bytes \texttt{0x0000} to \texttt{0x0029} comprise the ethernet, IPv4, and UDP
-headers, including the destination address: at position \texttt{0x001e}, the
-bytes \texttt{0xe004e004}, or \texttt{224.4.224.4}, a valid (and unassigned)
-UDP multicast address from the second ad-hoc address block as specified in the
-IANA multicast address assignment guidelines~\citep{meyer_iana_2010}.
+Bytes \texttt{0x0000} to \texttt{0x0029} comprise the headers for the data link
+(ethernet), network (IPv4), and transport (UDP) OSI layers including the
+destination address: at position \texttt{0x001e}, the bytes \texttt{0xe004e004},
+or \texttt{224.4.224.4}, a valid (and unassigned) UDP multicast address from the
+second ad-hoc address block as specified in the IANA multicast address
+assignment guidelines~\citep{meyer_iana_2010}.
 The six subsequent bytes are the header inserted into the packet by
 \texttt{NetAudioServer}.
 In \lstref{listing:audio-packet} these are:
@@ -263,9 +263,9 @@ In \lstref{listing:audio-packet} these are:
 
 Audio data begins at byte \texttt{0x0030}.
 Since the header indicates that there are two channels of 16-bit audio, and a
-buffer size of 16 (samples, or rather frames of two channels worth of samples),
-it is clear that the data for channel 1 encompasses the 32 bytes from
-\texttt{0x0030} to \texttt{0x004f}, and channel 2 the remaining bytes.
+buffer size of 16 frames, it is clear that the data for channel 1 encompasses
+the 32 bytes from \texttt{0x0030} to \texttt{0x004f}, and channel 2 the
+remaining bytes.
 
 Here, channel 1 is a test signal, a unit amplitude-increment unipolar sawtooth
 wave, i.e.\ a signal whose amplitude starts at zero, and increments by 1 at each
@@ -324,7 +324,7 @@ With the headers for the data link (Ethernet), network (IPv4), and transport
 \num{1452} bytes remain in each packet for audio data.
 Assuming 16-bit resolution, and the transmission of one UDP packet per audio
 buffer, data for up to 90 audio channels can be transmitted at a buffer size of
-16 audio frames without fragmentation, or up to 45 channels at 32 frames.
+16 frames without fragmentation, or up to 45 channels at 32 frames.
 
 \subsection{The Networked Audio Client}\label{subsec:networked-audio-client}
 
@@ -458,8 +458,8 @@ sent to the multicast group at the earliest subsequent call to
 \texttt{NetJUCEClient::loop} (\lstref{ls:njc-update}).
 The client's inputs can receive samples from any Teensy Audio Library object to
 which it has been connected, programmatically;
-for round-trip time measurements (see \secref{subsec:technical-evaluation}), the
-client's audio outputs were routed back to its inputs.
+for round-trip time measurements the client's audio outputs were routed back to
+its inputs.
 A timeline of client-server interaction is illustrated in \figref{fig:timeline}.
 
 \subsubsection{Synchronicity with the Server}\label{subsubsec:client-sync}
@@ -484,8 +484,8 @@ thresholds;
 increasing the increment if the difference exceeded the high threshold;
 decreasing it should the difference fall short of the low threshold.
 This in turn entailed employing a fractional read-position, and interpolating
-around the read-position to achieve an appropriate sample value; essentially
-a form of adaptive resampling.
+around it to achieve an appropriate sample value; essentially a form of adaptive
+resampling.
 For this purpose a cubic Lagrange interpolator was used; sample values for the
 interpolator were converted from their 16-bit signed integer representation
 to floating point numbers, interpolation conducted, and the resulting value
@@ -616,7 +616,7 @@ case of a WFS implementation with numerous virtual sound sources.
 Each hardware module must compute two delay lines for each virtual source, one
 for each of its output channels, the maximum length of which (depending on
 the position of a given module in the speaker array) corresponds, after removal
-of the longitudinal component, of the width of the speaker array.
+of the longitudinal component, to the width of the speaker array.
 It was observed that, for eight virtual sources and eight hardware modules,
 the maximum speaker spacing permissible lay at around \qty{.4}{\m},
 corresponding with a speaker array of maximum width 15 $\times$ 0.4 =
@@ -680,8 +680,8 @@ G513R Notebook PC, with an AMD Ryzen 7 6800H processor with a clock
 speed of \qty{3.2}{\GHz}.
 For the majority of development, the computer's internal sound card was used;
 for testing and evaluation, it was connected to a Steinberg UR44C USB audio
-interface, the expectation being that this would provide better reliability in
-terms of audio interrupt timing.
+interface, the hope being that external hardware would provide more consistent
+audio interrupt timing, thus minimising jitter originating at the server.
 
 The computer was connected via CAT6 ethernet cable to an eight-port ethernet
 switch (D-Link DGS-108GL).
