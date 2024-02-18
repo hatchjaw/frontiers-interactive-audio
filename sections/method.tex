@@ -577,10 +577,15 @@ and the \texttt{tycmd} utility from the TyTools suite (see
 \secref{subsec:hardware-platforms}) was used to ensure that all modules were
 programmed with the same instructions.
 
-Implementing Huygens' principle in a digital audio system entails applying
-delays to an audio signal representing a virtual sound source based on the
-intended position of that sound source with respect to the secondary point
-sources.
+As illustrated in \figref{fig:wfs_2}, producing the driving signal for a WFS
+secondary source at position $\mathbf{x}$ entails applying a delay to an audio
+signal $s_{in,k}$ based on the distance $r_k$ between the intended position of a
+virtual primary source and the secondary source.
+In its distributed form, the WFS algorithm, informed of the position in the
+array of the two loudspeakers for which it is responsible, computes only the
+delays for each primary source with respect to those two loudspeakers, i.e.\
+for the $k$th virtual source, the $n$th hardware module computes
+$r_{k,\mathbf{x}_{2n}}$ and $r_{k,\mathbf{x}_{2n+1}}$.
 To limit the computational burden placed on the hardware modules, specifically
 with regard to memory, the length of the delay lines was reduced by discarding
 the longitudinal component of $r_k$, leaving only the relative inter-speaker
