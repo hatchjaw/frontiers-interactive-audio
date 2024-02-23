@@ -17,7 +17,7 @@ serve immersive auditory ends, it was important to consider the performance of
 the system described and developed in \secref{sec:method} in terms of
 both its technical capabilities and the quality of the perceptual effects it
 was able to support.
-The success of the system as platform for audio spatialisation techniques is
+The success of the system as a platform for audio spatialisation techniques is
 contingent on it being composed of effective solutions to the challenges posed
 by distributing audio processing across a local area network.
 It is of limited worth, however, as a technical exercise in isolation;
@@ -48,7 +48,7 @@ and~\citep{gabrielli_networked_2012}.
 To measure transmission round trip time (RTT), the server transmitted a unipolar
 sawtooth wave of unit amplitude increment to the multicast group, and each
 client, upon receiving the signal simply returned it immediately to the group to
-be consumed by the server.
+be read by the server.
 At the server side, the return signal, $x_{\text{ret}}$, was subtracted from the
 outgoing signal, $x_{\text{out}}$, at the time of reception, with round trip
 time found as:
@@ -70,14 +70,28 @@ Server-to-client latency cannot be measured in this way, but that can be
 inferred to be around half of, and, of course, certainly not greater than, the
 RTT.\
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{figures/wgn_specgram_16_32}
+    \caption{
+        Magnitude spectrograms of ambient, monophonic recordings of a
+        reproduction of white Gaussian noise by a group of eight networked
+        audio clients driving an array of fifteen loudspeakers spaced at
+        intervals of \qty{.175}{\m}.
+        Capacitor microphone placed $\sim$\qty{2}{\m} from the
+        speaker array.
+        Audio buffer size (A) 16 samples; (B) 32 samples.
+    }
+    \label{fig:spectrograms}
+\end{figure}
+
 \subsubsection{Clock Drift/Skew}
 A unipolar sawtooth wave of unit amplitude increment was generated on the
 clients, subtracted from the incoming sawtooth wave from the server, and the
 difference (found as per equation~\eqref{eq:rtt}) returned to the multicast
 group for consumption by the server.
-Under ideal conditions, the incoming signal and the one being generated on a
-given client, while almost certainly not synchronised, should be out of phase by
-some constant value;
+The incoming signal and the one being generated on a given client should, under
+ideal conditions, be out of phase by some constant value;
 if this value changes then relative drift has occurred between server and
 client.
 %While not of direct relevance to synchronicity,
@@ -85,7 +99,7 @@ The client-side clock-adjustment strategy was designed to minimise the reliance
 on the adaptive resampling approach that it complements;
 low drift would be indicative of the effectiveness of that strategy.
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figures/rtt_drift_16}
     \caption{
@@ -124,24 +138,24 @@ audio interrupts.
 What \figref{fig:rtt-drift-16} does not show, and, given the short timescales
 involved, is not easily represented in such a diagram, is the rate of relative
 inter-client movement, i.e.\ the rate of change of asynchronicity.
-Cursory, subjective assessment of the system's audible output revealed that,
-given the rapid rate of relative movement between clients, in this state it
-would not stand up to perceptual testing.
+Subjective assessment of the system's audible output revealed that, given the
+rapid rate of relative movement between clients, in this state it would not
+stand up to perceptual testing.
 
-Transmitting a signal consisting of white Gaussian noise to the clients and
-delivering this to their audio outputs without further processing \textemdash{}
-seeking, essentially, to sonify QoS \textemdash{} an aggressive phasing, or
-time-varying comb-filter effect was clearly audible.
-This effect is visualised in \figref{fig:spectrograms}(A); ideally (and
-subject to the frequency of the response of the microphone used) an ambient
+Transmitting a white Gaussian noise signal to the clients and delivering this to
+their audio outputs without further processing \textemdash{} seeking,
+essentially, to sonify QoS \textemdash{} an aggressive phasing, or time-varying
+comb-filter effect was clearly audible.
+This effect is visualised in \figref{fig:spectrograms}(A);
+ideally (subject to the frequency response of the microphone used) an ambient
 recording of a white noise source would correspond with a magnitude spectrogram
-exhibiting equal intensity across the frequency range at all times; clearly,
-though, there are regions of greater and lesser intensity, and these regions
-shift and change rapidly over time.
+exhibiting equal intensity across the frequency range at all times;
+clearly, though, there are regions of greater and lesser intensity, and these
+regions shift and change rapidly over time.
 In addition to the above, tests involving the reproduction of signals
 containing steady-state harmonic content revealed obtrusive audible artefacts.
 
-\begin{figure}[ht]
+\begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figures/rtt_drift_32}
     \caption{
@@ -164,28 +178,12 @@ had employed a 32-sample audio buffer, equivalent measurements were taken for
 the larger buffer size, the results of which are depicted in
 \figref{fig:rtt-drift-32} and \figref{fig:spectrograms}(B).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/wgn_specgram_16_32}
-    \caption{
-        Magnitude spectrograms of ambient, monophonic recordings of a
-        reproduction of white Gaussian noise by a group of eight networked
-        audio clients driving an array of fifteen loudspeakers spaced at
-        intervals of \qty{.175}{\m}.
-        Capacitor microphone placed $\sim$\qty{2}{\m} from the
-        speaker array.
-        Audio buffer (and thus network packet) size (A) 16 samples;
-        (B) 32 samples.
-    }
-    \label{fig:spectrograms}
-\end{figure}
-
 Again, visually, there is an apparent clustering in the RTT recordings, with
 clients spending large periods separated by around one buffer's worth of
 samples ($\sim$\qty{726}{\us}), seemingly often grouped at either
 extreme of the interval of one audio buffer.
-The mean RTT spread, $\sim$\qty{626}{\us}, is comparable with results
-from prior work, but, disappointingly, slightly less favourable.
+The mean RTT spread, equating to $\sim$\qty{626}{\us}, is comparable with
+results from prior work.
 Importantly, however, and as demonstrated in \figref{fig:spectrograms}(B), the
 rate of relative inter-client temporal movement was much improved by the switch
 to a 32-sample buffer.
@@ -204,84 +202,43 @@ Increasing negative drift over time is indicative of the clients running faster
 than the server.
 Visually, there is evidence that client clocks adjust to approximate parity
 with the server for periods of time, perhaps falling slightly slower (e.g.\
-the drift plot in \figref{fig:rtt-drift-16}, between 100 and 160 seconds), but
-periodically demonstrate large negative steps.
-These leaps are far from desirable, and suggestive of there being significant
-room for improvement in the devised strategy for PLL adjustment.
+the drift plot in \figref{fig:rtt-drift-16}, between 90 and 160 seconds), but
+intermittently demonstrate leaps, the largest of which are in the negative
+direction.
 
 \subsubsection{Discussion}\label{subsubsec:discussion-tech}
 
 The temporal clustering and polarisation seen in
 \figsref{fig:rtt-drift-16}{fig:rtt-drift-32} is indicative of two points for
-concern with regard to technical implementation:
+improvement with regard to technical implementation:
 the read-write difference threshold strategy may be insufficiently forgiving,
-forcing the read position into deleteriously fluctuating increment changes in
-response to periods of jitter.
-And without a master clock to indicate to each client the beginning of each
-output audio block, even with clock rates perfectly aligned, there is nothing
-to guarantee agreement of the timing of audio interrupts at the client side.
+forcing the read position into rapid changes in response to periods of jitter;
+and without an authoritative clock to indicate to the clients when each block of
+audio data should be output, even if clock rates were perfectly aligned, there
+is nothing to guarantee agreement of the timing of audio interrupts at the
+client side.
 
-To avoid sudden, large or `unrealistic' clock adjustments, clients assess
-the drift ratio as assessed via the ratio of network packet
-transmission to reception and, if it lies beyond an arbitrary threshold,
-simply resets the clock to the default \qty{44.1}{\kHz}.
-Resets of this sort may account for the large steps seen in the drift plots
-in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32}.
-It is clear that this strategy could be significantly improved upon.
+The steps seen in the drift plots in
+\figsref{fig:rtt-drift-16}{fig:rtt-drift-32} appear (particularly in
+\figref{fig:rtt-drift-32}) to occur in multiples of the audio buffer size.
+This suggests either packet loss or, more likely,\footnote{
+    During many hours of testing, no instance of packet loss was reported by any
+    of the clients.
+} moments of pronounced jitter, causing
+clients to rapidly reduce (or, less commonly, increase) their read-position
+increment to maintain the read-write delta.
+One may expect such a phenomenon to be followed by an immediate rebound, but
+this appears to be a more gradual process.
+The overall trend, for this combination of server and clients at least, is for
+clients to run faster than the server;
+the clock adjustment strategy employed here appears to be insufficient to
+compensate for this phenomenon.
 
 \subsection{Perceptual Evaluation}\label{subsec:perceptual-evaluation}
 
-The WFS system was subjected to an informal perceptual evaluation, in which
-participants were presented with a virtual sound source at various locations
-and asked to indicate, on a diagram of the virtual sound field, the point
-at which they estimated the sound had emanated from.
-The informality of the experiment arose in part as a consequence of the
-listening environment not being acoustically treated, and there being sources
-of ambient sound in the laboratory in which the WFS system was installed.
-Furthermore, the speaker array (\figref{fig:eval-setup}) consisting of fifteen
-speakers, but each hardware module producing two audio output channels,
-the second channel of the right-most module was not used;
-for eight modules, however, the WFS plugin assumed a virtual sound field
-spanning sixteen speakers, thus it was possible to position a virtual sound
-source horizontally beyond the rightmost extent of the speaker array.
-Ultimately the aim of the experiment was to draw some preliminary, guiding
-conclusions as to the effectiveness of the distributed WFS system in
-triggering listeners' localisation cues, its technical and installation
-shortcomings notwithstanding.
-
-In terms of the design of the auditory stimulus, it was felt that listeners
-would be most comfortable localising a naturalistic sound.
-Rather than use blasts white noise as in~\citep[ch.~6]{verheijen_sound_1998},
-but wishing to minimise the potential effects of frequency-dependent
-localisation interference due to spatial aliasing, a broadband stimulus
-was selected in the form of a close-mic recording of a snare drum.
-The recorded sample was repeated three times in succession at intervals of
-\qty{.125}{\s}, and, again in the interests of adding a natural quality to the
-sound, with slight variations in amplitude (the second iteration of the sample
-was played marginally quieter than the first; the third slightly louder).
-
-Participants were given a brief description of the system under evaluation,
-and informed that they should expect to hear sounds that appeared to emanate
-from `behind' the speaker array, from which they stood at a distance of
-$\sim$\qty{2}{\m}.
-Eight different virtual source positions were specified via automation of the
-$x$ (lateral) and $y$ (longitudinal distance) components of the position of a
-node in the WFS plugin interface.
-The range of the $x$ component corresponded with the distance from the centre of
-the driver of the leftmost speaker to that of the missing sixteenth loudspeaker;
-drivers lay at intervals of \qty{.175}{\m}, giving a horizontal axis spanning
-\qty{2.625}{\m}.
-Longitudinal position was mapped to a range from \qty{0}{\m} (i.e. lying
-directly on the speaker array) to \qty{10}{\m} `behind' the array.
-
-For each position, the auditory stimulus was sounded, and repeated at the
-participant's request.
-Details of the source positions for each test, and the responses given by
-eight participants, are displayed in \figref{fig:perceptual}.
-
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=.775\textwidth]{figures/subjective}
+    \includegraphics[width=.75\textwidth]{figures/subjective}
     \caption{
         Results of perceptual evaluation of the proposed system.
         Lateral (horizontal axis) and longitudinal (vertical axis) components
@@ -297,6 +254,58 @@ eight participants, are displayed in \figref{fig:perceptual}.
     }
     \label{fig:perceptual}
 \end{figure}
+
+The WFS system was subjected to an informal perceptual evaluation, in which
+participants were presented with a virtual sound source at various locations
+and asked to indicate, on a diagram of the virtual sound field, the point
+from which they estimated the sound had emanated.
+The informality of the experiment arose in part as a consequence of the
+listening environment not being acoustically treated, and there being sources
+of ambient sound in the laboratory in which the WFS system was installed.
+Furthermore, the speaker array (\figref{fig:eval-setup}) consisting of fifteen
+speakers, but each hardware module producing two audio output channels,
+the second channel of the right-most module was not used;
+for eight modules, however, the WFS plugin assumed a virtual sound field
+spanning sixteen speakers, thus it was possible to position a virtual sound
+source horizontally beyond the rightmost extent of the speaker array.
+Ultimately the aim of the experiment was to draw some preliminary, guiding
+conclusions as to the effectiveness of the distributed WFS system in
+triggering listeners' localisation cues, its technical and installation
+shortcomings notwithstanding.
+
+It was felt that listeners would be most comfortable localising a naturalistic
+sound, so, rather than use blasts of white noise as
+in~\citep[ch.~6]{verheijen_sound_1998}, and wishing to minimise the potential
+effects of frequency-dependent localisation interference due to spatial
+aliasing, a broadband stimulus was selected in the form of a close-mic recording
+of a snare drum.
+The recorded sample was repeated three times in succession at intervals of
+\qty{.125}{\s}, and, again in the interests of adding a natural quality to the
+sound, with slight variations in amplitude (the second iteration of the sample
+was played marginally quieter than the first; the third slightly louder).
+
+The system was presented to eight participants; a mixture of  masters and PhD
+students aged between 22 and 38, with knowledge of audio and interactive
+computer systems.
+Participants were given a brief description of the system under evaluation,
+and informed that they should expect to hear sounds that appeared to emanate
+from `behind' the speaker array, from which they stood at a distance of
+$\sim$\qty{2}{\m}.
+Eight different virtual source positions were specified via automation of the
+$x$ (lateral) and $y$ (longitudinal distance) components of the position of a
+node in the WFS plugin interface.
+The range of the $x$ component corresponded with the distance from the centre of
+the driver of the leftmost speaker to that of the missing sixteenth loudspeaker;
+drivers lay at intervals of \qty{.175}{\m}, giving a horizontal axis spanning
+\qty{2.625}{\m}.
+Longitudinal position was mapped to a range from \qty{0}{\m} (i.e. lying
+directly on the speaker array) to \qty{10}{\m} `behind' the array.
+
+For each position, the auditory stimulus was played, and repeated at the
+participant's request.
+Each participation was five to ten minutes in duration.
+Details of the source positions for each test, and responses for the eight
+participants, are displayed in \figref{fig:perceptual}.
 
 As can be seen, although far from perfect, and with some significant
 outliers (e.g.\ the position reported by the fifth participant for test

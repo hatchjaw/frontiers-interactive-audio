@@ -24,11 +24,11 @@ coding algorithms to overcome the deleterious effects of dropped packets over
 unreliable network paths and low-bandwidth connections.
 
 Whereas the priority for digital telephony, and later voice over IP (VoIP)
-systems, is intelligibility, for musical purposes fidelity, and the use of
-uncompressed audio signals, is of greater concern.
-With the increasing availability of high-speed internet connections in the late
-1990s came research into transmitting uncompressed audio data over the
-internet~\citep{chafe_simplified_2000,xu_real-time_2000}.
+systems, is intelligibility, for musical purposes fidelity is of greater 
+concern.
+The late 1990s, with the increasing availability of high-speed internet 
+connections, saw the beginning of research into transmitting uncompressed audio 
+data over the internet~\citep{chafe_simplified_2000,xu_real-time_2000}.
 Work of this sort was spearheaded by the \textit{SoundWIRE} project, developed
 by researchers at McGill University and Stanford University, and took the form
 of a wide variety of experiments with high quality audio over both WAN and local
@@ -41,7 +41,7 @@ a distributed digital waveguide dubbed the
 
 \subsubsection{Protocols and Systems}\label{subsubsec:protocols-systems}
 
-VoIP research in the 1990s focused audio codecs and data
+VoIP research in the 1990s focused on audio codecs and data
 compression~\citep{turletti_inria_1995,hardman_successful_1998}, seeking a
 compromise with the \textit{best-effort} nature of internet service.
 The SoundWIRE project, in search of high audio quality, turned its attention
@@ -89,7 +89,8 @@ in its `hub server' mode, into a kind of \textit{multiple one-to-one} design
 
 UDP has emerged as the protocol of choice for platforms enabling remote musical
 collaboration, serving as the basis for NetJACK~\citep{carot_netjack_2009}, part
-of the JACK Audio Connection Kit (a cross-platform audio host),
+of the JACK Audio Connection Kit (a cross-platform audio host), the audiovisual
+performance streaming platform LOLA~\citep{drioli_networked_2013},
 Jamulus~\citep{fischer_case_2015}, Soundjack~\citep{renaud_networked_2012}, and
 other jamming-focused platforms, plus more recent entrants, the closed-source,
 but ultimately UDP-based Elk OS~\citep{turchet_elk_2021} for instance.
@@ -126,14 +127,14 @@ model, of which the aforementioned transport layer is a component \textemdash{}
 i.e.\ by dedicated timers at the level of the physical network interface.
 Legacy and low-cost networking equipment do not possess support for hardware
 timestamping, however~\citep{correll_design_2006}, and devices that do offer
-such support are markedly more expensive\footnote{
+such support are markedly more expensive.\footnote{
     Consumer-grade, eight-port ethernet switches can cost as little as
     \texteuro{20};
     The cheapest equivalent devices with PTP support cost, at the time of
     writing, on the order of \texteuro{150-200}, e.g.\
     \url{https://www.fs.com/de-en/products/148180.html} \textemdash{} All URLs
     verified 12/01/2024.
-}.
+}
 PTP can be deployed as a software-only
 implementation~\citep{correll_design_2006}, albeit with impaired accuracy and
 a protracted clock-convergence period.

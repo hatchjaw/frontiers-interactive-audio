@@ -230,15 +230,14 @@ Upon receiving the requested samples, the sender thread writes these to its
 socket, which has been configured to connect to a UDP multicast group.
 This process is illustrated in \figref{fig:audio-server}.
 
-\lstref{listing:audio-packet} shows an example network capture of an outgoing
-audio packet:
-
-\codeinputlisting[float=h]
+\codeinputlisting[float=ht]
 {text}
 {listings/audio-packet.txt}
 {Network capture: ethernet frame containing a UDP audio packet}
 {audio-packet}
 
+\lstref{listing:audio-packet} shows an example network capture of an outgoing
+audio packet.
 Bytes \texttt{0x0000} to \texttt{0x0029} comprise the headers for the data link
 (ethernet), network (IPv4), and transport (UDP) OSI layers including the
 destination address: at position \texttt{0x001e}, the bytes \texttt{0xe004e004},
@@ -367,20 +366,28 @@ implementation of the Teensy Audio Library class \texttt{AudioStream}.
 \texttt{update()}; this method is called at each audio hardware interrupt, and
 is where an audio library class should perform operations on the current
 audio buffer.
-Due to the regular timing of calls to \texttt{AudioStream::update}, and the
-correspondence between an audio buffer and a networked audio packet, it was
-tempting to use that method, and thus the underlying audio interrupt, as an
-opportunity to handle networking operations too.
-This proved unreliable, however; conflicts between the audio and network
-interrupts caused the Teensy to crash sporadically.
+Networking operations are conducted from the method
+\texttt{NetJUCEClient::loop}.\
+Avoiding conflicts with audio functionality, this method is called from Teensy's
+top level \texttt{loop()} function.
+A valid Teensy program must define a function by this name, and it is called
+repeatedly from the body of a non-terminating \texttt{while} loop throughout
+operation.
 
-Instructions to read from and write to the network were moved to a method,
-\texttt{NetJUCEClient::loop}, which is called from the top level loop of
-the Teensy program.
-Although not called at regular intervals \textemdash{} Teensy's \texttt{loop()}
-function is itself executed from the body of a non-terminating \texttt{while}
-loop \textemdash{} tests indicated that the time between iterations lay on the
-order of tens of microseconds, far lower than the audio interrupt interval.
+%Due to the regular timing of calls to \texttt{AudioStream::update}, and the
+%correspondence between an audio buffer and a networked audio packet, it was
+%tempting to use that method, and thus the underlying audio interrupt, as an
+%opportunity to handle networking operations too.
+%This proved unreliable, however; conflicts between the audio and network
+%interrupts caused the Teensy to crash sporadically.
+%
+%Instructions to read from and write to the network were moved to a method,
+%\texttt{NetJUCEClient::loop}, which is called from the top level loop of
+%the Teensy program.
+%Although not called at regular intervals \textemdash{} Teensy's \texttt{loop()}
+%function is itself executed from the body of a non-terminating \texttt{while}
+%loop \textemdash{} tests indicated that the time between iterations lay on the
+%order of tens of microseconds, far lower than the audio interrupt interval.
 
 \begin{figure}[ht]
     \centering
@@ -388,11 +395,11 @@ order of tens of microseconds, far lower than the audio interrupt interval.
     \caption{
         Example timeline of interaction between the server and a client, via the
         UDP multicast group.
-        Solid blue arrows indicate audio data being sent from the server to the
+        Solid arrows indicate audio data being sent from the server to the
         multicast group;
-        solid orange arrows indicate audio data being sent from the client back
-        to the multicast group;
-        dotted green arrows represent control data.
+        arrows with open heads indicate audio data being sent from the
+        client back to the multicast group;
+        arrows with dotted tails represent control data.
         Note that the server transmits to the multicast group irrespective of
         the presence of any client.
         For multiple clients, there will be multiple streams of audio data
@@ -421,21 +428,23 @@ order of tens of microseconds, far lower than the audio interrupt interval.
     }
 \end{codelisting}
 
-Separating audio and networking operations to \texttt{update()} and
-\texttt{loop()} methods respectively, the two sets of operations were linked
-by way of an intermediate buffer, similar to the FIFO used on the server.
-Thus the client attempts to receive packets from, and send a packet to, the
-multicast group on each call to \texttt{loop()}, with audio samples from
-incoming packets written to the intermediate buffer (see \lstref{ls:njc-loop}).
+The two sets of operations are linked by way of an intermediate buffer, similar
+to the FIFO employed by the server.
+The client attempts to receive packets from, and, if it has generated a packet's
+worth of audio data, send a packet to, the multicast group on each call to
+\texttt{loop()}, with audio samples from incoming packets written to the
+intermediate buffer (see \lstref{ls:njc-loop}).
 The client also performs a periodic check for the presence of the server, and,
 as described in \secref{subsubsec:client-sync}, makes adjustments to its audio
 clock.
 When multiple clients are present, there are consequently multiple streams of
 audio packets reaching the multicast group.
-Packets are identifiable, however, by their source IP address, a component of
-the IPv4 header.
-Clients are programmed with the IP address of the server, and can thus identify
-the authoritative source of audio data.
+To avoid ambiguity and unnecessary packet reads at the client side, server and
+clients transmit audio data to the group on differing port numbers.
+%Packets are identifiable, however, by their source IP address, a component of
+%the IPv4 header.
+%Clients are programmed with the IP address of the server, and can thus identify
+%the authoritative source of audio data.
 
 \begin{codelisting}{
     \texttt{update} method of the networked audio client implementation,
@@ -457,7 +466,7 @@ It also takes samples reaching its audio inputs and adds those to a packet to be
 sent to the multicast group at the earliest subsequent call to
 \texttt{NetJUCEClient::loop} (\lstref{ls:njc-update}).
 The client's inputs can receive samples from any Teensy Audio Library object to
-which it has been connected, programmatically;
+which it has been connected programmatically;
 for round-trip time measurements the client's audio outputs were routed back to
 its inputs.
 A timeline of client-server interaction is illustrated in \figref{fig:timeline}.
@@ -468,11 +477,10 @@ Due to the influence of clock drift and transmission jitter, and since the
 clients constitute a distributed system, with no direct knowledge of each other
 and no authoritative source of time, their third task posed, without doubt,
 the greatest challenge.
-
 A two-pronged strategy was developed for addressing server-client and
 inter-client timing discrepancies:
 
-\paragraph{Jitter Compensation}
+\textbf{Jitter Compensation:}
 Similar to the approach taken in prior
 work~\citep{rushton_microcontroller-based_2023}, clients monitored their
 intermediate buffer for the difference between its write and read positions,
@@ -491,7 +499,7 @@ interpolator were converted from their 16-bit signed integer representation
 to floating point numbers, interpolation conducted, and the resulting value
 rounded to the nearest integer for output.
 
-\paragraph{Clock Drift Compensation}
+\textbf{Clock Drift Compensation:}
 In the absence of an authoritative source of time, clients were set up to infer
 the difference in rate between their own internal clock and that of the server
 by comparing the rate of packet reception from the network to their internal
@@ -587,26 +595,23 @@ array of the two loudspeakers for which it is responsible, computes only the
 delays for each primary source with respect to those two loudspeakers, i.e.\
 for the $k$th virtual source, the $n$th hardware module computes
 $r_{k,\mathbf{x}_{2n}}$ and $r_{k,\mathbf{x}_{2n+1}}$.
-To limit the computational burden placed on the hardware modules, specifically
+To reduce the computational burden placed on the hardware modules, specifically
 with regard to memory, the length of the delay lines was reduced by discarding
 the longitudinal component of $r_k$, leaving only the relative inter-speaker
 delay.
-Additionally, a simplified WFS prefilter was employed, using the distance
-from each virtual sound source to each secondary point source to an inverse
-square law mapping for frequency-independent amplitude loss to the medium of
-propagation, and the cutoff of a two-pole lowpass filter.
+
+For the WFS prefilter, $r_k$ was mapped to an inverse square law for
+frequency-independent amplitude loss to the virtual medium of propagation, and
+to the cutoff frequency of a two-pole lowpass filter defined by Faust's
+\texttt{fi.lowpass} function.\footnote{
+    \url{https://faustlibraries.grame.fr/libs/filters/\#filowpass}
+}
 Adopting a modified version of equation~\eqref{eq:driving-function}, the
 driving function becomes:
 \begin{equation}
     \label{eq:simple-driving-function}
     d_k(\bfx,t) = f(t, r_k) \ast \delta\left(t - \frac{r_k-y_k}{c}\right).
 \end{equation}
-In implementation, the prefilter was tuned by ear using Faust's
-\texttt{fi.lowpass} function;\footnote{
-    \url{https://faustlibraries.grame.fr/libs/filters/\#filowpass}
-}
-a thorough treatment of the simulation of distance effects in WFS stands as a
-topic for future work.
 
 \subsubsection{Modularity and Maximum Delay}
 
