@@ -23,29 +23,6 @@ available network bandwidth;
 as such, a unicast system does not meet the requirement of scalability as
 described in \secref{subsec:distributed-audio-systems}.
 
-%With a view to exploiting the UDP multicast capabilities of NetJACK, initial
-%efforts centred on an attempt to create a NetJACK client for the Teensy
-%platform.
-%\begin{inparaenum}[1)]
-%    \item NetJACK was created as a general-purpose system, with functionality
-%    beyond the requirements of the proposed implementation;
-%    \item JACK has not served as a truly cross-platform audio host for a
-%    number of years; although \texttt{jackd} runs on Mac OS X systems, not
-%    since OS X 10.14 has JACK been compatible with Mac's CoreAudio
-%    API, thus any server implementation based upon NetJACK would not be
-%    operable on a modern Mac operating system.\footnote{
-%        For more information, see Stéphane Letz's proposed design for a
-%        successor to the defunct CoreAudio/JACK bridge
-%        \url{https://github.com/jackaudio/jack-router/blob/main/macOS/docs/JackRouter-AudioServerPlugin.md}
-%        (accessed 04/01/2024).
-%    }
-%\end{inparaenum}
-
-%Of course, being tied to JACK as its audio host, the latter rationale applies
-%also to the JackTrip-based approach.
-%This being the case, attention was turned to the design of a bespoke multicast
-%networked audio system.
-
 A multicast NetJACK server was considered, but creating a client implementation
 on what is essentially a bare-metal platform in the shape of the Teensy, was not
 practical.
@@ -96,58 +73,12 @@ enumerations inspired by those used by JackTrip.\footnote{
     \url{https://github.com/jacktrip/jacktrip/blob/v1.6.8/src/AudioInterface.h\#L56}
 }
 
-%\begin{multicodelisting}{Supporting enumerations for packet metadata,
-%    label=ls:packet-enums,
-%    top=0pt,
-%    bottom=0pt
-%}
-%    \begin{tcbraster}[threecolraster]
-%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
-%            enum BufferSizeT {
-%                BUF8 = 3,
-%                BUF16,
-%                BUF32,
-%                BUF64,
-%                BUF128,
-%                BUF256,
-%                BUF512,
-%                BUF1024,
-%                BUF2048,
-%                BUF4096
-%            };
-%        \end{multicodesublisting}
-%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
-%            enum BitResolutionT {
-%                BIT8 = 1,
-%                BIT16,
-%                BIT24,
-%                BIT32
-%            };
-%        \end{multicodesublisting}
-%        \begin{multicodesublisting}[minted language=cpp, minted style=xcode]
-%            enum SamplingRateT {
-%                SR22,
-%                SR32,
-%                SR44,
-%                SR48,
-%                SR88,
-%                SR96,
-%                SR192
-%            };
-%        \end{multicodesublisting}
-%    \end{tcbraster}
-%\end{multicodelisting}
-
 \texttt{BufferSize} describes the number of audio frames per packet\footnote{
     Not to be confused with the number of \textit{samples} in the packet, the
     number of frames is the number of samples divided by the number of channels.
 } as the $n$th power of 2; for example, the enumeration \texttt{BufferSizeT}
 features a member \texttt{BufferSizeT::BUF16}; 16 being the fourth power of 2,
 this member is assigned the number 4.
-%An audio buffer size of 16 frames is represented by the enumeration member
-%\texttt{BufferSizeT::BUF16}, which is assigned the number 4, the appropriate
-%power of two to use in converting between the enumeration and the number with
-%which it corresponds.
 The \texttt{BitResolution} field could be used to transmit one of 8, 16, 24, or
 32 as-is; there is a utility, however, when decoding a packet, in knowing the
 number of \textit{bytes} per audio sample, so this is the number that is
@@ -157,8 +88,6 @@ of bytes in a 16-bit integer.
 For well-formed packets, \texttt{BufferSize} could be inferred from the size of
 the packet (minus its header), divided by \texttt{NumChannels} and
 \texttt{BitResolution}.
-%, the latter treated as the number of bytes per sample (as
-%per the enumeration value).
 To permit scope for the detection of malformed packets, however, the expense
 of an additional byte in the header was deemed a reasonable one.
 Finally, the sequence number is intended as a means for a recipient to identify
@@ -280,17 +209,9 @@ Second, this numerically-predictable signal serves as a means to inspect the
 integrity of the audio server algorithm, and to verify that the expected
 sample interleaving and endianness is employed.
 Inspecting the first sixteen samples of the first audio channel
-%(grouped
-%by sample for legibility, see \lstref{listing:chan-1-samples}),
 it is evident that the amplitude values increment on a per-sample basis, and,
 since it is the first byte that increases with each sample, that samples are
 transmitted little-endian.
-
-%\codeinputlisting[float=h]
-%{text}
-%{listings/audio-packet-excerpt.txt}
-%{Extracted samples from the transmitted unipolar sawtooth wave}
-%{chan-1-samples}
 
 The purpose of the server's receiver thread is to poll its socket for traffic
 reaching the multicast group from connected clients.
@@ -374,21 +295,6 @@ A valid Teensy program must define a function by this name, and it is called
 repeatedly from the body of a non-terminating \texttt{while} loop throughout
 operation.
 
-%Due to the regular timing of calls to \texttt{AudioStream::update}, and the
-%correspondence between an audio buffer and a networked audio packet, it was
-%tempting to use that method, and thus the underlying audio interrupt, as an
-%opportunity to handle networking operations too.
-%This proved unreliable, however; conflicts between the audio and network
-%interrupts caused the Teensy to crash sporadically.
-%
-%Instructions to read from and write to the network were moved to a method,
-%\texttt{NetJUCEClient::loop}, which is called from the top level loop of
-%the Teensy program.
-%Although not called at regular intervals \textemdash{} Teensy's \texttt{loop()}
-%function is itself executed from the body of a non-terminating \texttt{while}
-%loop \textemdash{} tests indicated that the time between iterations lay on the
-%order of tens of microseconds, far lower than the audio interrupt interval.
-
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/timeline}
@@ -441,10 +347,6 @@ When multiple clients are present, there are consequently multiple streams of
 audio packets reaching the multicast group.
 To avoid ambiguity and unnecessary packet reads at the client side, server and
 clients transmit audio data to the group on differing port numbers.
-%Packets are identifiable, however, by their source IP address, a component of
-%the IPv4 header.
-%Clients are programmed with the IP address of the server, and can thus identify
-%the authoritative source of audio data.
 
 \begin{codelisting}{
     \texttt{update} method of the networked audio client implementation,
@@ -514,63 +416,6 @@ sampling rate.
 The aim of this approach was to minimise reliance on the adaptive resampler
 described above, and ultimately encourage all clients to run at the same audio
 rate as the server.
-
-%\subsubsection{An Unexpected Source of Jitter}
-%
-%Jitter does not arise solely during the journey from machine to machine across
-%a network.
-%It was found that, using the general purpose computer's default audio host
-%(ALSA), the timing of iterations of JUCE's audio processing loop, and thus
-%signals to \texttt{NetAudioServer}'s sender thread, was very uneven, i.e.\
-%subject to a high degree of jitter.
-%Though the average rate of execution was commensurate with the selected sample
-%rate and audio buffer size, individual audio buffer intervals differed, in
-%microsecond terms, by up to an order of magnitude.
-%This inconsistent audio timing was sufficient to cause transmission jitter that
-%overwhelmed the client-side strategy for jitter compensation.
-%The result was persistent audible distortion due to rapid fluctuations in the
-%client's audio buffer read-position increment.
-%
-%Switching from ALSA to JACK as the audio host resolved this issue, but since
-%JACK \textit{uses} ALSA as its underlying audio host, this phenomenon was
-%difficult to account for.
-%A detailed description lies beyond the scope of this report, but
-%essentially JACK uses \textit{direct memory access} to map the underlying audio
-%device into memory,\footnote{
-%    Credit goes to Stéphane Letz, a prominent contributor to the JACK project,
-%    for providing this bit of context.
-%} and seemingly does so in a more effective manner than the driver
-%for the sound card on the development machine.
-%It is not known at the time of writing whether using ALSA with an external audio
-%interface (a potential barrier to entry) would have improved the situation.
-%
-%This incident serves to illustrate that, beyond the concerns associated
-%with effective software design, a system such as the one described here, for
-%which the timing of operations is critical, is subject to the whims of a variety
-%of supporting hardware and software systems \textemdash{} things that in a more
-%conventional audio system can, to a greater degree, be taken for granted.
-%The topic of whether to attempt to compensate for this manner of phenomenon in
-%software or impose strict requirements on a future end-user in terms the audio
-%host they should use (something that would almost certainly vary with the user's
-%operating system), remains one for future research.
-
-%\subsubsection{A Note on the Client-Server Dichotomy}\label{subsubsec:client-server}
-%
-%In principle, there is no meaningful impediment to the so-called
-%clients acting as servers in their own right; a change of port number is all
-%that would be required for each client to receive traffic from (and send
-%traffic to) not just the server, but also from (and to) all other clients.
-%Consequently, in code for both the server and clients, networked audio entities
-%in the system are referred to as \textit{peers} (see, e.g.
-%\figref{fig:plugin-interface}).
-%In practice, and for the particular application
-%\textemdash{} distributed spatial audio \textemdash{}
-%considered here, receiving UDP packets from sources other than the designated
-%server is not only unnecessary, but also manifestly inefficient.
-%With Chafe et al.'s \textit{Internet Acoustics} work in mind, it is likely that
-%there are some very interesting uses for a \textit{promiscuous} network
-%of audio peers, but, for now, such applications lie beyond the scope of this
-%work.
 
 \subsection{The Audio Spatialisation Algorithm}\label{subsec:wfs-algorithm}
 
@@ -655,8 +500,6 @@ separately.
 The width of the speaker array is inferred from the speaker spacing (in
 metres), multiplied by the number of speaker-intervals in the array, i.e.\ one
 fewer than the number of speakers.
-%, thus a virtual source can be located no
-%further, laterally, than the centre of a speaker lying at the edge of the array
 For the proposed implementation, the number of speakers is known to the server
 and clients at compile time; with further development this could be made
 specifiable at runtime.
@@ -745,17 +588,8 @@ of the hardware module on which it is running.
 Additionally, the client-side networked audio client returns a stream of audio
 data to the multicast group, to be consumed by the server.
 
-%A diagram of the fundamental system architecture is shown in
-%\figref{fig:architecture}.
 Code for the server and client software components can be found at
 \url{https://github.com/hatchjaw/netjuce} and
 \url{https://github.com/hatchjaw/netjuce-teensy} respectively.\todo[inline]{
     Document code repos.
 }
-
-% \begin{figure}[ht]
-%     \centering
-%     \includegraphics[width=\textwidth]{figures/system-overview.jpg}
-%     \caption{System overview.}
-%     \label{fig:system-overview}
-% \end{figure}

@@ -6,9 +6,6 @@ The spatialisation of \textit{primary sound sources}, e.g.\ sound
 captured by microphones, stored as digital audio files, or synthesised in
 real-time can be achieved simply by delivering those primary sources to
 \textit{secondary sound sources}, i.e.\ loudspeakers or headphones.
-%Loudspeakers being stationary entities by-and-large, the idea of moving a sound
-%source is physically impractical, however, and that of locating a sound source
-%between loudspeaker positions physically impossible.
 Taking advantage of auditory cues, and the nature of the propagation of sound,
 it is possible to suggest the presence of primary sources at arbitrary
 locations, independent of the secondary source distribution.
@@ -34,40 +31,6 @@ driving function $d(\mathbf{x},t)$:
 \end{equation}
 where $t$ denotes time.
 
-
-%the driving signal $\hat{D}(\mathbf{x}, \omega)$ can be
-%expressed, in the frequency domain, as the product of the input signal,
-%$\Sigin(\omega)$ and the driving function $D(\mathbf{x}, \omega)$:
-%\begin{equation}
-%    \label{eq:driving-signal-freq}
-%    \hat{D}(\mathbf{x},\omega) = \Sigin(\omega) \cdot D(\mathbf{x},\omega),
-%\end{equation}
-%where $\omega$ denotes radian frequency, $\omega = 2\pi f$, and $f$, in turn,
-%is time frequency.
-%Moving to the time domain, the multiplication of the input signal and driving
-%function changes to a convolution, and equation~\eqref{eq:driving-signal-freq}
-%becomes:
-%\begin{equation}
-%    \label{eq:driving-signal-time}
-%    \hat{d}(\mathbf{x},t) = \sigin(t) \ast d(\mathbf{x},t),
-%\end{equation}
-%where $t$ denotes time.
-
-%An early sound field synthesis approach, referred to as an `acoustic
-%curtain'~\citep{ziemer_wave_2020}, entailed placing microphones in one space,
-%such as a concert auditorium, and, in another space, loudspeakers at locations
-%corresponding to those of the microphones.
-%In this case, there are as many input signals $\sigink(t)$ as there are
-%microphones, and the driving function reduces to a `pass-through' of each
-%signal to its corresponding loudspeaker, i.e.\
-%$d_k(\mathbf{x}, t) = 1$.
-%
-%The acoustic curtain is a relatively rarely-deployed technique (though similar
-%recreation of `real' sound fields is still conducted, albeit typically by way
-%of ambisonic recording and reproduction) and sound field synthesis is most
-%often concerned with the distribution and movement of artificial or arbitrary
-%sound sources.
-
 Commonly-employed approaches to sound field creation can be grouped into two
 broad categories: amplitude- and time-based panning techniques, and physical
 sound field recreation approaches.
@@ -82,9 +45,6 @@ difference in perceived amplitude relative to the listener's
 ears~\citep{pulkki_virtual_1997,verheijen_sound_1998,ziemer_wave_2020}, to
 encourage the listener to localise sound to a position on the circumference of
 an arc or circle around the listening position.
-%This is achieved by weighting the amplitudes of signals sent to the
-%secondary sources, creating a ``phantom'' sound source that may appear to
-%emanate from a position between loudspeakers.
 For systems of this sort, the driving function is a constant scalar value, or,
 for a moving phantom source, a time-varying function that returns a scalar
 value.
@@ -120,12 +80,6 @@ Binaural sound is suited to headphone-based listening but may be achieved with
 loudspeakers if suitable cross-talk cancellation is
 applied~\citep{kaiser_transaural_2011}.
 
-%It is worth mentioning that these cues vary in their effectiveness with
-%frequency and, excepting the case of headphone-based listening, intersect with
-%cues related to listener's torso~\citep{verheijen_sound_1998} and the
-%head-related transfer
-%function~\citep{de_poli_physically_1998,geier_object-based_2010}.
-
 Periphonic approaches are subject to the phenomenon of an ideal listening
 position, or \textit{sweet-spot}~\citep{nicol_sound_2017}, that is a listening
 position away from which the spatialisation effect is significantly degraded.
@@ -136,16 +90,6 @@ individualised~\citep{de_poli_physically_1998}.
 As such, these techniques are not suited to collective and immersive auditory
 experiences whereby multiple participants may move freely about their
 environment.
-
-%subjection to multiple listeners,
-%nor to immersive auditory experiences permitting the participant to move freely
-%about their environment.
-
-%Additionally, phantom sources are inherently bound to the periphery on which
-%they reside;
-%there is no authentic way to model a phantom source at greater (or lesser)
-%distance, though using reverberation and amplitude cues may offer a satisfactory
-%perceptual impression.
 
 \subsubsection{Physically-Inspired Techniques}\label{subsubsec:sound-field-synthesis}
 

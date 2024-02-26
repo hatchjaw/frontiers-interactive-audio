@@ -306,3 +306,6 @@ TSWLatexianTemp*
 
 # IDE
 .idea
+
+# Misc
+/overleaf
