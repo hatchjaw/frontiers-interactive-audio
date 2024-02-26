@@ -21,8 +21,8 @@ The success of the system as a platform for audio spatialisation techniques is
 contingent on it being composed of effective solutions to the challenges posed
 by distributing audio processing across a local area network.
 It is of limited worth, however, as a technical exercise in isolation;
-the subjective assessment provided by listeners may help identify the most
-critical aspects of the technical implementation and guide future development.
+the subjective assessment of listeners may help identify the most critical
+aspects of the technical implementation and guide future development.
 
 \subsection{Technical Evaluation}\label{subsec:technical-evaluation}
 
@@ -80,7 +80,7 @@ RTT.\
         intervals of \qty{.175}{\m}.
         Capacitor microphone placed $\sim$\qty{2}{\m} from the
         speaker array.
-        Audio buffer size (A) 16 samples; (B) 32 samples.
+        Audio buffer size (A) 16 frames; (B) 32 frames.
     }
     \label{fig:spectrograms}
 \end{figure}
@@ -105,7 +105,7 @@ low drift would be indicative of the effectiveness of that strategy.
         Round-trip time, RTT spread, and clock drift measurements for eight
         networked audio clients, for a networked audio session of eight minutes'
         duration.
-        Audio buffer size, 16 samples, sampling rate \qty{44.1}{\kHz}.
+        Audio buffer size, 16 frames, sampling rate \qty{44.1}{\kHz}.
         The legend in the bottommost plot applies also to the upper plot.
         Round-trip time, in samples, measured at the server, and found as the
         difference between an outgoing sawtooth wave and its returning
@@ -161,19 +161,19 @@ containing steady-state harmonic content revealed obtrusive audible artefacts.
         Round-trip time, RTT spread, and clock drift measurements
         for eight networked audio clients, for a networked audio session of
         eight minutes' duration.
-        Audio buffer size, 32 samples.
+        Audio buffer size, 32 frames.
     }
     \label{fig:rtt-drift-32}
 \end{figure}
 
-A buffer size of 16 samples had been selected in an attempt to minimise the
+A buffer size of 16 frames had been selected in an attempt to minimise the
 duration of the window of inter-client synchronicity, and to maximise the
 number of channels that could be transmitted over the network, subject to
 restrictions posed by the MTU (see
 \secref{subsubsec:transmission-considerations}).
 Recalling, however, that previous
 work~\citep{rushton_microcontroller-based_2023}
-had employed a 32-sample audio buffer, equivalent measurements were taken for
+had employed a 32-frame audio buffer, equivalent measurements were taken for
 the larger buffer size, the results of which are depicted in
 \figref{fig:rtt-drift-32} and \figref{fig:spectrograms}(B).
 
@@ -185,14 +185,14 @@ The mean RTT spread, equating to $\sim$\qty{626}{\us}, is comparable with
 results from prior work.
 Importantly, however, and as demonstrated in \figref{fig:spectrograms}(B), the
 rate of relative inter-client temporal movement was much improved by the switch
-to a 32-sample buffer.
+to a 32-frame buffer.
 Although exhibiting similar visual striations to the spectrogram for the test
-at 16 samples, fluctuations occur less frequently, and seemingly more
+at 16 frames, fluctuations occur less frequently, and seemingly more
 gradually.
 Indeed, subjectively-speaking, the disruption caused by the phasing effect
-that afflicted the 16-sample buffer implementation was significantly reduced,
+that afflicted the 16-frame buffer implementation was significantly reduced,
 as was the presence of audible artefacts affecting harmonic signals.
-Thus it was the version of the system employing a buffer size of 32 samples
+Thus it was the version of the system employing a buffer size of 32 frames
 that was exposed to perceptual evaluation.
 
 Clock drift measurements in \figsref{fig:rtt-drift-16}{fig:rtt-drift-32} exhibit

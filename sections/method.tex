@@ -74,8 +74,10 @@ enumerations inspired by those used by JackTrip.\footnote{
 }
 
 \texttt{BufferSize} describes the number of audio frames per packet\footnote{
-    Not to be confused with the number of \textit{samples} in the packet, the
-    number of frames is the number of samples divided by the number of channels.
+    Often used interchangeably with the word \textit{sample}, a \textit{frame}
+    represents the samples for all channels for a given sample instant;
+    thus the number of frames in a network packet or audio buffer is the number
+    of samples divided by the number of channels.
 } as the $n$th power of 2; for example, the enumeration \texttt{BufferSizeT}
 features a member \texttt{BufferSizeT::BUF16}; 16 being the fourth power of 2,
 this member is assigned the number 4.
@@ -308,10 +310,6 @@ operation.
         arrows with dotted tails represent control data.
         Note that the server transmits to the multicast group irrespective of
         the presence of any client.
-        For multiple clients, there will be multiple streams of audio data
-        reaching the multicast group; clients must be programmed with the IP
-        address of the server in order to know which stream originates from the
-        server.
     }
     \label{fig:timeline}
 \end{figure}
@@ -355,7 +353,7 @@ clients transmit audio data to the group on differing port numbers.
     label=ls:njc-update,
     float=h!
 }
-    void NetJUCEClient::update(void) {
+    void NetJUCEClient::update() {
         doAudioOutput();
 
         handleAudioInput();
@@ -488,8 +486,8 @@ algorithm, remains to be investigated.
 
 \subsubsection{Controlling the WFS Algorithm}
 
-Parameter values are delivered to the Faust algorithm in the form of OSC
-messages.
+Parameter values are delivered to the Faust algorithm in the form of Open Sound
+Control (OSC) messages.
 OSC control data, describing virtual sound source positions, speaker spacing,
 and informing clients of their position in the speaker array, is bundled into
 UDP packets and delivered by the server to the multicast group for all clients
