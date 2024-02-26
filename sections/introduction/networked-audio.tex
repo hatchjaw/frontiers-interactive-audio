@@ -42,7 +42,7 @@ a distributed digital waveguide dubbed the
 \subsubsection{Protocols and Systems}\label{subsubsec:protocols-systems}
 
 VoIP research in the 1990s focused on audio codecs and data
-compression~\citep{turletti_inria_1995,hardman_successful_1998}, seeking a
+compression~\citep{turletti_inria_1994,hardman_successful_1998}, seeking a
 compromise with the \textit{best-effort} nature of internet service.
 The SoundWIRE project, in search of high audio quality, turned its attention
 directly to the basic transport layer protocols of the Internet Protocol suite:
@@ -91,7 +91,7 @@ UDP has emerged as the protocol of choice for platforms enabling remote musical
 collaboration, serving as the basis for NetJACK~\citep{carot_netjack_2009}, part
 of the JACK Audio Connection Kit (a cross-platform audio host), the audiovisual
 performance streaming platform LOLA~\citep{drioli_networked_2013},
-Jamulus~\citep{fischer_case_2015}, Soundjack~\citep{renaud_networked_2012}, and
+Jamulus~\citep{fischer_case_2015}, Soundjack~\citep{renaud_networked_2007}, and
 other jamming-focused platforms, plus more recent entrants, the closed-source,
 but ultimately UDP-based Elk OS~\citep{turchet_elk_2021} for instance.
 UDP even plays a fundamental role in proprietary systems such as Dante (Digital
@@ -105,17 +105,17 @@ Electrical and Electronics Engineers) and AES (Audio Engineering Society)
 standards groups, and companies like Audinate, the creators of Dante
 \textemdash{} were taking an interest in networked audio.
 Traditional large-scale audio systems such as those used in broadcast, concert
-venues and recording studios rely on the installation of unwieldy systems of
-analogue hardware and cabling, with many potential points of failure.
+venues and recording studios rely on the installation of unwieldy combinations
+of analogue hardware and cabling, with many potential points of failure.
 Seeking literally to lighten the load posed by ``hundreds of
-kilograms''~\citep{bakker_introduction_2014} of analogue cabling in analogue
-audio installations, in the 2000s audio companies were looking to high speed
-ethernet as a means to simplify the provision of high-quality, multichannel
-audio in industry settings.
+kilograms''~\citep{bakker_introduction_2014} of cabling in analogue audio
+installations, in the 2000s audio companies were looking to high speed ethernet
+as a means to simplify the provision of high-quality, multichannel audio in
+industry settings.
 
 Key to these efforts was the release, in 2002, of the IEEE 1588 standard for the
 Precision Time Protocol (PTP), a means by which networked computer systems
-can achieve clock synchronicity~\citep{lee_proceedings_2005}.
+can achieve clock synchronicity~\citep{edison_ieee-1588_2002}.
 PTP superseded the lower-resolution Network Time Protocol (NTP), and, under
 ideal conditions, can achieve synchronisation accuracy of sub-microsecond
 order~\citep{tongzhou_research_2022}.
@@ -126,7 +126,7 @@ layer} \textemdash{} the lowest level of the Open Systems Interconnection (OSI)
 model, of which the aforementioned transport layer is a component \textemdash{}
 i.e.\ by dedicated timers at the level of the physical network interface.
 Legacy and low-cost networking equipment do not possess support for hardware
-timestamping, however~\citep{correll_design_2006}, and devices that do offer
+timestamping, however~\citep{correll_design_2005}, and devices that do offer
 such support are markedly more expensive.\footnote{
     Consumer-grade, eight-port ethernet switches can cost as little as
     \texteuro{20};
@@ -136,7 +136,7 @@ such support are markedly more expensive.\footnote{
     verified 12/01/2024.
 }
 PTP can be deployed as a software-only
-implementation~\citep{correll_design_2006}, albeit with impaired accuracy and
+implementation~\citep{correll_design_2005}, albeit with impaired accuracy and
 a protracted clock-convergence period.
 
 Dante, with its promise of low-latency, highly-multichannel audio over wired

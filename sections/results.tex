@@ -231,8 +231,9 @@ One may expect such a phenomenon to be followed by an immediate rebound, but
 this appears to be a more gradual process.
 The overall trend, for this combination of server and clients at least, is for
 clients to run faster than the server;
-the clock adjustment strategy employed here appears to be insufficient to
-compensate for this phenomenon.
+the clock adjustment strategy employed relies on inferring time from the rate of
+packet transmission, which may not offer sufficient temporal resolution for
+accurate drift compensation.
 
 \subsection{Perceptual Evaluation}\label{subsec:perceptual-evaluation}
 

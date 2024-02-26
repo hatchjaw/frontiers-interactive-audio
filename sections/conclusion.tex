@@ -8,18 +8,17 @@ spatial audio system was developed and deployed.
 Evaluation of the system exposed the extent of the technical challenges
 that confront it in its current form, and shed light on opportunities for
 further development.
-Perceptual testing revealed that it may, with certain limitations, offer
-performance sufficient to support timing-critical sound field synthesis
-techniques.
+Perceptual testing revealed that it may offer performance sufficient to support
+timing-critical sound field synthesis techniques.
 The proposed system represents a milestone on the road towards an accessible
 alternative to state of the art spatial and immersive audio installations.
 
 It has been shown that a system of discrete computational entities can
 communicate effectively over an ethernet network, exchanging audio and control
 data in a scalable fashion via a UDP multicast group.
-Though facing significant technical challenges, an approach to the foundational
-requirements of such a system has been demonstrated, with encouraging results
-with regard to spatial audio applications.
+Though facing significant technical challenges, the foundational requirements of
+such a system have been demonstrated, with encouraging results with regard to
+spatial audio applications.
 
 Timing discrepancies between entities in the networked audio system give rise
 to audible artefacts such as time-varying comb-filtering.
@@ -27,9 +26,6 @@ Loss of synchronicity is difficult to measure and compensate for in real-time;
 the extent of the resulting audible disturbances is unpredictable, and firmer
 conclusions about their extent, and thresholds for their perceptibility should
 ideally be sought.
-%These disturbances but,
-%anecdotally, perceptible, albeit perhaps depending on the nature of the sound
-%sources being treated.
 The developed strategies for mitigation of asynchronicity call for further
 refinement, or replacement with more sophisticated techniques.
 
@@ -42,13 +38,13 @@ fundamental characteristics of the various components of the devised system
 stand unanswered.
 From the level of audio hardware and driver software, to audio host and audio
 buffer behaviour, to network QoS and the performance of network switches, to
-the behaviour of the Teensy platform, and the processor and audio codec that it
-is built around, plus its software libraries \textemdash{} much that is
-typically taken for granted in the development of embedded systems, and audio
-and networking systems, calls for deeper investigation.
+the behaviour of the hardware platform, its processor and audio codec, plus its
+software libraries \textemdash{} much that is typically taken for granted in the
+development of embedded systems, and audio and networking applications, calls
+for deeper investigation.
 
-Each microcontroller generates a clock signal to deliver to its audio shield.
-In a locally distributed setting, this is quite redundant.
+Each microcontroller generates a clock signal to deliver to its audio shield,
+which, in a locally distributed setting, is rather redundant.
 It may be possible to generate a single, authoritative clock on one node and
 deliver that to all others in the system.
 If this can be achieved, it would remedy the issue of clock drift, leaving only
