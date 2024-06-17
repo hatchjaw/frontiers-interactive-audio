@@ -289,10 +289,62 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     the barrier to entry to what is otherwise a comparatively exclusive branch of
     audio research.
 
-    In this article \textemdash{} which builds on previous work on a
-    microcontroller-based networked audio
-    client~\citep{rushton_microcontroller-based_2023} \textemdash{} we describe the
-    development of a distributed system for spatial and immersive audio.
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=\textwidth]{figures/system_overview}
+        \caption{
+            Overview of the proposed distributed, networked audio system.
+            A general purpose computer runs DAW software, which in turn runs an
+            instance of an audio plugin that encapsulates servers for audio and
+            control data.
+            The computer is physically connected, via a network switch, to
+            microcontroller-based clients.
+            The clients receive the audio and control data, which are delivered
+            to a distributed audio spatialisation algorithm, and return an audio
+            stream to the server (perhaps via some manner of signal processor).
+            Clients deliver the output signals produced by their instance of the
+            distributed algorithm to loudspeakers.
+        }
+        \label{fig:system-overview}
+    \end{figure}
+
+    In this article we describe the development of a distributed system for
+    spatial and immersive audio.
+    In \secref{sec:background} we discuss the technological and scholarly
+    background to this project, including developments in networked audio and
+    embedded hardware platforms, spatial audio techniques, and distributed audio
+    systems.
+    Building upon this background, and prior work on a microcontroller-based
+    networked audio client~\citep{rushton_microcontroller-based_2023},
+    \secref{sec:method} details the development of the proposed system, an
+    overview of which is depicted in \figref{fig:system-overview}.
+    Selecting a low-cost hardware platform, using ubiquitous computer networking
+    technologies, and keeping the overall design of the system as simple as
+    possible, it is hoped that this work could lead to a lowering of the barrier
+    to entry of the creation of large scale spatial and immersive audio
+    installations.
+    With a view to optimising accessibility and interoperability with existing
+    audio tools, the server component of the proposed networked audio system is
+    encapsulated in an audio plugin suitable for use in a Digital Audio
+    Workstation (DAW)\@.
+    The server delivers audio and control data to a network of
+    microcontroller-based clients via a local area network, and clients,
+    programmed with a parallelised spatial audio algorithm, use the audio and
+    control data to perform their part of the distributed signal process.
+    Minimising inter-client asynchronicity in a distributed audio context is the
+    most significant technical problem, and the network client implementation
+    incorporates strategies for addressing this challenge.
+
+    The previous system was not formally evaluated, but, anecdotally, provided
+    support for the textit{holophonic} effect of WFS.\
+    A perceptual evaluation of the new system was conducted, and this is
+    described, along with a technical evaluation, in \secref{sec:results}.
+    Finally, in \secref{sec:conclusion}, we give an overview of our findings to
+    date and describe our ambitions for future work.
+
+    \section{Background}\label{sec:background}
+
+    \dots
 
     \subsection{Networked Audio}\label{subsec:networked-audio}
 
@@ -935,23 +987,27 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \subsubsection{State of the Art Distributed Audio Systems}
 
+%    TODO: cut this down a bit
+
     Applications of SoundWIRE to what its creators termed \textit{Internet
-    Acoustics}~\citep{chafe_physical_2002} obviously represent a case of distributed
-    audio processing.
+    Acoustics}~\citep{chafe_physical_2002} obviously represent a case of
+    distributed audio processing.
     These include a network reverberator~\citep{chafe_i_2018}, or
     \textit{``transcontinental echo chamber''}~\citep{chafe_simplified_2000},
     plus the aforementioned \textit{Network Harp}.
     Experiments of this sort were intended initially as sonifications of QoS
-    \textemdash{} a characteristic of network systems that is difficult to represent
-    in graphical or textual form due to the ephemeral nature of the phenomena of
-    jitter and packet loss \textemdash{} but stand as fascinating applications in
-    their own right of digital audio in the age of computer networking.
+    \textemdash{} a characteristic of network systems that is difficult to
+    represent in graphical or textual form due to the ephemeral nature of the
+    phenomena of jitter and packet loss \textemdash{} but stand as fascinating
+    applications in their own right of digital audio in the age of computer
+    networking.
     Subsequent work on JackTrip has focused on optimising networked audio less
     for sound processing or as a creative tool in itself, and more in service of
     the social and communal aspects of music participation and appreciation in a
     networked world;
     these are topics that came to the fore in computer music research during the
-    COVID 19 pandemic~\citep{bosi_experiencing_2021,sacchetto_jacktrip-webrtc_2021}.
+    COVID 19 pandemic~\citep{bosi_experiencing_2021,
+        sacchetto_jacktrip-webrtc_2021}.
 
     Lago and Kon~\citep{lago_middleware_2003} proposed a UDP-based system for
     real-time distributed audio processing taking the form of a network of general
@@ -973,7 +1029,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     Another ambitious project, particularly since it utilised wireless
     communication, an example configuration consisted of three nodes, one sending
     control data to another, which produced audio and transmitted it to the third,
-    which recorded it in a Digital Audio Workstation (DAW).
+    which recorded it in a DAW.
     The authors were more concerned with latency than synchronicity for their
     purposes, and measured latency via transmission round-trip times using a
     sawtooth wave as a timer (see \secref{subsec:technical-evaluation} for an
@@ -1011,85 +1067,48 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     certainly places it favourably when compared with state-of-the-art
     spatialisation systems.
 
-    \subsection{Objectives and Outlook}\label{subsec:objectives}
+%    \subsection{Objectives and Outlook}\label{subsec:objectives}
 
-    \begin{figure}[ht]
-        \centering
-        \includegraphics[width=\textwidth]{figures/system_overview}
-        \caption{
-            Overview of the proposed distributed, networked audio system.
-            A general purpose computer runs DAW software, which in turn runs an
-            instance of an audio plugin that encapsulates servers for audio and
-            control data.
-            The computer is physically connected, via a network switch, to
-            microcontroller-based clients.
-            The clients receive the audio and control data, which are delivered to
-            a distributed audio spatialisation algorithm, and return an audio stream
-            to the server (perhaps via some manner of signal processor).
-            Clients deliver the output signals produced by their instance of the
-            distributed algorithm to loudspeakers.
-        }
-        \label{fig:system-overview}
-    \end{figure}
+%    Subject to delivering the source signals to the hardware modules, each module
+%    would simply have to produce the driving signals for the two output channels
+%    for which it is responsible.
 
-    The primary focus of this work is an exploration of employing a network of
-    hardware modules to act as a co-ordinated networked audio system with a view to
-    supporting a distributed approach to audio spatialisation techniques.
-    It is hoped that in selecting a low-cost hardware platform, using ubiquitous
-    computer networking technologies, and keeping the overall design as simple as
-    possible, the work here could lead to a lowering of the barrier to entry of
-    the creation of large scale spatial and immersive audio installations.
-    With a view to optimising accessibility and interoperability with existing audio
-    tools, the decision was made to encapsulate server part of the proposed
-    networked audio system in an audio plugin suitable for use in a DAW\@.
-    This plugin should deliver audio and control data to a network of
-    microcontroller-based clients via a UDP multicast group.
-    Clients, programmed with a parallelised WFS algorithm, should use the audio and
-    control data to perform their part of the distributed signal process.
-    An overview of the proposed system is depicted in \figref{fig:system-overview}.
+%    TODO: maybe reinstate this paragraph somewhere?
+%    Then the temporal challenges described in \secref{subsubsec:challenges} would
+%    be the remaining concern: to what extent could synchronicity be maintained
+%    in the absence of a shared, authoritative source of time, and what would the
+%    effects of loss of synchronicity be on the performance of the distributed
+%    algorithm and the integrity of the holophonic effect?
 
-    WFS was chosen for implementation due to the comparative ease with which the WFS
-    algorithm can be parallelised.
-    Equations~\eqref{eq:driving-signal} and~\eqref{eq:driving-function} (page
-    \pageref{eq:driving-signal}) illustrate that the driving signal for a given
-    secondary point source is dependent only on the signals and relative positions
-    of the virtual primary sources, and is independent of the driving signals for
-    the other secondary sources.
-    Subject to delivering the source signals to the hardware modules, each module
-    would simply have to produce the driving signals for the two output channels
-    for which it is responsible.
-    Then the temporal challenges described in \secref{subsubsec:challenges} would
-    be the remaining concern: to what extent could synchronicity be maintained
-    in the absence of a shared, authoritative source of time, and what would the
-    effects of loss of synchronicity be on the performance of the distributed
-    algorithm and the integrity of the holophonic effect?
+%    Prior to work on this project, a distributed WFS system was developed, based on
+%    the Teensy 4.1 microcontroller and JackTrip
+%    protocol~\citep{rushton_microcontroller-based_2023}.
+%    This consisted of a standalone audio application running on a general purpose
+%    computer, delivering audio via JackTrip to a collection of hardware modules,
+%    and WFS control data via multicast UDP.\
+%    Strategies were developed for mitigating the effects of jitter and clock drift,
+%    and were developed further as part of the work described here;
+%    these, and other aspects of the development of the proposed system, are
+%    described in \secref{sec:method}.
+%    The previous system was not formally evaluated, but, anecdotally, provided
+%    support for the holophonic effect of virtual primary-source WFS.\
+%    A perceptual evaluation of the new system was conducted, and this is described,
+%    along with a technical evaluation, in \secref{sec:results}.
+%    Finally, in \secref{sec:conclusion}, we give an overview of our findings to date
+%    and describe our ambitions for future work.
 
-    Prior to work on this project, a distributed WFS system was developed, based on
-    the Teensy 4.1 microcontroller and JackTrip
-    protocol~\citep{rushton_microcontroller-based_2023}.
-    This consisted of a standalone audio application running on a general purpose
-    computer, delivering audio via JackTrip to a collection of hardware modules,
-    and WFS control data via multicast UDP.\
-    Strategies were developed for mitigating the effects of jitter and clock drift,
-    and were developed further as part of the work described here;
-    these, and other aspects of the development of the proposed system, are
-    described in \secref{sec:method}.
-    The previous system was not formally evaluated, but, anecdotally, provided
-    support for the holophonic effect of virtual primary-source WFS.\
-    A perceptual evaluation of the new system was conducted, and this is described,
-    along with a technical evaluation, in \secref{sec:results}.
-    Finally, in \secref{sec:conclusion}, we give an overview of our findings to date
-    and describe our ambitions for future work.
-
+    \dots [Probably needs a paragraph here to wrap up.]
 
     \section{Method}\label{sec:method}
+
+    \dots [Or here, to ease the reader in.]
 
     Being a system distributed across distinct computing platforms (a general
     purpose computer; a network of microcontrollers), and software elements
     serving a variety of purposes (server and client instances for transmission
     and reception of networked audio and control data, plus a DSP algorithm), it is
     important to consider each of these elements in detail.
-    In the subsections to follow, these elements are described;
+    In the subsections that follow, these elements are described;
     finally an overview of the devised system is provided.
 
     \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
@@ -1469,9 +1488,9 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     \subsubsection{Synchronicity with the Server}\label{subsubsec:client-sync}
 
     Due to the influence of clock drift and transmission jitter, and since the
-    clients constitute a distributed system, with no direct knowledge of each other
-    and no authoritative source of time, their third task posed, without doubt,
-    the greatest challenge.
+    clients constitute a distributed system, with no direct knowledge of each
+    other and no authoritative source of time, their third task posed the
+    greatest challenge.
     A two-pronged strategy was developed for addressing server-client and
     inter-client timing discrepancies:
 
@@ -1512,12 +1531,20 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \subsection{The Audio Spatialisation Algorithm}\label{subsec:wfs-algorithm}
 
+    WFS was chosen for implementation due to the comparative ease with which the
+    WFS algorithm can be parallelised.
+    Equations~\eqref{eq:driving-signal} and~\eqref{eq:driving-function} (page
+    \pageref{eq:driving-signal}) illustrate that the driving signal for a given
+    secondary point source is dependent only on the signals and relative
+    positions of the virtual primary sources, and is independent of the driving
+    signals for the other secondary sources.
+
     With some modifications, e.g.\ the possibility to specify speaker spacing
     parametrically, the WFS algorithm
     from~\citep{rushton_microcontroller-based_2023} was reused.
-    This algorithm was written in Faust and compiled to
-    a C++ class compatible with the Teensy Audio Library via Faust's
-    \texttt{faust2teensy} utility.
+    This algorithm, facilitating the simulation of virtual primary sound
+    sources, was written in Faust and compiled to a C++ class compatible with
+    the Teensy Audio Library via Faust's \texttt{faust2teensy} utility.
     Hardware modules were connected to a general purpose computer via a USB hub
     and the \texttt{tycmd} utility from the TyTools suite (see
     \secref{subsec:hardware-platforms}) was used to ensure that all modules were
