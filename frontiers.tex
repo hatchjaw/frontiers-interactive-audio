@@ -129,6 +129,17 @@
 \usepackage{siunitx}
 \sisetup{detect-all}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TODOS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[
+    disable, %turn off todonotes
+    colorinlistoftodos, %enable a coloured square in the list of todos
+    textwidth=\marginparwidth, %set the width of the todonotes
+    textsize=scriptsize, %size of the text in the todonotes
+]{todonotes}
+
+
 \def\keyFont{\fontsize{8}{11}\helveticabold }
 
 % Internal refs
@@ -194,8 +205,6 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \maketitle
 
-    \listoftodos
-
     \begin{abstract}
 
 %%% Leave the Abstract empty if your article does not require one, please see
@@ -257,16 +266,16 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     \section{Introduction}\label{sec:introduction}
 
     Recent developments in virtual and augmented reality technologies and
-    object-based audio~\citep{geier_object-based_2010} have led to an acceleration
-    in interest in the creation of virtual sound fields via approaches such as Wave
-    Field Synthesis (WFS) and Higher Order Ambisonics
+    object-based audio~\citep{geier_object-based_2010} have led to an
+    acceleration in interest in the synthesis of virtual sound fields via
+    approaches such as Wave Field Synthesis (WFS) and Higher Order Ambisonics
     (HOA)~\citep{berkhout_acoustic_1993,ahrens_theory_2008,daniel_further_2003,
         frank_producing_2015}.
-    These techniques call for the deployment of large numbers of loudspeakers, and
-    \textit{in situ} installations of dedicated hardware and software.
-    The costs associated with such installations have seen them largely restricted
-    to the preserve of concert venues, cinemas, and institutions with the means to
-    purchase and operate large-scale systems of this sort.
+    These techniques call for the deployment of large numbers of loudspeakers,
+    and \textit{in situ} installations of dedicated hardware and software.
+    The costs associated with such installations have seen them largely
+    restricted to the preserve of concert venues, cinemas, and institutions with
+    the means to purchase and operate large-scale systems of this sort.
 
     Advancements in embedded computing mean that there now exist an assortment of
     small, low-cost devices with support for audio Digital Signal Processing (DSP).
@@ -985,7 +994,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     Chafe and Oshiro's port of JackTrip to the Raspberry Pi for further internet
     acoustics, plus distributed spatialisation systems such as those described by
     Devonport and Foss~\citep{devonport_distribution_2019} and Belloch et
-    al.~\citep{belloch_performance_2021}
+    al.~\citep{belloch_performance_2021}.
     The latter two address aims closely aligned with the work described here, but
     are based on costly computing platforms.
     Devonport and Foss achieved high synchronicity via AVB; Belloch et al.\ used a
