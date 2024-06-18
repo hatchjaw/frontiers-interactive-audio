@@ -147,6 +147,7 @@
 \newcommand{\figsref}[2]{Figures~\ref{#1} and~\ref{#2}}
 \newcommand{\tabref}[1]{Table~\ref{#1}}
 \newcommand{\secref}[1]{section~\ref{#1}}
+\newcommand{\Secref}[1]{Section~\ref{#1}}
 \newcommand{\lstref}[1]{Listing~\ref{#1}}
 
 % Number with base 10 postfix subscript
@@ -277,17 +278,22 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     restricted to the preserve of concert venues, cinemas, and institutions with
     the means to purchase and operate large-scale systems of this sort.
 
-    Advancements in embedded computing mean that there now exist an assortment of
-    small, low-cost devices with support for audio Digital Signal Processing (DSP).
+    Advancements in embedded computing mean that there now exist an assortment
+    of small, low-cost devices with support for audio Digital Signal Processing
+    (DSP).
     These devices are relatively easy to program with open-source APIs and
-    libraries, and may provide support for communication over ubiquitous computer
-    networking equipment and protocols, an important capability in light of the
-    rise of high-speed ethernet as a standard for multichannel audio
-    transmission~\citep{bakker_introduction_2014}.
-    A network of such devices could be used to \textit{distribute} the problem of
-    audio spatialisation, permitting a modular, scalable approach that could lower
-    the barrier to entry to what is otherwise a comparatively exclusive branch of
-    audio research.
+    libraries, and may provide support for communication over ubiquitous
+    computer networking equipment and protocols, an important capability in
+    light of the rise of high-speed ethernet as a standard for multichannel
+    audio transmission~\citep{bakker_introduction_2014}.
+    A network of such devices could be used to \textit{distribute} the problem
+    of audio spatialisation, permitting a modular, scalable approach that could
+    lower the barrier to entry to what is otherwise a comparatively exclusive
+    branch of audio research.
+    Potential applications of such a system... auralisation, virtual
+    acoustics... a distributed system could afford an overall increase in
+    available computing power to support auralisation algorithms that require
+    the computation of expensive convolutions~\citep{}.
 
     \begin{figure}[ht]
         \centering
@@ -316,17 +322,11 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     systems.
     Building upon this background, and prior work on a microcontroller-based
     networked audio client~\citep{rushton_microcontroller-based_2023},
-    \secref{sec:method} details the development of the proposed system, an
+    \Secref{sec:method} details the development of the proposed system, an
     overview of which is depicted in \figref{fig:system-overview}.
-    Selecting a low-cost hardware platform, using ubiquitous computer networking
-    technologies, and keeping the overall design of the system as simple as
-    possible, it is hoped that this work could lead to a lowering of the barrier
-    to entry of the creation of large scale spatial and immersive audio
-    installations.
     With a view to optimising accessibility and interoperability with existing
-    audio tools, the server component of the proposed networked audio system is
-    encapsulated in an audio plugin suitable for use in a Digital Audio
-    Workstation (DAW)\@.
+    audio tools, the system's server component is encapsulated in an audio
+    plugin suitable for use in a Digital Audio Workstation (DAW)\@.
     The server delivers audio and control data to a network of
     microcontroller-based clients via a local area network, and clients,
     programmed with a parallelised spatial audio algorithm, use the audio and
@@ -359,17 +359,17 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     Protocol (NVP) \textemdash{} was released in
     1977~\citep{cohen_specifications_1977}.
 
-    With its references to `calling' and `ringing', it is clear that the NVP
-    standard was intended for digital telephony.
-    Indeed, research on networked audio was primarily concerned with telephony well
-    into the 1990s, focusing on real-time voice communication over wide area
-    networks (WAN) with efforts centring on \textit{quality of service} (QoS),
-    particularly with regard to the perennial issues of latency, packet loss, and
-    network jitter \textemdash{} inconsistencies in the rate of packet
+    The NVP standard, with control messages for `calling' and `ringing', was
+    clearly intended for digital telephony, and communication was the primary
+    focus of networked audio research well into the 1990s.
+    Efforts on supporting real-time voice communication over wide area networks
+    (WAN) centred on \textit{quality of service} (QoS), particularly with regard
+    to the perennial issues of latency, packet loss, and network jitter
+    \textemdash{} inconsistencies in the rate of packet
     transmission~\citep{hardman_reliable_1995,hardman_successful_1998}.
     Work at this time dealt with streams of compressed audio data, and speech
-    coding algorithms to overcome the deleterious effects of dropped packets over
-    unreliable network paths and low-bandwidth connections.
+    coding algorithms to overcome the deleterious effects of dropped packets
+    over unreliable network paths and low-bandwidth connections.
 
     Whereas the priority for digital telephony, and later voice over IP (VoIP)
     systems, is intelligibility, for musical purposes fidelity is of greater
@@ -400,9 +400,10 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     emphasising the importance of delivering multichannel audio of at least CD
     quality (16-bit, \qty{44.1}{\kHz}) with as little latency as possible.
 
-    SoundWIRE experiments included using TCP for unidirectional transmission such as
-    concert streaming.
-    TCP is in fact a bidirectional protocol, but its \textit{connection-oriented},
+%    TODO: Remove some detail here. Less pedagogy.
+    SoundWIRE experiments included using TCP for unidirectional transmission
+    such as concert streaming.
+    TCP is a bidirectional protocol, but its \textit{connection-oriented},
     one-to-one design allows for packet flow control mechanisms that guarantee
     packet ordering and provide protections against packet
     loss~\citep{schiavoni_alternatives_2013,al-dhief_performance_2018}.
@@ -410,38 +411,42 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     service, and thus audio fidelity, is ensured; ideal for a remote concert
     scenario.
 
-    UDP by comparison is a \textit{connectionless} protocol, providing no guarantees
+    UDP by comparison is \textit{connectionless}, providing no guarantees
     regarding the integrity of the packet stream, but equally none of the
     computational or temporal overhead that such guarantees introduce.
-    A networked device can send UDP packets to a valid address irrespective of the
-    presence or otherwise of another device at that address.
-    Further, \textit{many-to-many} (multicast) and \textit{one-to-many} (broadcast)
-    modes of transmission are possible via address spaces reserved as part of the
-    internet protocol standard~\citep{meyer_iana_2010}.
+    A networked device can send UDP packets to a valid address irrespective of
+    the presence or otherwise of another device at that address.
+    Further, \textit{many-to-many} (multicast) and \textit{one-to-many}
+    (broadcast) modes of transmission are possible via address spaces reserved
+    as part of the internet protocol standard~\citep{meyer_iana_2010}.
     Via UDP, SoundWIRE was able to run as a distributed digital waveguide over a
     WAN spanning around \qty{4500}{\km}~\citep{chafe_simplified_2000}.
 
-    From the SoundWIRE project emerged
-    \textit{JackTrip}~\citep{caceres_jacktrip_2010,caceres_jacktripsoundwire_2010},
-    a hybrid system that couples a TCP handshake with audio transmission over UDP,
-    thus sidestepping the overhead of TCP packet flow control.
-    Rather than relying on TCP's built-in mechanisms for stream integrity, JackTrip
-    supplements UDP with a number of optional buffering strategies that aim to
-    tailor its use to operation over local versus wide area networks.
-    In this sense it is more flexible than TCP, but in effect JackTrip moulds UDP
-    transmission into something akin to the connection-oriented model of TCP, and,
-    in its `hub server' mode, into a kind of \textit{multiple one-to-one} design
-    \textemdash{} multicast transmission is not possible.
+    From the SoundWIRE project emerged \textit{JackTrip}~\citep{
+        caceres_jacktrip_2010,caceres_jacktripsoundwire_2010}, a hybrid system
+    that couples a TCP handshake with audio transmission over UDP, thus
+    sidestepping the overhead of TCP packet flow control.
+    Rather than relying on TCP's built-in mechanisms for stream integrity,
+    JackTrip supplements UDP with a number of optional buffering strategies that
+    aim to tailor its use to operation over local versus wide area networks.
+    In this sense it is more flexible than TCP, but in effect JackTrip moulds
+    UDP transmission into something akin to the connection-oriented model of
+    TCP, and, in its `hub server' mode, into a kind of
+    \textit{multiple one-to-one} design \textemdash{} multicast transmission is
+    not possible.
 
-    UDP has emerged as the protocol of choice for platforms enabling remote musical
-    collaboration, serving as the basis for NetJACK~\citep{carot_netjack_2009}, part
-    of the JACK Audio Connection Kit (a cross-platform audio host), the audiovisual
-    performance streaming platform LOLA~\citep{drioli_networked_2013},
-    Jamulus~\citep{fischer_case_2015}, Soundjack~\citep{renaud_networked_2007}, and
-    other jamming-focused platforms, plus more recent entrants, the closed-source,
-    but ultimately UDP-based Elk OS~\citep{turchet_elk_2021} for instance.
-    UDP even plays a fundamental role in proprietary systems such as Dante (Digital
-    Audio Network Through Ethernet)~\citep{dante_what_2022}.
+    UDP has emerged as the protocol of choice for platforms enabling remote
+    musical collaboration, serving as the basis for
+    NetJACK~\citep{carot_netjack_2009}, part of the JACK Audio Connection Kit (a
+    cross-platform audio host), the audiovisual performance streaming platform
+    LOLA~\citep{drioli_networked_2013}, Jamulus~\citep{fischer_case_2015},
+    Soundjack~\citep{renaud_networked_2007}, and other jamming-focused
+    platforms, plus more recent entrants, the closed-source, but ultimately
+    UDP-based Elk OS~\citep{turchet_elk_2021} for instance.
+    UDP also plays a fundamental role in networked media streaming, being the
+    typical transport-layer protocol behind the Real-time Transport Protocol
+    (RTP), and it features in proprietary networked audio systems such as Dante
+    (Digital Audio Network Through Ethernet)~\citep{dante_what_2022}.
 
     \subsubsection{AoE in the Audio Industry}
 
@@ -459,18 +464,20 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     as a means to simplify the provision of high-quality, multichannel audio in
     industry settings.
 
-    Key to these efforts was the release, in 2002, of the IEEE 1588 standard for the
-    Precision Time Protocol (PTP), a means by which networked computer systems
-    can achieve clock synchronicity~\citep{edison_ieee-1588_2002}.
-    PTP superseded the lower-resolution Network Time Protocol (NTP), and, under
-    ideal conditions, can achieve synchronisation accuracy of sub-microsecond
+    Key to these efforts was the release, in 2002, of the IEEE 1588 standard for
+    the Precision Time Protocol (PTP), a means by which networked computer
+    systems can achieve clock synchronicity~\citep{edison_ieee-1588_2002}.
+    PTP (another protocol that typically uses UDP for transport) superseded the
+    lower-resolution Network Time Protocol (NTP), and, under ideal conditions,
+    can achieve synchronisation accuracy of sub-microsecond
     order~\citep{tongzhou_research_2022}.
     Synchronisation is achieved via the exchange of timestamped packets, coupled
     with precise estimates for send and receive times.
     Precision is best when timestamps can be calculated at the \textit{physical
-    layer} \textemdash{} the lowest level of the Open Systems Interconnection (OSI)
-    model, of which the aforementioned transport layer is a component \textemdash{}
-    i.e.\ by dedicated timers at the level of the physical network interface.
+    layer} \textemdash{} layer 1 of the Open Systems Interconnection (OSI)
+    model, of which the aforementioned transport layer (layer 3) is a component
+    \textemdash{} i.e.\ by dedicated timers at the level of the physical network
+    interface.
     Legacy and low-cost networking equipment do not possess support for hardware
     timestamping, however~\citep{correll_design_2005}, and devices that do offer
     such support are markedly more expensive.\footnote{
@@ -478,39 +485,40 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         \texteuro{20};
         The cheapest equivalent devices with PTP support cost, at the time of
         writing, on the order of \texteuro{150-200}, e.g.\
-        \url{https://www.fs.com/de-en/products/148180.html} \textemdash{} All URLs
-        verified 12/01/2024.
+        \url{https://www.fs.com/de-en/products/148180.html} \textemdash{} All
+        URLs verified 12/01/2024.
     }
     PTP can be deployed as a software-only
-    implementation~\citep{correll_design_2005}, albeit with impaired accuracy and
-    a protracted clock-convergence period.
+    implementation~\citep{correll_design_2005}, albeit with impaired accuracy
+    and a protracted clock-convergence period.
 
     Dante, with its promise of low-latency, highly-multichannel audio over wired
     LAN, and device synchronisation via hardware PTP, has become the de facto
     industry standard in networked audio~\citep{bakker_introduction_2014}.
+    Bakker et al.\ refer to Dante as an ``open'' system, which is true, perhaps,
+    in the sense that companies can incorporate the Dante system into their
+    products under licence from Audinate;
+    from the perspective of the academic community, however, Dante is very much
+    a closed-source initiative and not a suitable platform for research.
+
     In 2011, IEEE released the Audio Video Bridging (AVB, IEEE 802.1)
     standard~\citep{ieee_ieee_2011}, and AES67 followed in
-    2013~\citep{hildebrand_aes67-2013_2014};
-    these open technical standards describe operation at layers below TCP and UDP
-    in the OSI model, and provide frameworks for
-    interoperability between AoE and AoIP systems, including mechanisms for device
-    discovery and synchronisation, again via PTP\@.
-    Being standards, and not implementations in themselves, it is then up to
-    manufacturers to implement the appropriate recommendations in their products.
-
-    Bakker et al.\ refer to Dante as an ``open'' system, which is true, perhaps, in
-    the sense that companies can incorporate the Dante system into their products
-    under licence from Audinate;
-    from the perspective of the academic community, however, Dante is very much a
-    closed-source initiative and not a suitable platform for research.
+    2013~\citep{hildebrand_aes67-2013_2014}.
+    These open technical standards describe \textit{suites} of protocols for
+    tasks such as media transmission, device discovery and
+    synchronisation, and interoperability with other systems.
+    Both employ PTP for device synchronisation; AES67 uses RTP for media
+    transmission, whereas AVB uses the data-link layer (layer 2) Audio Video
+    Transport Protocol.
     Open implementations of AVB and AES67 exist, but, being complex standards
-    featuring many components, such implementations may not be complete, support for
-    embedded platforms is limited,\footnote{
+    featuring many components, such implementations may not be complete, support
+    for embedded platforms is limited,\footnote{
         See, for example, \url{https://github.com/tschiemer/aes67} and
         \url{https://github.com/adiknoth/Open-AVB}.
-    } and a reliance on PTP raises the barrier to entry.
-    Ultimately, if an accessible solution is sought, attention must be turned back
-    to the transport layer, and UDP\@.
+    } and a reliance on
+    PTP raises the barrier to entry.
+    Ultimately, if an accessible solution is sought, attention must be turned
+    back to the transport layer, and UDP\@.
 
     \subsubsection{Challenges Posed by Networked Audio}\label{subsubsec:challenges}
 
@@ -522,33 +530,38 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     processing.
     In a networked audio setting, jitter gives rise to a situation whereby the
     arrival of audio data does not correspond with the moments at which it is
-    needed.
-    In a naive implementation, this may result in a recipient either halting
+    needed, and may be caused by a number of factors: packet prioritisation
+    rules in the firmware of an ethernet switch, the timing of hardware
+    interrupts for a computer's audio or networking subsystems, and software
+    design decisions relating to network transmission or reception to name but
+    three.
+    In a naive implementation, jitter may result in a recipient either halting
     processing until it receives the expected data, or simply continuing without
     any data.
-    In either case, the result is likely to be disruption of the integrity of the
-    audio signal in the form of audible discontinuities.
+    In either case, the result is likely to be disruption of the integrity of
+    the audio signal in the form of audible discontinuities.
 
-    \textit{Clock drift} arises as an inevitable consequence of no source of time
-    in a system of computation being perfectly uniform, and no two sources of time
-    being identical.
-    The timing of a computer system is typically governed by a crystal oscillator,
-    the accuracy of which is affected by factors such as ambient temperature, and
-    potentially computational load on the system it
+    \textit{Clock drift} arises as an inevitable consequence of no source of
+    time in a system of computation being perfectly uniform, and no two sources
+    of time being identical.
+    The timing of a computer system is typically governed by a crystal
+    oscillator, the accuracy of which is affected by factors such as ambient
+    temperature, and computational load on the system it
     governs~\citep{marouani_internal_2008}.
-    Relative drift (sometimes, within the diagnostic parts of JackTrip for example,
-    referred to as \textit{skew}), is the difference in clock rates between two or
-    more systems.
-    Whereas jitter is a transient phenomenon, clock drift is continuous, and as two
-    distinct systems of time move in and out of phase with each other over the
-    longer term, drift may indeed give rise to jitter.
+    Relative drift (sometimes, within the diagnostic parts of JackTrip for
+    example, referred to as \textit{skew}), is the difference in clock rates
+    between two or more systems.
+    Whereas jitter is a transient phenomenon, clock drift is continuous, and as
+    two distinct systems of time move in and out of phase with each other over
+    the longer term, drift may indeed give rise to jitter.
 
-    In professional audio settings, devices may be synchronised via an authoritative
-    clock source such as word clock, or, in a networked setting, via PTP.\
-    In the absence of such an authoritative source, e.g.\ over a wide area network,
-    or if using hardware that does not support such measures, buffering strategies
-    are typically employed, coupled with delay-locked
-    loops and resampling~\citep{adriaensen_using_2005, adriaensen_controlling_2012}.
+    In professional audio settings, devices may be synchronised via an
+    authoritative clock source such as word clock, or, in a networked setting,
+    via PTP.\
+    In the absence of such an authoritative source, e.g.\ over a wide area
+    network, or if using hardware that does not support such measures, buffering
+    strategies are typically employed, coupled with delay-locked loops and
+    resampling~\citep{adriaensen_using_2005, adriaensen_controlling_2012}.
 
     \subsection{Hardware Platforms}\label{subsec:hardware-platforms}
 
@@ -559,34 +572,37 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     of course, it should also provide audio and networking hardware, and, ideally,
     well-documented APIs for programming and interacting with this hardware.
 
-    Recent years have seen the emergence of a number of small, low-cost platforms
-    for embedded systems development, perhaps best known amongst these being the
-    \textit{Arduino} family of microcontroller development boards,\footnote{
+    Recent years have seen the emergence of a number of small, low-cost
+    platforms for embedded systems development, perhaps best known amongst these
+    being the \textit{Arduino} family of microcontroller development
+    boards,\footnote{
         \url{https://arduino.cc/}
-    }
-    whose open-source Software Development Kit (SDK), software libraries, and
-    Integrated Development Environment (IDE) have greatly improved the
-    accessibility of development on embedded systems~\citep{michon_embedded_2020}.
+    } whose open-source Software Development Kit
+    (SDK), software libraries, and Integrated Development Environment (IDE) have
+    greatly improved the accessibility of development on embedded
+    systems~\citep{michon_embedded_2020}.
     Though support for audio is limited via Arduino devices, a number of
     audio-specific systems, programmable with the Arduino SDK and IDE, and
-    operable with many Arduino-compatible add-ons (sensors, displays, etc.), have
-    been produced;
+    operable with many Arduino-compatible add-ons (sensors, displays, etc.),
+    have been produced;
     these include various \textit{ESP32} and \textit{STM32} models, and the
     \textit{Daisy} and \textit{Teensy} microcontroller ranges.
     These platforms benefit from the wealth of tools, documentation and support
     associated with Arduino and the surrounding D.I.Y.\ and maker communities.
     Also worthy of consideration are the \textit{Raspberry Pi} and \textit{Bela}
     platforms.
-    Though these are \textit{Embedded Linux Systems} rather than microcontrollers,
-    they are small-footprint devices, suitable for embedded applications.
+    Though these are \textit{Embedded Linux Systems} rather than
+    microcontrollers, they are small-footprint devices, suitable for embedded
+    applications.
     Bela in particular has been designed with a focus on audio development and
-    interaction via sensors; it can be programmed via an accessible, web-based IDE,
-    and the user need not interact with the underlying Linux operating system.
-    Raspberry Pi is less approachable for audio development, and tends to be
-    operated as more of a general-purpose small computer, though support for
-    treating the platform like a microcontroller \textemdash{} taking a
-    \textit{bare metal} approach \textemdash{} is offered via the \textit{Circle}
-    environment.\footnote{\url{https://github.com/rsta2/circle}}
+    interaction via sensors; it can be programmed via an accessible, web-based
+    IDE, and the user need not interact with the underlying Linux operating
+    system.
+    Raspberry Pi is less accessible as platform for embedded audio development,
+    and tends to be operated as more of a general-purpose small computer, though
+    support for treating the platform like a microcontroller \textemdash{}
+    taking a \textit{bare metal} approach \textemdash{} is offered via the
+    \textit{Circle} development environment.\footnote{\url{https://github.com/rsta2/circle}}
 
     The above systems are typically programmed in C++, with support for audio
     development provided by libraries such as Daisy's \textit{DaisySP} and Teensy's
@@ -694,8 +710,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     By default, its audio add-on (or \textit{shield}) produces CD quality output
     (16-bit, \qty{44.1}{\kHz}), falling short of modern requirements for
     high-quality audio, such as offered by Daisy Seed (24-bit, \qty{96}{\kHz}).
-    While Teensy's sampling rate can be increased, sample resolution is fixed by
-    the Teensy Audio Library and at the level of the audio codec.
+    While Teensy's sampling rate can be increased, sample resolution is fixed at
+    the level of the device's audio codec.
     In spite of this shortcoming, and in light of its other, more advantageous
     qualities, Teensy was selected as the platform upon which to conduct
     development.
@@ -1067,12 +1083,6 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     certainly places it favourably when compared with state-of-the-art
     spatialisation systems.
 
-%    \subsection{Objectives and Outlook}\label{subsec:objectives}
-
-%    Subject to delivering the source signals to the hardware modules, each module
-%    would simply have to produce the driving signals for the two output channels
-%    for which it is responsible.
-
 %    TODO: maybe reinstate this paragraph somewhere?
 %    Then the temporal challenges described in \secref{subsubsec:challenges} would
 %    be the remaining concern: to what extent could synchronicity be maintained
@@ -1080,28 +1090,11 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 %    effects of loss of synchronicity be on the performance of the distributed
 %    algorithm and the integrity of the holophonic effect?
 
-%    Prior to work on this project, a distributed WFS system was developed, based on
-%    the Teensy 4.1 microcontroller and JackTrip
-%    protocol~\citep{rushton_microcontroller-based_2023}.
-%    This consisted of a standalone audio application running on a general purpose
-%    computer, delivering audio via JackTrip to a collection of hardware modules,
-%    and WFS control data via multicast UDP.\
-%    Strategies were developed for mitigating the effects of jitter and clock drift,
-%    and were developed further as part of the work described here;
-%    these, and other aspects of the development of the proposed system, are
-%    described in \secref{sec:method}.
-%    The previous system was not formally evaluated, but, anecdotally, provided
-%    support for the holophonic effect of virtual primary-source WFS.\
-%    A perceptual evaluation of the new system was conducted, and this is described,
-%    along with a technical evaluation, in \secref{sec:results}.
-%    Finally, in \secref{sec:conclusion}, we give an overview of our findings to date
-%    and describe our ambitions for future work.
-
     \dots [Probably needs a paragraph here to wrap up.]
 
     \section{Method}\label{sec:method}
 
-    \dots [Or here, to ease the reader in.]
+    \dots [And/or here, to ease the reader in.]
 
     Being a system distributed across distinct computing platforms (a general
     purpose computer; a network of microcontrollers), and software elements
