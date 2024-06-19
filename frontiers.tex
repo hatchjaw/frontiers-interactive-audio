@@ -322,7 +322,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     systems.
     Building upon this background, and prior work on a microcontroller-based
     networked audio client~\citep{rushton_microcontroller-based_2023},
-    \Secref{sec:method} details the development of the proposed system, an
+    \secref{sec:method} details the development of the proposed system, an
     overview of which is depicted in \figref{fig:system-overview}.
     With a view to optimising accessibility and interoperability with existing
     audio tools, the system's server component is encapsulated in an audio
@@ -336,7 +336,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     incorporates strategies for addressing this challenge.
 
     The previous system was not formally evaluated, but, anecdotally, provided
-    support for the textit{holophonic} effect of WFS.\
+    support for the \textit{holophonic} effect of wave field synthesis.\
     A perceptual evaluation of the new system was conducted, and this is
     described, along with a technical evaluation, in \secref{sec:results}.
     Finally, in \secref{sec:conclusion}, we give an overview of our findings to
@@ -400,25 +400,19 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     emphasising the importance of delivering multichannel audio of at least CD
     quality (16-bit, \qty{44.1}{\kHz}) with as little latency as possible.
 
-%    TODO: Remove some detail here. Less pedagogy.
-    SoundWIRE experiments included using TCP for unidirectional transmission
-    such as concert streaming.
-    TCP is a bidirectional protocol, but its \textit{connection-oriented},
-    one-to-one design allows for packet flow control mechanisms that guarantee
-    packet ordering and provide protections against packet
-    loss~\citep{schiavoni_alternatives_2013,al-dhief_performance_2018}.
-    These mechanisms mean that, at the expense of increased latency, quality of
-    service, and thus audio fidelity, is ensured; ideal for a remote concert
-    scenario.
-
-    UDP by comparison is \textit{connectionless}, providing no guarantees
-    regarding the integrity of the packet stream, but equally none of the
-    computational or temporal overhead that such guarantees introduce.
-    A networked device can send UDP packets to a valid address irrespective of
-    the presence or otherwise of another device at that address.
-    Further, \textit{many-to-many} (multicast) and \textit{one-to-many}
-    (broadcast) modes of transmission are possible via address spaces reserved
-    as part of the internet protocol standard~\citep{meyer_iana_2010}.
+    SoundWIRE experiments included TCP-based concert streaming.
+    TCP's \textit{connection-oriented}, one-to-one design enables packet flow
+    control mechanisms that guarantee packet ordering and protect against
+    against packet loss~\citep{schiavoni_alternatives_2013,
+        al-dhief_performance_2018};
+    at the expense of increased latency, these mechanisms safeguard quality of
+    service, and thus audio fidelity; ideal for a remote concert scenario.
+    UDP by comparison provides no such safeguards, but equally none of the
+    associated computational or temporal overhead.
+    Further, due to its \textit{connectionless} model, \textit{many-to-many}
+    (multicast) and \textit{one-to-many} (broadcast) modes of transmission are
+    possible via address spaces reserved as part of the internet protocol
+    standard~\citep{meyer_iana_2010}.
     Via UDP, SoundWIRE was able to run as a distributed digital waveguide over a
     WAN spanning around \qty{4500}{\km}~\citep{chafe_simplified_2000}.
 
@@ -428,7 +422,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     sidestepping the overhead of TCP packet flow control.
     Rather than relying on TCP's built-in mechanisms for stream integrity,
     JackTrip supplements UDP with a number of optional buffering strategies that
-    aim to tailor its use to operation over local versus wide area networks.
+    aim to optimise its operation in various network conditions.
     In this sense it is more flexible than TCP, but in effect JackTrip moulds
     UDP transmission into something akin to the connection-oriented model of
     TCP, and, in its `hub server' mode, into a kind of
@@ -518,7 +512,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     } and a reliance on
     PTP raises the barrier to entry.
     Ultimately, if an accessible solution is sought, attention must be turned
-    back to the transport layer, and UDP\@.
+    back to the transport layer, and to UDP directly.
 
     \subsubsection{Challenges Posed by Networked Audio}\label{subsubsec:challenges}
 
@@ -539,18 +533,19 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     processing until it receives the expected data, or simply continuing without
     any data.
     In either case, the result is likely to be disruption of the integrity of
-    the audio signal in the form of audible discontinuities.
+    the audio signal at the recipient in the form of audible discontinuities.
 
     \textit{Clock drift} arises as an inevitable consequence of no source of
     time in a system of computation being perfectly uniform, and no two sources
     of time being identical.
     The timing of a computer system is typically governed by a crystal
-    oscillator, the accuracy of which is affected by factors such as ambient
+    oscillator, whose operating frequency is subject to manufacturing
+    tolerances, and whose stability is affected by factors such as ambient
     temperature, and computational load on the system it
     governs~\citep{marouani_internal_2008}.
-    Relative drift (sometimes, within the diagnostic parts of JackTrip for
-    example, referred to as \textit{skew}), is the difference in clock rates
-    between two or more systems.
+%    Relative drift (sometimes, within the diagnostic parts of JackTrip for
+%    example, referred to as \textit{skew}), is the difference in clock rates
+%    between two or more systems.
     Whereas jitter is a transient phenomenon, clock drift is continuous, and as
     two distinct systems of time move in and out of phase with each other over
     the longer term, drift may indeed give rise to jitter.
@@ -724,13 +719,13 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     captured by microphones, stored as digital audio files, or synthesised in
     real-time can be achieved simply by delivering those primary sources to
     \textit{secondary sound sources}, i.e.\ loudspeakers or headphones.
-    Taking advantage of auditory cues, and the nature of the propagation of sound,
-    it is possible to suggest the presence of primary sources at arbitrary
-    locations, independent of the secondary source distribution.
+    Exploiting auditory cues, and the nature of the propagation of sound, it is
+    possible to suggest the presence of primary sources at arbitrary locations,
+    independent of the secondary source distribution.
     The motivation behind audio spatialisation, then, is to create (or indeed
-    \textit{recreate}) sonic environments for creative and immersive purposes, such
-    as for virtual reality experiences, in cinematic settings, for music production
-    or art installations, to give but a handful of examples.
+    \textit{recreate}) sonic environments for creative and immersive purposes,
+    such as for virtual reality experiences, in cinematic settings, for music
+    production or art installations, to give but a handful of examples.
 
     A number of techniques exist for what is termed \textit{sound field
     synthesis}~\citep{ahrens_analytic_2012,nicol_sound_2017}, all of which
@@ -836,39 +831,33 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     Rather than directly manipulating sound localisation cues, these types seek to
     trigger those cues indirectly by synthesising a sound field as if it had been
     created by `true' acoustic sources.
+
     In the case of ambisonics, the sound field is decomposed into `spherical
     harmonics', spatial functions described by linear sums of directional
     components of increasing order~\citep{nicol_sound_2017}.
-    Spherical and plane waves can be reproduced, corresponding with virtual
-    point sources and sources at `infinite distance' respectively.
+    Like periphonic approaches, ambisonics suffers from a sweet-spot effect
+    which worsens with attempts to reproduce sounds of higher frequency, but can
+    be mitigated (at greater computational expense) by reproducing higher-order
+    modes and increasing the density of the distribution of secondary sources.
 
-    Ambisonics, like periphonic approaches, suffers from a sweet-spot effect which
-    worsens with attempts to reproduce sounds of higher frequency.
-    The ideal listening area can be broadened by implementing ambisonics at higher
-    order, increasing the density of the distribution of secondary sources.
-    Doing so obviously has ramifications for the physical complexity of an
-    ambisonics installation, and, since higher-order spherical modes must be
-    calculated, in terms of computational demands placed on the system.
-
-    \subsubsection{Wave Field Synthesis}
-
-    WFS is based upon Huygens' principle, originating in the field of optics, which
-    states that a propagating wavefront can be recreated by a distribution of
-    secondary point sources~\citep{mueller_acoustic_1971,berkhout_acoustic_1993,
-        belloch_performance_2021} (see \figref{fig:wfs_1}).
-    It is variously termed a form of \textit{acoustic holography} or
+    Wave Field Synthesis is based upon Huygens' principle, originating in the
+    field of optics, which states that a propagating wavefront can be recreated
+    by a distribution of secondary point sources~\citep{mueller_acoustic_1971,
+        berkhout_acoustic_1993,belloch_performance_2021} (see
+    \figref{fig:wfs_1}).
+    WFS is variously termed a form of \textit{acoustic holography} or
     \textit{holophony}~\citep{berkhout_holographic_1988,ahrens_analytic_2012}.
     Effectively, by timing the reproduction of an input signal at an array of
     secondary sources, a wavefront associated with a virtual sound source can be
     synthesised.
-    To simulate distance cues, a filter can be applied to model losses to the
-    virtual medium of acoustic propagation.
-    The principle assumes a continuous array of secondary sources but of course in
-    practice it is necessary to use a discrete array of loudspeakers, which,
+    To simulate auditory cues related to perceived distance, a filter can be
+    applied to model losses to the virtual medium of acoustic propagation.
+    The principle assumes a continuous array of secondary sources but of course
+    in practice it is necessary to use a discrete array of loudspeakers, which,
     much as is the case with HOA, has consequences for spatial resolution;
-    to mitigate the issue of spatial aliasing, whereby sounds of higher frequency
-    cannot be recreated unambiguously~\citep{winter_geometric_2018}, secondary
-    sources should be placed very close together.
+    to mitigate the issue of spatial aliasing, whereby sounds of higher
+    frequency cannot be recreated unambiguously~\citep{winter_geometric_2018},
+    secondary sources should be placed very close together.
     Consequently, to serve a large listening area, many speakers, and thus many
     audio channels, are required.
 
@@ -935,9 +924,10 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     one may reasonably place an estimate of \texteuro{250} per output channel on
     this system.
 
-    The world's largest WFS system, at TU Berlin, features over 800 output channels
-    served by a distributed cluster of fifteen computers acting as audio nodes and
-    two additional control computers~\citep{baalman_renewed_2007}.\footnote{
+    The world's largest dedicated WFS system, at TU Berlin, features over 800
+    output channels served by a distributed cluster of fifteen computers acting
+    as audio nodes and two additional control
+    computers~\citep{baalman_renewed_2007}.\footnote{
         See also
         \url{https://tu.berlin/en/ak/research/projects/wellenfeldsynthese-fuer-einen-grossen-hoersaal}
         and WFS speaker module produced by Four Audio for installation at TU
@@ -945,17 +935,18 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     }
     The fifteen audio nodes of the TU Berlin system are each equipped with a MADI
     audio interface, connected to a MADI to ADAT bridge;
-    these can, at the time of writing, be purchased for around \texteuro{\num{1400}}
-    and \texteuro{\num{4500}} each, respectively, for a total of
-    \texteuro{\num{88500}}.
+    these can, at the time of writing, be purchased for around
+    \texteuro{\num{1400}} and \texteuro{\num{4500}} each, respectively, for a
+    total of \texteuro{\num{88500}}.
     Imagining \texteuro{2000} per computer, a conservative estimate of
-    \texteuro{150}/channel may be reached, however the expense associated with this
-    system is difficult to assess as it is tied to the concert hall space in which
-    it resides.
-    Indeed, one thing besides expense that unites the systems at AAU and TU Berlin,
-    plus similar installations at IRCAM (Paris)\footnote{
+    \texteuro{150}/channel may be reached, however the expense associated with
+    this  system is difficult to assess as it is tied to the concert hall space
+    in which it resides.
+    Indeed, one thing besides expense that unites the systems at AAU and TU
+    Berlin, plus similar installations at IRCAM (Paris)\footnote{
         \url{https://www.ircam.fr/article/connaissez-vous-lespace-de-projection}
-    } and the 512-channel system at the Rensselaer Polytechnic Institute
+    }
+    and the 512-channel system at the Rensselaer Polytechnic Institute
     (NY, USA)\footnote{
         \url{https://empac.rpi.edu/about/building/venues}
     } is their \textit{in-situ} nature;
@@ -968,42 +959,44 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \subsection{Distributed Audio Systems}\label{subsec:distributed-audio-systems}
 
-    As alluded to earlier in this section, our aim is to distribute the problem of
-    audio spatialisation, and it is worthwhile to revisit why this is the case.
+    As alluded to earlier in this section, our aim is to distribute the problem
+    of audio spatialisation, and it is worthwhile to revisit why this is the
+    case.
     In the broadest terms, a distributed system is \textit{``a collection of
     independent entities that cooperate to solve a problem that cannot be
     individually solved''}~\citep{kshemkalyani_distributed_2011}.
     An ideal distributed system is characterised by: \textit{modularity}, being
     comprised of separate, interchangeable entities; \textit{scalability}, being
     extensible without incurring a performance penalty to the system as a whole,
-    and; \textit{improved performance/cost ratio}, since it can be constructed to
-    meet the proportion that circumstances require, with the minimum degree of
-    redundancy.
+    and; \textit{improved performance/cost ratio}, since it can be constructed
+    to meet the proportion that circumstances require, with the minimum degree
+    of redundancy.
+    Additionally, for algorithms that can be effectively \textit{parallelised},
+    a distributed system may provide more aggregate computational power than its
+    centralised counterpart.
 
-    Where a distributed system may suffer when compared with its centralised
-    equivalent is in terms of reliability.
-    Nodes in a distributed computational system must be served with power and access
-    to the data they require in order to operate, which entails a proliferation of
-    potential points of failure.
+    Where a distributed system may suffer, by contrast, is in terms of
+    reliability.
+    Nodes in a distributed computational system must be served with power and
+    access to the data they require in order to operate, which entails a
+    proliferation of potential points of failure.
     The other side to the coin of modularity is a concern regarding the
     programmability of such a system;
-    ensuring that all entities possess up-to-date instructions for operation may not
-    be trivial.
-    Further, distributing an algorithm requires identifying a way to execute it in
-    parallel;
-    some algorithms may be better suited to parallelisation than others.
+    ensuring that all entities possess up-to-date instructions for operation may
+    not be trivial.
+    Further, some algorithms may be better suited to parallelisation than
+    others; efficient use of an increased computational resources is not
+    guaranteed.
 
     Distributed audio processing is by no means a matter without precedent.
     (Indeed, the WFS installation at TU Berlin described in
-    \secref{subsubsec:spatial-sota} is of course a distributed system, albeit not
-    an especially accessible one.)
+    \secref{subsubsec:spatial-sota} is of course a distributed system, albeit
+    not an especially accessible one.)
     A selection of prior work in distributed DSP and audio spatialisation, plus
-    systems incorporating microcontrollers and single-board computers is detailed
-    below.
+    systems incorporating microcontrollers and single-board computers is
+    detailed below.
 
     \subsubsection{State of the Art Distributed Audio Systems}
-
-%    TODO: cut this down a bit
 
     Applications of SoundWIRE to what its creators termed \textit{Internet
     Acoustics}~\citep{chafe_physical_2002} obviously represent a case of
@@ -1018,77 +1011,46 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     applications in their own right of digital audio in the age of computer
     networking.
     Subsequent work on JackTrip has focused on optimising networked audio less
-    for sound processing or as a creative tool in itself, and more in service of
-    the social and communal aspects of music participation and appreciation in a
-    networked world;
-    these are topics that came to the fore in computer music research during the
+    as a creative tool in itself, and more in service of the social and communal
+    aspects of music participation and appreciation in a networked world, topics
+    that came to the fore in computer music research during the
     COVID 19 pandemic~\citep{bosi_experiencing_2021,
         sacchetto_jacktrip-webrtc_2021}.
+    That being said, more recent work on Internet Acoustics in an embedded
+    context has yielded a port of JackTrip to the Raspberry
+    Pi~\citep{chafe_jacktrip_2019}.
 
-    Lago and Kon~\citep{lago_middleware_2003} proposed a UDP-based system for
-    real-time distributed audio processing taking the form of a network of general
-    purpose computers.
-    A server sent packets of audio data to be processed by a collection of
-    clients, which would then return processed audio to the server to be combined
-    and used for output.
-    Since clients were not to be used directly for output, synchronisation was not
-    important, but the authors identified the timing of hardware based interrupts
-    for audio and network processing as being of great importance to a distributed
-    real-time implementation.
-    Though an interesting exploration of approaching certain difficulties of
-    distributed computing, DSP in particular, and ambitious for its time (2003),
-    arguably the need for such a system has been obviated by advances in computer
-    processing power over the succeeding two decades.
+    Examples of distributed music production systems include the work of
+    Lago and Kon~\citep{lago_middleware_2003}, whose UDP-based system featured
+    clients that acted as delegates for audio processing, and Gabrielli et
+    al.~\citep{gabrielli_networked_2012}, who demonstrated a wireless relay of
+    audio and control-data processors.
+    Latency was an important metric for the latter system, and the authors
+    measured latency via transmission round-trip times using a sawtooth wave as
+    a timer (see \secref{subsec:technical-evaluation} for an application of this
+    technique).
 
-    A digital music production system of networked BeagleBoard single-board
-    computers was demonstrated by Gabrielli et al.~\citep{gabrielli_networked_2012}.
-    Another ambitious project, particularly since it utilised wireless
-    communication, an example configuration consisted of three nodes, one sending
-    control data to another, which produced audio and transmitted it to the third,
-    which recorded it in a DAW.
-    The authors were more concerned with latency than synchronicity for their
-    purposes, and measured latency via transmission round-trip times using a
-    sawtooth wave as a timer (see \secref{subsec:technical-evaluation} for an
-    application of this technique).
-
-    Exploring the possibilities of burgeoning network technology in the early 2010s,
-    Lopez-Lezcano set out to build a UDP-based ``network sound card'' to support
-    a networked WFS system~\citep{lopez-lezcano_jack_2012}.
-    The aim was to replace otherwise expensive high channel-count conventional
-    audio interfaces, which receive audio over the MADI protocol, with a more
-    cost-effective alternative.
-    Ultimately the devised system was not used for audio spatialisation, but
-    facilitated networked musical performance, and it stands as an example of the
-    results that can be achieved by using `raw' UDP data for audio transmission,
-    rather than an established networked audio system or protocol.
-
-    In addition to Gabrielli et al., implementations on embedded platforms include
-    Chafe and Oshiro's port of JackTrip to the Raspberry Pi for further internet
-    acoustics, plus distributed spatialisation systems such as those described by
-    Devonport and Foss~\citep{devonport_distribution_2019} and Belloch et
+    Distributed approaches to audio spatialisation include Lopez-Lezcano's
+    ``network sound card''~\citep{lopez-lezcano_jack_2012}, and embedded
+    implementations as described by Devonport and
+    Foss~\citep{devonport_distribution_2019} and Belloch et
     al.~\citep{belloch_performance_2021}.
-    The latter two address aims closely aligned with the work described here, but
-    are based on costly computing platforms.
-    Devonport and Foss achieved high synchronicity via AVB; Belloch et al.\ used a
-    GPU-based hardware platform, which is perhaps unsuited to its task, and report
-    client synchronisation to the millisecond range \textemdash{} likely not
-    sufficient for timing-critical audio spatialisation effects.
+    The latter two address aims closely aligned with the work described here,
+    but are based on costly computing platforms.
+    Devonport and Foss used AVB, and thus PTP, for synchronisation; Belloch et
+    al.\ employed a GPU-based hardware platform, reporting client
+    synchronisation to the millisecond range \textemdash{} likely not sufficient
+    for timing-critical audio spatialisation effects.
 
-    Also of interest is the OTTOsonics project~\citep{mitterhuber_ottosonics_2022};
+    Also of interest is the OTTOsonics
+    project~\citep{mitterhuber_ottosonics_2022};
     its emphasis on a fully-costed, flexible, do-it-yourself alternative to
-    conventional spatial audio systems is pertinent to this work, though it diverges
-    in its use of AVB, and associated hardware for audio transmission.
-    A full 24-channel OTTOsonics system, including speakers and audio interface, is
-    costed at around \texteuro{2600} (\texteuro{108.33}/channel), however, which
-    certainly places it favourably when compared with state-of-the-art
+    conventional spatial audio systems is pertinent to this work, though it
+    diverges in its use of AVB, and associated hardware for audio transmission.
+    A full 24-channel OTTOsonics system, including speakers and audio interface,
+    is costed at around \texteuro{2600} (\texteuro{108.33}/channel), however,
+    which certainly places it favourably when compared with state-of-the-art
     spatialisation systems.
-
-%    TODO: maybe reinstate this paragraph somewhere?
-%    Then the temporal challenges described in \secref{subsubsec:challenges} would
-%    be the remaining concern: to what extent could synchronicity be maintained
-%    in the absence of a shared, authoritative source of time, and what would the
-%    effects of loss of synchronicity be on the performance of the distributed
-%    algorithm and the integrity of the holophonic effect?
 
     \dots [Probably needs a paragraph here to wrap up.]
 
@@ -1119,9 +1081,9 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     as such, a unicast system does not meet the requirement of scalability as
     described in \secref{subsec:distributed-audio-systems}.
 
-    A multicast NetJACK server was considered, but creating a client implementation
-    on what is essentially a bare-metal platform in the shape of the Teensy, was not
-    practical.
+    A multicast NetJACK server was considered, but creating a client
+    implementation on what is essentially a bare-metal platform in the shape of
+    the Teensy, was not practical.
     Further, due to a break in compatibility with Mac OS X systems, JACK-based
     approaches are not truly cross-platform.\footnote{
         A successor to the defunct CoreAudio/JACK bridge has been proposed but
@@ -1130,18 +1092,18 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         This issue of course also affects the viability of the JackTrip-based
         approach.
     }
-    Prioritising simplicity, in the form of an audio server having minimal
-    dependencies and a very specific task to achieve, attention was turned to the
+    Prioritising simplicity, in the form of an audio server with minimal
+    dependencies and a very specific task to achieve, we embarked upon the
     design of a bespoke multicast networked audio server.
 
     \subsubsection{Designing a Networked Audio Protocol}\label{subsubsec:designing-a-protocol}
 
     Dependent on the intended application, and if assumptions can be made about
     matters such as sampling rate and bit resolution, a \textit{no-protocol}
-    approach, such as described by Lopez-Lezcano~\citep{lopez-lezcano_jack_2012},
-    may be a viable one.
-    To improve the flexibility of the system and make it somewhat future-proof,
-    however, a simple packet header was devised.
+    approach, such as described by
+    Lopez-Lezcano~\citep{lopez-lezcano_jack_2012}, may be a viable one.
+    To improve the flexibility of the system and render it somewhat
+    future-proof, however, a simple packet header was devised.
     Its structure is given in \lstref{listing:packet-header}.
 
     \begin{codelisting}{
@@ -1216,15 +1178,14 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         \label{fig:audio-server}
     \end{figure}
 
-    The networked audio server was written in C++ using utility classes provided by
-    the JUCE framework for the development of audio applications.\footnote{
+    The networked audio server was written in C++ using utility classes provided
+    by the JUCE framework for the development of audio applications\footnote{
         JUCE 7.0.5 \url{https://github.com/juce-framework/JUCE}
     }
-    The server is encapsulated as a class called \texttt{NetAudioServer},
-    which can be incorporated into any JUCE-based audio application;
-    initial development was conducted on a basic console application, and later work
-    targeted a DAW plugin comprising a consolidated audio server and wave field
-    synthesis controller.
+    and is encapsulated as a class called \texttt{NetAudioServer}.
+    Initial development was conducted on a basic console application, and later
+    work targeted a DAW plugin comprising a consolidated audio server and wave
+    field synthesis controller.
 
     The \texttt{NetAudioServer} instance expects to receive blocks of
     multichannel audio from an audio application's main processing loop.
