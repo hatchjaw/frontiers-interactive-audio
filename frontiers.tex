@@ -267,11 +267,10 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     \section{Introduction}\label{sec:introduction}
 
     Recent developments in virtual and augmented reality technologies and
-    object-based audio~\citep{geier_object-based_2010} have led to an
-    acceleration in interest in the synthesis of virtual sound fields via
-    approaches such as Wave Field Synthesis (WFS) and Higher Order Ambisonics
-    (HOA)~\citep{berkhout_acoustic_1993,ahrens_theory_2008,daniel_further_2003,
-        frank_producing_2015}.
+    object-based audio have led to an acceleration in interest in the synthesis
+    of virtual sound fields via approaches such as Wave Field Synthesis (WFS)
+    and Higher Order Ambisonics (HOA)~\citep{berkhout_acoustic_1993,
+        ahrens_theory_2008,daniel_further_2003,frank_producing_2015}.
     These techniques call for the deployment of large numbers of loudspeakers,
     and \textit{in situ} installations of dedicated hardware and software.
     The costs associated with such installations have seen them largely
@@ -290,10 +289,16 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     of audio spatialisation, permitting a modular, scalable approach that could
     lower the barrier to entry to what is otherwise a comparatively exclusive
     branch of audio research.
-    Potential applications of such a system... auralisation, virtual
-    acoustics... a distributed system could afford an overall increase in
-    available computing power to support auralisation algorithms that require
-    the computation of expensive convolutions~\citep{}.
+    This could in turn pave a more accessible path to research in a variety of
+    domains in which sound field synthesis is a desirable component, including
+    auditory scene personalisation~\citep{geier_object-based_2010}, auralization
+    and archaeoacoustics~\citep{berger_exploring_2023}, telepresent
+    videoconferencing~\citep{de_bruijn_application_2004}, and immersive
+    networked music performance~\citep{turchet_immersive_2023}.
+    Further, for implementations such as virtual acoustics, where
+    computationally expensive impulse response convolutions play a part, a
+    distributed system could afford an overall increase in available DSP
+    resources.
 
     \begin{figure}[ht]
         \centering
@@ -336,7 +341,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     incorporates strategies for addressing this challenge.
 
     The previous system was not formally evaluated, but, anecdotally, provided
-    support for the \textit{holophonic} effect of wave field synthesis.\
+    support for the holophonic effect of wave field synthesis.\
     A perceptual evaluation of the new system was conducted, and this is
     described, along with a technical evaluation, in \secref{sec:results}.
     Finally, in \secref{sec:conclusion}, we give an overview of our findings to
@@ -364,7 +369,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     focus of networked audio research well into the 1990s.
     Efforts on supporting real-time voice communication over wide area networks
     (WAN) centred on \textit{quality of service} (QoS), particularly with regard
-    to the perennial issues of latency, packet loss, and network jitter
+    to the perennial issues of latency, packet loss, and jitter
     \textemdash{} inconsistencies in the rate of packet
     transmission~\citep{hardman_reliable_1995,hardman_successful_1998}.
     Work at this time dealt with streams of compressed audio data, and speech
@@ -543,9 +548,6 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     tolerances, and whose stability is affected by factors such as ambient
     temperature, and computational load on the system it
     governs~\citep{marouani_internal_2008}.
-%    Relative drift (sometimes, within the diagnostic parts of JackTrip for
-%    example, referred to as \textit{skew}), is the difference in clock rates
-%    between two or more systems.
     Whereas jitter is a transient phenomenon, clock drift is continuous, and as
     two distinct systems of time move in and out of phase with each other over
     the longer term, drift may indeed give rise to jitter.
@@ -590,9 +592,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     microcontrollers, they are small-footprint devices, suitable for embedded
     applications.
     Bela in particular has been designed with a focus on audio development and
-    interaction via sensors; it can be programmed via an accessible, web-based
-    IDE, and the user need not interact with the underlying Linux operating
-    system.
+    interaction via sensors; it can be programmed via a web-based IDE, and the
+    user need not interact with the underlying Linux operating system.
     Raspberry Pi is less accessible as platform for embedded audio development,
     and tends to be operated as more of a general-purpose small computer, though
     support for treating the platform like a microcontroller \textemdash{}
@@ -933,8 +934,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         and WFS speaker module produced by Four Audio for installation at TU
         \url{https://four-audio.com/en/products/wfs/}.
     }
-    The fifteen audio nodes of the TU Berlin system are each equipped with a MADI
-    audio interface, connected to a MADI to ADAT bridge;
+    The fifteen audio nodes of the TU Berlin system are each equipped with a
+    MADI audio interface, connected to a MADI to ADAT bridge;
     these can, at the time of writing, be purchased for around
     \texteuro{\num{1400}} and \texteuro{\num{4500}} each, respectively, for a
     total of \texteuro{\num{88500}}.
@@ -943,12 +944,15 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     this  system is difficult to assess as it is tied to the concert hall space
     in which it resides.
     Indeed, one thing besides expense that unites the systems at AAU and TU
-    Berlin, plus similar installations at IRCAM (Paris)\footnote{
+    Berlin, plus the 339-speaker hybrid WFS/ambisonics system at IRCAM
+    (Paris)\footnote{
         \url{https://www.ircam.fr/article/connaissez-vous-lespace-de-projection}
-    }
-    and the 512-channel system at the Rensselaer Polytechnic Institute
-    (NY, USA)\footnote{
+    }, the 512-channel WFS system at the Rensselaer Polytechnic Institute (NY,
+    USA)\footnote{
         \url{https://empac.rpi.edu/about/building/venues}
+    }, and the behemoth installation at the \textit{Sphere} (Las
+    Vegas)\footnote{
+        \url{https://holoplot.com/insights/case-studies/msg-sphere-case-study}
     } is their \textit{in-situ} nature;
     these are site-specific systems with, at best, limited flexibility.
 
@@ -985,7 +989,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     ensuring that all entities possess up-to-date instructions for operation may
     not be trivial.
     Further, some algorithms may be better suited to parallelisation than
-    others; efficient use of an increased computational resources is not
+    others; efficient use of increased computational resources is not
     guaranteed.
 
     Distributed audio processing is by no means a matter without precedent.
@@ -1052,11 +1056,9 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     which certainly places it favourably when compared with state-of-the-art
     spatialisation systems.
 
-    \dots [Probably needs a paragraph here to wrap up.]
-
     \section{Method}\label{sec:method}
 
-    \dots [And/or here, to ease the reader in.]
+    \dots [System overview here, to ease the reader in.]
 
     Being a system distributed across distinct computing platforms (a general
     purpose computer; a network of microcontrollers), and software elements
@@ -1924,6 +1926,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
             are normalised to $[0, 1]$.
             For each plot, the horizontal axis (i.e. longitudinal component
             equalling 0) corresponds with the location of the speaker array.
+            Participants stood at a distance of approximately \qty{2}{\m} from
+            the array.
             Each plot shows the intended position of the virtual sound source as
             specified by parameters to the WFS plugin interface (cross) and
             estimated sound source positions as reported by participants (dots).
@@ -1934,16 +1938,20 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         \label{fig:perceptual}
     \end{figure}
 
-    The WFS system was subjected to an informal perceptual evaluation, in which
-    participants were presented with a virtual sound source at various locations
+    The WFS system was subjected to an informal perceptual evaluation, a
+    localisation experiment of a similar form to that presented by
+    Verheijen~\citep[ch.~6]{verheijen_sound_1998}, albeit with the inclusion of
+    simulated distance as well as lateral position.
+    Participants were presented with a virtual sound source at various locations
     and asked to indicate, on a diagram of the virtual sound field, the point
     from which they estimated the sound had emanated.
     The informality of the experiment arose in part as a consequence of the
-    listening environment not being acoustically treated, and there being sources
-    of ambient sound in the laboratory in which the WFS system was installed.
-    Furthermore, the speaker array (\figref{fig:eval-setup}) consisting of fifteen
-    speakers, but each hardware module producing two audio output channels,
-    the second channel of the right-most module was not used;
+    listening environment not being acoustically treated, and there being
+    sources of ambient sound in the laboratory in which the WFS system was
+    installed.
+    Furthermore, the speaker array (\figref{fig:eval-setup}) consisting of
+    fifteen speakers, but each hardware module producing two audio output
+    channels, the second channel of the right-most module was not used;
     for eight modules, however, the WFS plugin assumed a virtual sound field
     spanning sixteen speakers, thus it was possible to position a virtual sound
     source horizontally beyond the rightmost extent of the speaker array.
@@ -1952,16 +1960,17 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     triggering listeners' localisation cues, its technical and installation
     shortcomings notwithstanding.
 
-    It was felt that listeners would be most comfortable localising a naturalistic
-    sound, so, rather than use blasts of white noise as
-    in~\citep[ch.~6]{verheijen_sound_1998}, and wishing to minimise the potential
+    It was felt that listeners would be most comfortable localising a
+    naturalistic sound, so, rather than use bursts of white noise as
+    in~\citep{verheijen_sound_1998}, and wishing to minimise the potential
     effects of frequency-dependent localisation interference due to spatial
-    aliasing, a broadband stimulus was selected in the form of a close-mic recording
-    of a snare drum.
+    aliasing, a broadband stimulus was selected in the form of a close-mic
+    recording of a snare drum.
     The recorded sample was repeated three times in succession at intervals of
-    \qty{.125}{\s}, and, again in the interests of adding a natural quality to the
-    sound, with slight variations in amplitude (the second iteration of the sample
-    was played marginally quieter than the first; the third slightly louder).
+    \qty{.125}{\s}, and, again in the interests of adding a natural quality to
+    the sound, with slight variations in amplitude (the second iteration of the
+    sample was played marginally quieter than the first; the third slightly
+    louder).
 
     The system was presented to eight participants; a mixture of masters and PhD
     students aged between 22 and 38, with knowledge of audio and interactive
@@ -1986,29 +1995,29 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     Details of the source positions for each test, and responses for the eight
     participants, are displayed in \figref{fig:perceptual}.
 
-    As can be seen, although far from perfect, and with some significant
-    outliers (e.g.\ the position reported by the fifth participant for test
-    \textbf{(D)}), certain trends do appear to emerge from the results.
+    As can be seen, although demonstrating significant outliers (e.g.\ the
+    position reported by the fifth participant for test \textbf{(D)}), certain
+    trends do appear to emerge from the results.
     Firstly, responses loosely track the intended positions, with reported
     positions most closely corresponding with intended ones for virtual source
     locations lying close to the speaker array.
-    Indeed, tests \textbf{(B)}, \textbf{(D)}, and \textbf{(G)} exhibit the lowest
-    mean error values between the intended and reported positions.
-    The results for tests \textbf{(C)} and \textbf{(H)}, exhibit the greatest mean
-    error, and ambiguity regarding the lateral position of distant sound sources is
-    perhaps to be expected;
+    Indeed, tests \textbf{(B)}, \textbf{(D)}, and \textbf{(G)} exhibit the
+    lowest mean error values between the intended and reported positions.
+    The results for tests \textbf{(C)} and \textbf{(H)}, exhibit the greatest
+    mean error, and ambiguity regarding the lateral position of distant sound
+    sources is perhaps to be expected;
     as the distance of a sound source from the listener increases, $r_k - y_k$
     tends towards zero, and thus the ITD (and ILD) also approaches zero;
-    thus, with increased distance the wavefront produced by a sound source (be it a
-    real sound source or one synthesised under ideal conditions) approximates more
-    and more closely a plane wave.
+    thus, with increased distance the wavefront produced by a sound source (be
+    it a real sound source or one synthesised under ideal conditions)
+    approximates more and more closely a plane wave.
     In any case, despite this inherent, physical ambiguity, there is a tendency
-    in results \textbf{(C)} and \textbf{(H)} toward the lateral location of the most
-    longitudinally distant intended virtual source positions.
+    in results \textbf{(C)} and \textbf{(H)} toward the lateral location of the
+    most longitudinally distant intended virtual source positions.
     Particularly for test \textbf{(C)}, participants seem to have had greater
-    difficulty in estimating the depth of the virtual sound field; this may simply
-    be as a function of their developing a familiarity with that aspect of it over
-    the course of what was only a brief experiment.
+    difficulty in estimating the depth of the virtual sound field; this may
+    simply be as a function of their developing a familiarity with that aspect
+    of it over the course of what was only a brief experiment.
 
     Participants were asked for any anecdotal observations they had, based on their
     experience of the experiment.
