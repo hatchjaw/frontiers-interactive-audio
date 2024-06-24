@@ -548,6 +548,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     tolerances, and whose stability is affected by factors such as ambient
     temperature, and computational load on the system it
     governs~\citep{marouani_internal_2008}.
+    Relative drift, or \textit{skew}, is the difference in clock rates between
+    two or more systems.
     Whereas jitter is a transient phenomenon, clock drift is continuous, and as
     two distinct systems of time move in and out of phase with each other over
     the longer term, drift may indeed give rise to jitter.
@@ -1058,15 +1060,15 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \section{Method}\label{sec:method}
 
-    \dots [System overview here, to ease the reader in.]
-
-    Being a system distributed across distinct computing platforms (a general
-    purpose computer; a network of microcontrollers), and software elements
-    serving a variety of purposes (server and client instances for transmission
-    and reception of networked audio and control data, plus a DSP algorithm), it is
-    important to consider each of these elements in detail.
-    In the subsections that follow, these elements are described;
-    finally an overview of the devised system is provided.
+    As illustrated in \figref{fig:system-overview}
+    (page \pageref{fig:system-overview}), the proposed system is distributed
+    across distinct computing platforms (a general purpose computer; a network
+    of microcontrollers), and software elements serving a variety of purposes
+    (server and client instances for transmission and reception of networked
+    audio and control data, plus a DSP algorithm).
+    In the subsections that follow, these elements are described in detail;
+    finally, in \secref{subsec:system-overview}, an overview of the devised
+    system is provided.
 
     \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
 
@@ -1608,20 +1610,17 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \subsection{System Overview}\label{subsec:system-overview}
 
-    The proposed system being composed of multiple hardware and software components,
-    it is worthwhile to summarise the nature of these components and the
-    interactions between them.
-
     \subsubsection{Hardware Setup}
 
     The networked audio server runs on a general purpose computer.
-    During the development and testing of this project, that computer was an ASUS
+    Throughout development, testing and evaluation, that computer was an ASUS
     G513R Notebook PC, with an AMD Ryzen 7 6800H processor with a clock
     speed of \qty{3.2}{\GHz}.
-    For the majority of development, the computer's internal sound card was used;
-    for testing and evaluation, it was connected to a Steinberg UR44C USB audio
-    interface, the hope being that external hardware would provide more consistent
-    audio interrupt timing, thus minimising jitter originating at the server.
+    For the majority of development, the computer's internal sound card was
+    used; for testing and evaluation, it was connected to a Steinberg UR44C USB
+    audio interface, the hope being that external hardware would provide more
+    consistent audio interrupt timing, thus minimising jitter originating at the
+    server.
 
     The computer was connected via CAT6 ethernet cable to an eight-port ethernet
     switch (D-Link DGS-108GL).
