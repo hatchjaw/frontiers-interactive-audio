@@ -349,8 +349,6 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \section{Background}\label{sec:background}
 
-    \dots
-
     \subsection{Networked Audio}\label{subsec:networked-audio}
 
     The transmission of audio data has been a topic of research interest since the
@@ -1067,8 +1065,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     (server and client instances for transmission and reception of networked
     audio and control data, plus a DSP algorithm).
     In the subsections that follow, these elements are described in detail;
-    finally, in \secref{subsec:system-overview}, an overview of the devised
-    system is provided.
+    finally, in \secref{subsec:system-overview}, an overview of the system and
+    its operation is provided.
 
     \subsection{The Networked Audio Server}\label{subsec:the-networked-audio-server}
 
@@ -1918,13 +1916,15 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
 
     \begin{figure}[h!]
         \centering
-        \includegraphics[width=.75\textwidth]{figures/subjective}
+        \includegraphics[width=.74\textwidth]{figures/subjective}
         \caption{
-            Results of perceptual evaluation of the proposed system.
-            Lateral (horizontal axis) and longitudinal (vertical axis) components
-            are normalised to $[0, 1]$.
-            For each plot, the horizontal axis (i.e. longitudinal component
-            equalling 0) corresponds with the location of the speaker array.
+            Results of a localisation experiment based on WFS virtual primary
+            sources produced by the proposed system.
+            Lateral (horizontal axis) and longitudinal (vertical axis)
+            components are normalised to $[0, 1]$.
+            Each plot represents the virtual sound field; the horizontal axis
+            (i.e. longitudinal component equalling 0) corresponds with the
+            location of the speaker array.
             Participants stood at a distance of approximately \qty{2}{\m} from
             the array.
             Each plot shows the intended position of the virtual sound source as
@@ -2039,13 +2039,13 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     The phasing effect noted by one participant is a consequence of the approach
     taken to combating jitter and keeping the clients close, temporally, together,
     and as close to the server as possible.
-    It is clear that the current approach is, at best, too aggressive to be viable
-    for high-quality audio output.
-    Furthermore, an unpitched sound source like a snare drum, though audibly
-    susceptible to the time-varying comb-filter effect described, masks other
-    artefacts caused by phenomena such as rapid fluctuations in the clients' buffer
-    read position increment, and sudden, comparatively large audio clock
-    adjustments.
+    The current approach is likely too aggressive to be viable for high-quality
+    audio output across a broad array of source signals.
+    A transient, unpitched sound source like a snare drum, though perhaps
+    audibly susceptible to the time-varying comb-filter effect described, masks
+    other artefacts caused by phenomena such as rapid fluctuations in the
+    clients' buffer read position increment, and sudden, comparatively large
+    audio clock adjustments.
 
     The above being said, the perceptual test indicates that the system produces
     virtual sound sources that listeners are, at least to some extent, able to
@@ -2064,81 +2064,64 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     around \texteuro{120}/channel, dropping to \texteuro{50}/channel for 64
     channels.
 
-
     \section{Conclusion}\label{sec:conclusion}
 
-    In this article we have described an exploration of transmission of audio data
-    over computer networks, distributed computing and audio spatialisation.
-    A networked audio system was developed, strategies devised for
-    addressing challenges presented by distributed computing, and a distributed
-    spatial audio system was developed and deployed.
+    In this article we have described the development of a novel, distributed
+    system for audio spatialisation.
+    The proposed networked audio system, featuring low-cost,
+    microcontroller-based clients, represents a milestone on the road towards an
+    accessible alternative to state of the art spatial and immersive audio
+    installations.
     Evaluation of the system exposed the extent of the technical challenges
-    that confront it in its current form, and shed light on opportunities for
-    further development.
-    Perceptual testing revealed that it may offer performance sufficient to support
-    timing-critical sound field synthesis techniques.
-    The proposed system represents a milestone on the road towards an accessible
-    alternative to state of the art spatial and immersive audio installations.
+    that confront it in its current form, but revealed that it may offer
+    performance sufficient to support timing-critical sound field synthesis
+    techniques.
 
-    It has been shown that a system of discrete computational entities can
-    communicate effectively over an ethernet network, exchanging audio and control
-    data in a scalable fashion via a UDP multicast group.
-    Though facing significant technical challenges, the foundational requirements of
-    such a system have been demonstrated, with encouraging results with regard to
-    spatial audio applications.
+    Client asynchronicity may affect the integrity of the spatial audio
+    algorithm and give rise to audible artefacts, and the strategies presented
+    here for mitigation of asynchronicity call for further refinement.
+    Ultimately, an authoritative source of time should be sought, either in the
+    form of a shared physical clock or a PTP implementation;
+    in light of the potential of the system to disrupt the present situation
+    with regard to spatial audio installations, care should be taken, however,
+    to find a solution that is cost-effective and easy to replicate.
 
-    Timing discrepancies between entities in the networked audio system give rise
-    to audible artefacts such as time-varying comb-filtering.
-    Loss of synchronicity is difficult to measure and compensate for in real-time;
-    the extent of the resulting audible disturbances is unpredictable, and firmer
-    conclusions about their extent, and thresholds for their perceptibility should
-    ideally be sought.
-    The developed strategies for mitigation of asynchronicity call for further
-    refinement, but even in their current form support the creation of localisable
-    WFS virtual sound sources.
+%    A number of technical challenges remain, and questions with regard to the
+%    fundamental characteristics of the various components of the devised system
+%    stand as topics for future research.
+%    From the level of audio hardware and driver software, to audio host and
+%    audio buffer behaviour, to network QoS and the performance of network
+%    switches, to the behaviour of the hardware platform, its processor and audio
+%    codec, plus its software libraries \textemdash{} much that is typically
+%    taken for granted in the development of embedded systems, and audio and
+%    networking applications, calls for deeper investigation.
 
-    Given its potential to disrupt the present situation with regard to spatial
-    audio installations, or complement it with a modular approach that could serve
-    more flexible and creative ends, it is hoped that scope will exist to develop
-    this work further.
-    A number of technical challenges remain, and questions with regard to the
-    fundamental characteristics of the various components of the devised system
-    stand unanswered.
-    From the level of audio hardware and driver software, to audio host and audio
-    buffer behaviour, to network QoS and the performance of network switches, to
-    the behaviour of the hardware platform, its processor and audio codec, plus its
-    software libraries \textemdash{} much that is typically taken for granted in the
-    development of embedded systems, and audio and networking applications, calls
-    for deeper investigation.
+    Plans for future research include an exploration of other potential hardware
+    platforms for the network client.
+    A successor to Teensy 4.1 may provide more memory or support higher-quality
+    audio, for example.
+    Only briefly considered here, the Raspberry Pi family of embedded Linux
+    systems is priced comparably with the Teensy and supports audio breakout
+    boards capable of 24-bit audio, with the added benefit of significantly
+    greater memory.
+    Further, the Raspberry Pi Compute Module 4 is capable of physical layer
+    timestamping and thus may facilitate the creation of a system synchronised
+    via hardware PTP\.
 
-    Each microcontroller generates a clock signal to deliver to its audio shield,
-    which, in a locally distributed setting, is rather redundant.
-    It may be possible to generate a single, authoritative clock on one node and
-    deliver that to all others in the system.
-    If this can be achieved, it would remedy the issue of clock drift, leaving only
-    jitter to be addressed.
-    Furthermore, Teensy is not the only platform worthy of consideration;
-    developments in microcontroller technology are to be expected, and suitable
-    devices supporting higher-quality audio than offered by Teensy may emerge.
-    One device considered only briefly here is the Raspberry Pi;
-    in principle it is priced comparably with the Teensy, and is supported by audio
-    breakout boards that can output 24-bit audio.
-    Improved bare metal support, including the creation of a \texttt{faust2circle}
-    tool, could make Raspberry Pi a significantly more attractive platform,
-    particularly in terms of memory and the dimensions of the sound fields that
-    could be synthesised.
-
-    With regard to audio spatialisation, a basic, linear, wave field synthesis
-    algorithm has been demonstrated here, implementing virtual primary sources.
-    WFS is capable of producing other types of sources, supporting nonlinear
-    speaker arrays, three-dimensional arrays, and more faithful models of
-    energy loss due to absorption.
-    There are many further avenues to pursue, including optimising any DSP
-    algorithms to best exploit the capabilities of what, in the shape of the
-    Teensy and other microcontroller systems, are very powerful platforms.
-    Further, and only given cursory treatment here, higher order ambisonics, subject
-    to an assessment of its suitability to parallelisation, remains as a worthy
-    target for implementation in future work.
+    A basic, linear, wave field synthesis algorithm has been demonstrated,
+    implementing virtual primary sound sources;
+    the client implementation and control software should be generalised to
+    support nonlinear speaker arrays, plane and focused sources, and better
+    models for energy absorption.
+    A self-calibrating system, whereby clients \textit{discover} their position
+    in an installation rather than needing to be informed of it, would represent
+    an additional accessibility boost.
+    Higher order ambisonics, only given cursory treatment here, remains as a
+    worthy target for implementation in future work subject to an assessment of
+    its suitability to parallelisation.
+    Further, given the high level of computational resources available, our
+    distributed system could be the ideal platform for scalable virtual
+    acoustics and auralisation.
 
     % As per https://www.frontiersin.org/Design/pdf/Frontiers_Journal_style_table.pdf
     \bibliographystyle{Frontiers-Harvard}
