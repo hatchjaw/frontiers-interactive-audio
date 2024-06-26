@@ -262,7 +262,7 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
         } %All article types: you may provide up to 8 keywords; at least 5 are mandatory.
     \end{abstract}
 
-    Word-count: 11619; tables: 1; figures: 13.
+    Word-count: 11610; tables: 1; figures: 13.
 
     \section{Introduction}\label{sec:introduction}
 
@@ -2082,19 +2082,8 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     here for mitigation of asynchronicity call for further refinement.
     Ultimately, an authoritative source of time should be sought, either in the
     form of a shared physical clock or a PTP implementation;
-    in light of the potential of the system to disrupt the present situation
-    with regard to spatial audio installations, care should be taken, however,
-    to find a solution that is cost-effective and easy to replicate.
-
-%    A number of technical challenges remain, and questions with regard to the
-%    fundamental characteristics of the various components of the devised system
-%    stand as topics for future research.
-%    From the level of audio hardware and driver software, to audio host and
-%    audio buffer behaviour, to network QoS and the performance of network
-%    switches, to the behaviour of the hardware platform, its processor and audio
-%    codec, plus its software libraries \textemdash{} much that is typically
-%    taken for granted in the development of embedded systems, and audio and
-%    networking applications, calls for deeper investigation.
+    in light of the disruptive potential of the system, care should be taken,
+    however, to find a solution that is cost-effective and easy to replicate.
 
     Plans for future research include an exploration of other potential hardware
     platforms for the network client.
@@ -2115,13 +2104,13 @@ Serafin\,$^{2}$ Tanguy Risset\,$^{1}$ and Stéphane Letz\,$^{3}$}
     models for energy absorption.
     A self-calibrating system, whereby clients \textit{discover} their position
     in an installation rather than needing to be informed of it, would represent
-    an additional accessibility boost.
-    Higher order ambisonics, only given cursory treatment here, remains as a
-    worthy target for implementation in future work subject to an assessment of
-    its suitability to parallelisation.
-    Further, given the high level of computational resources available, our
-    distributed system could be the ideal platform for scalable virtual
-    acoustics and auralization.
+    an additional boost to accessibility.
+    Higher order ambisonics, subject to an assessment of its suitability to
+    parallelisation, remains as a worthy target for implementation in future
+    work.
+    Further, convolution-heavy DSP algorithms, such as those supporting virtual
+    acoustics and auralization, may be well-served by the extent of the
+    computational resources afforded by our distributed system.
 
     % As per https://www.frontiersin.org/Design/pdf/Frontiers_Journal_style_table.pdf
     \bibliographystyle{Frontiers-Harvard}
